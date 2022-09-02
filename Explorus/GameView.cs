@@ -16,11 +16,16 @@ namespace Explorus
         private GameForm oGameForm;
         private int rectanglePosition = 0;
 
+        private Image2D iPlayerImage = new Image2D();
 
         public GameView()
         {
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
+
+            Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
+            Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
+            iPlayerImage.Image = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
 
         public void Show() { Application.Run(oGameForm); }
@@ -52,7 +57,9 @@ namespace Explorus
             Rectangle rect = new Rectangle(rectanglePosition, 0, 20, 20);
 
             // Fill rectangle to screen.
-            graphic.FillRectangle(yellowBrush, rect);
+            //graphic.FillRectangle(yellowBrush, rect);
+
+            e.Graphics.DrawImage(iPlayerImage.Image, new Point(rectanglePosition, 20));
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 

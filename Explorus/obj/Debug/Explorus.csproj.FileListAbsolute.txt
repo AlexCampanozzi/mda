@@ -7,3 +7,13 @@ K:\mda\Explorus\obj\Debug\Explorus.csproj.GenerateResource.cache
 K:\mda\Explorus\obj\Debug\Explorus.csproj.CoreCompileInputs.cache
 K:\mda\Explorus\obj\Debug\Explorus.exe
 K:\mda\Explorus\obj\Debug\Explorus.pdb
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.exe.config
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.exe
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.pdb
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.csproj.AssemblyReference.cache
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.Properties.Resources.resources
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.csproj.GenerateResource.cache
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.csproj.CoreCompileInputs.cache
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.exe
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.pdb
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\TilesSheet.png

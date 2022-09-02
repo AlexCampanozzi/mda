@@ -1,0 +1,10 @@
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\bin\Debug\Labo_GEI794.exe.config
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\bin\Debug\Labo_GEI794.exe
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\bin\Debug\Labo_GEI794.pdb
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csprojAssemblyReference.cache
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.Properties.Resources.resources
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csproj.GenerateResource.cache
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csproj.CoreCompileInputs.cache
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.exe
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.pdb
+C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\bin\Debug\Resources\TilesSheet.png
