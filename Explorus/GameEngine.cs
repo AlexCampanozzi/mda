@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Drawing;
+using System.Windows.Input;
+using System.Windows.Forms;
 
 namespace Explorus
 {
@@ -33,15 +36,14 @@ namespace Explorus
             {
                 long currentTime = getTime();
                 long elapsed = currentTime - previousTime;
-                System.Console.WriteLine(elapsed);
                 previousTime = currentTime;
-                double fps = 1.0 / (elapsed/1000.0);
+                double fps = 1.0 / (elapsed / 1000.0);
                 oView.setFPS(fps);
 
 
                 lag += elapsed;
 
-                //processInput();
+                processInput();
 
                 while (lag >= MS_PER_UPDATE)
                 {
@@ -59,5 +61,41 @@ namespace Explorus
             long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
             return milliseconds;
         }
+
+        private void processInput()
+        {
+            Keys currentInput = oView.getCurrentInput();
+
+            switch (currentInput)
+            {
+                case Keys.R:
+                    Console.WriteLine("Resume");
+                    break;
+
+                case Keys.P:
+                    Console.WriteLine("Pause");
+                    break;
+
+                case Keys.Left:
+                    Console.WriteLine("Left");
+                    break;
+
+                case Keys.Right:
+                    Console.WriteLine("Right");
+                    break;
+
+                case Keys.Up:
+                    Console.WriteLine("Up");
+                    break;
+
+                case Keys.Down:
+                    Console.WriteLine("Down");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
     }
 }

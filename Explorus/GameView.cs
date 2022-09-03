@@ -73,5 +73,13 @@ namespace Explorus
         {
             fps = value;
         }
+
+        public Keys getCurrentInput()
+        {
+            Keys currentInput = oGameForm.getCurrentInput();
+            oGameForm.resetCurrentInput();
+            return currentInput;
+        }
+                
     }
 }
