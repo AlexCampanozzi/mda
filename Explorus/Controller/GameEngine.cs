@@ -7,13 +7,16 @@ using System.Threading;
 using System.Drawing;
 using System.Windows.Input;
 using System.Windows.Forms;
+using System.Drawing.Text;
 
 namespace Explorus
 {
     public class GameEngine
     {
         private GameView oView;
-        private Thread thread;
+        private int slimeVelocity = 5;
+        private int slimeDirX = 0;
+        private int slimeDirY = 0;
 
         public GameEngine()
         {
@@ -27,7 +30,7 @@ namespace Explorus
         {
             long previousTime = getTime();
             double lag = 0.0;
-            int MS_PER_UPDATE = 60;
+            int MS_PER_UPDATE = 10;
 
             while (true)
             {
@@ -44,7 +47,7 @@ namespace Explorus
 
                 while (lag >= MS_PER_UPDATE)
                 {
-                    //update();
+                    update();
                     lag -= MS_PER_UPDATE;
                 }
 
@@ -75,23 +78,37 @@ namespace Explorus
 
                 case Keys.Left:
                     Console.WriteLine("Left");
+                    slimeDirX = -1;
+                    slimeDirY = 0;
                     break;
 
                 case Keys.Right:
                     Console.WriteLine("Right");
+                    slimeDirX = 1;
+                    slimeDirY = 0;
                     break;
 
                 case Keys.Up:
                     Console.WriteLine("Up");
+                    slimeDirX = 0;
+                    slimeDirY = -1;
                     break;
 
                 case Keys.Down:
                     Console.WriteLine("Down");
+                    slimeDirX = 0;
+                    slimeDirY = 1;
                     break;
 
                 default:
+                    slimeDirX = 0;
+                    slimeDirY = 0;
                     break;
             }
+        }
+        private void update()
+        {
+            oView.moveRectangle(slimeDirX*slimeVelocity, slimeDirY * slimeVelocity);
         }
 
     }
