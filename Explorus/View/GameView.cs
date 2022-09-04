@@ -59,7 +59,7 @@ namespace Explorus
             // Fill rectangle to screen.
             //graphic.FillRectangle(yellowBrush, rect);
 
-            e.Graphics.DrawImage(iPlayerImage.Image, new Point(rectanglePosition, 20));
+            e.Graphics.DrawImage(iPlayerImage.GetImage(), new Point(rectanglePosition, 20));
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
