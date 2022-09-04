@@ -16,7 +16,7 @@ namespace Explorus
         private GameForm oGameForm;
         private int rectanglePosition = 0;
 
-        private Image2D iPlayerImage = new Image2D();
+        private Image2D iPlayerImage;
 
         public GameView()
         {
@@ -25,7 +25,7 @@ namespace Explorus
 
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
-            iPlayerImage.Image = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
+            iPlayerImage = new Image2D(0, 0, myBitmap.Clone(cloneRect, myBitmap.PixelFormat));
         }
 
         public void Show() { Application.Run(oGameForm); }

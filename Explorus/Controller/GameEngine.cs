@@ -25,9 +25,6 @@ namespace Explorus
 
         private void GameLoop()
         {
-            //oView.Render();
-            //Thread.Sleep(5000);
-            //oView.Close();
             long previousTime = getTime();
             double lag = 0.0;
             int MS_PER_UPDATE = 60;

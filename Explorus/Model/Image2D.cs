@@ -5,19 +5,14 @@ namespace Explorus
 {
     public class Image2D
     {
-        public int ID;
-        public int Type;
-        public Bitmap Image;
+        int ID, Type;
+        Bitmap Image;
         // Use this for initialization
-        void Start()
+        public Image2D(int iID, int iType, Bitmap iImage)
         {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            ID = iID;
+            Type = iType;
+            Image = iImage;
         }
     }
 }
