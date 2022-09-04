@@ -14,8 +14,13 @@ namespace Explorus
     {
         private double fps;
         private GameForm oGameForm;
-        private ImageManager oImageManager = new ImageManager();
+<<<<<<< HEAD
+        private int SlimePositionX = 0;
         private int SlimePositionY = 0;
+=======
+        private ImageManager oImageManager = new ImageManager();
+        private int rectanglePosition = 0;
+>>>>>>> AffichageLabyrinthe
 
         private Image iPlayerImage;
 
@@ -55,6 +60,18 @@ namespace Explorus
 
             Graphics graphic = e.Graphics;
             graphic.Clear(Color.Black);
+<<<<<<< HEAD
+            SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
+
+            // Create rectangle.
+            //Rectangle rect = new Rectangle(SlimePositionX, SlimePositionY, 20, 20);
+
+            // Fill rectangle to screen.
+            //graphic.FillRectangle(yellowBrush, rect);
+
+            e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(SlimePositionX, SlimePositionY));
+=======
+>>>>>>> AffichageLabyrinthe
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
