@@ -9,6 +9,13 @@ using System.Windows.Input;
 using System.Windows.Forms;
 using System.Drawing.Text;
 
+enum gameState
+{
+    Resumed,
+    Paused,
+}
+
+
 namespace Explorus
 {
     public class GameEngine
@@ -17,6 +24,7 @@ namespace Explorus
         private int slimeVelocity = 5;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
+        private gameState currentGameState;
 
         public GameEngine()
         {
@@ -44,14 +52,20 @@ namespace Explorus
                 lag += elapsed;
 
                 processInput();
-
-                while (lag >= MS_PER_UPDATE)
+                if (currentGameState == gameState.Resumed)
                 {
-                    update();
-                    lag -= MS_PER_UPDATE;
+                    while (lag >= MS_PER_UPDATE)
+                    {
+                        update();
+                        lag -= MS_PER_UPDATE;
+                    }
                 }
-
+                else
+                {
+                    oView.displayPause();
+                }
                 oView.Render();
+
                 Thread.Sleep(1);
             }
         }
@@ -70,10 +84,14 @@ namespace Explorus
             {
                 case Keys.R:
                     Console.WriteLine("Resume");
+                    currentGameState = gameState.Resumed;
+                    oView.isPaused = false;
                     break;
 
                 case Keys.P:
                     Console.WriteLine("Pause");
+                    currentGameState = gameState.Paused;
+                    oView.isPaused = true;
                     break;
 
                 case Keys.Left:

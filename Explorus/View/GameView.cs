@@ -16,8 +16,10 @@ namespace Explorus
         private GameForm oGameForm;
         private int SlimePositionX = 0;
         private int SlimePositionY = 0;
+        public bool isPaused = false;
 
         private Image2D iPlayerImage;
+        private Image iPausedImage;
 
         public GameView()
         {
@@ -27,6 +29,12 @@ namespace Explorus
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
             iPlayerImage = new Image2D(0, 0, myBitmap.Clone(cloneRect, myBitmap.PixelFormat));
+
+            iPausedImage = Image.FromFile(Application.StartupPath + "/../../Resources/pause.PNG");
+            // TODO: use the interface size instead
+            iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
+
+
         }
 
         public void Show() { Application.Run(oGameForm); }
@@ -48,20 +56,29 @@ namespace Explorus
         }
         private void GameRenderer(object sender, PaintEventArgs e)
         {
+            if (isPaused)
+            {
+                e.Graphics.DrawImage(iPausedImage, new Point(0, 0));
+            }
+            else
+            {
+                Graphics graphic = e.Graphics;
+                graphic.Clear(Color.Black);
+                SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
 
-            Graphics graphic = e.Graphics;
-            graphic.Clear(Color.Black);
-            SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
+                // Create rectangle.
+                //Rectangle rect = new Rectangle(SlimePositionX, SlimePositionY, 20, 20);
 
-            // Create rectangle.
-            //Rectangle rect = new Rectangle(SlimePositionX, SlimePositionY, 20, 20);
+                // Fill rectangle to screen.
+                //graphic.FillRectangle(yellowBrush, rect);
 
-            // Fill rectangle to screen.
-            //graphic.FillRectangle(yellowBrush, rect);
+                e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(SlimePositionX, SlimePositionY));
 
-            e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(SlimePositionX, SlimePositionY));
+ 
 
-            oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+                oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+            }
+
 
         }
         public double getFPS()
@@ -85,6 +102,15 @@ namespace Explorus
         {
             SlimePositionX += x;
             SlimePositionY += y;
+        }
+        public void displayPause()
+        {
+            //oGameForm.
+        }
+
+        public static Image resizeImage(Image imgToResize, Size size)
+        {
+            return (Image)(new Bitmap(imgToResize, size));
         }
                 
     }
