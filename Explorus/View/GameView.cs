@@ -14,7 +14,8 @@ namespace Explorus
     {
         private double fps;
         private GameForm oGameForm;
-        private int rectanglePosition = 0;
+        private int SlimePositionX = 0;
+        private int SlimePositionY = 0;
 
         private Image2D iPlayerImage;
 
@@ -47,19 +48,18 @@ namespace Explorus
         }
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-            rectanglePosition += 1;
 
             Graphics graphic = e.Graphics;
             graphic.Clear(Color.Black);
             SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
 
             // Create rectangle.
-            Rectangle rect = new Rectangle(rectanglePosition, 0, 20, 20);
+            //Rectangle rect = new Rectangle(SlimePositionX, SlimePositionY, 20, 20);
 
             // Fill rectangle to screen.
             //graphic.FillRectangle(yellowBrush, rect);
 
-            e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(rectanglePosition, 20));
+            e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(SlimePositionX, SlimePositionY));
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
@@ -79,6 +79,12 @@ namespace Explorus
             Keys currentInput = oGameForm.getCurrentInput();
             oGameForm.resetCurrentInput();
             return currentInput;
+        }
+
+        public void moveRectangle(int x, int y)
+        {
+            SlimePositionX += x;
+            SlimePositionY += y;
         }
                 
     }
