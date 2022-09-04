@@ -22,3 +22,10 @@ C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Explorus.exe
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Explorus.pdb
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\obj\Debug\Explorus.exe
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\obj\Debug\Explorus.pdb
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.exe
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\obj\Debug\Explorus.pdb
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\map.png
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\TilesSheet.png
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.exe.config
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.exe
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.pdb

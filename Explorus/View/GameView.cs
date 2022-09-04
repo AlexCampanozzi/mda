@@ -15,6 +15,8 @@ namespace Explorus
         private double fps;
         private GameForm oGameForm;
         private ImageManager oImageManager = new ImageManager();
+
+        private int SlimePositionX = 0;
         private int SlimePositionY = 0;
 
         private Image iPlayerImage;
@@ -58,10 +60,12 @@ namespace Explorus
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
-            for(int i = 0; i< map.objectMap.Count(); i++)
+            e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
+
+            /*for(int i = 0; i< map.objectMap.Count(); i++)
             {
                 e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
-            }
+            }*/
             
 
         }
