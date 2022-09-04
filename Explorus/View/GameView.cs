@@ -14,7 +14,7 @@ namespace Explorus
     {
         private double fps;
         private GameForm oGameForm;
-        private ImageManager oImageManager;
+        private ImageManager oImageManager = new ImageManager();
         private int rectanglePosition = 0;
 
         private Image iPlayerImage;
@@ -25,8 +25,6 @@ namespace Explorus
         {
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
-
-            oImageManager = new ImageManager();
 
             map = new Map(new Bitmap("./Resources/map.png"), oImageManager);
 

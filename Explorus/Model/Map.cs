@@ -9,13 +9,13 @@ namespace Explorus
     {
         
 
-        ImageManager imageManager;
+        private ImageManager imageManager;
 
         public List<GameObject> objectMap;
         public Map(Bitmap mapImage, ImageManager images)
         {
-            objectMap = createObjectsFromMap(mapParser(mapImage));
             imageManager = images;
+            objectMap = createObjectsFromMap(mapParser(mapImage));
         }
 
         private objectTypes[,] mapParser(Bitmap mapImage)
