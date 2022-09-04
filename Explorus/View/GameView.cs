@@ -14,7 +14,6 @@ namespace Explorus
     {
         private double fps;
         private GameForm oGameForm;
-        private ImageManager oImageManager = new ImageManager();
 
         private int SlimePositionX = 0;
         private int SlimePositionY = 0;
@@ -28,7 +27,7 @@ namespace Explorus
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
 
-            map = new Map(new Bitmap("./Resources/map.png"), oImageManager);
+            map = new Map(new Bitmap("./Resources/map.png"));
 
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
@@ -62,10 +61,10 @@ namespace Explorus
 
             e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
 
-            /*for(int i = 0; i< map.objectMap.Count(); i++)
+            for(int i = 0; i< map.objectMap.Count(); i++)
             {
                 e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
-            }*/
+            }
             
 
         }

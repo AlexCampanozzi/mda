@@ -7,14 +7,10 @@ namespace Explorus
 {
     public class Map
     {
-        
-
-        private ImageManager imageManager;
 
         public List<GameObject> objectMap;
-        public Map(Bitmap mapImage, ImageManager images)
+        public Map(Bitmap mapImage)
         {
-            imageManager = images;
             objectMap = createObjectsFromMap(mapParser(mapImage));
         }
 
@@ -68,8 +64,20 @@ namespace Explorus
                 {
                     if (typeMap[x, y] != objectTypes.Empty && typeMap[x,y] != objectTypes.Door)
                     {
-                        oMap.Add(new GameObject(new Point(x * 96, y * 96), imageManager.GetImage(typeMap[x,y])));
-                        i++;
+                        switch(typeMap[x, y])
+                        {
+                            case objectTypes.Player:
+                                oMap.Add(new Slimus(x * 96, y * 96));
+                                break;
+                            case objectTypes.Wall:
+                                oMap.Add(new Wall(x*96, y * 96));
+                                break;
+                            case objectTypes.Key:
+                                oMap.Add(new Key(x * 96, y * 96));
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
