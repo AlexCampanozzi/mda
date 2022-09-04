@@ -14,18 +14,25 @@ namespace Explorus
     {
         private double fps;
         private GameForm oGameForm;
+        private ImageManager oImageManager;
         private int rectanglePosition = 0;
 
-        private Image2D iPlayerImage;
+        private Image iPlayerImage;
+
+        private Map map;
 
         public GameView()
         {
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
 
+            oImageManager = new ImageManager();
+
+            map = new Map(new Bitmap("./Resources/map.png"), oImageManager);
+
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
-            iPlayerImage = new Image2D(0, 0, myBitmap.Clone(cloneRect, myBitmap.PixelFormat));
+            iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
 
         public void Show() { Application.Run(oGameForm); }
@@ -51,17 +58,14 @@ namespace Explorus
 
             Graphics graphic = e.Graphics;
             graphic.Clear(Color.Black);
-            SolidBrush yellowBrush = new SolidBrush(Color.Yellow);
-
-            // Create rectangle.
-            Rectangle rect = new Rectangle(rectanglePosition, 0, 20, 20);
-
-            // Fill rectangle to screen.
-            //graphic.FillRectangle(yellowBrush, rect);
-
-            e.Graphics.DrawImage(iPlayerImage.GetImage(), new Point(rectanglePosition, 20));
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+
+            for(int i = 0; i< map.objectMap.Count(); i++)
+            {
+                e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
+            }
+            
 
         }
         public double getFPS()
