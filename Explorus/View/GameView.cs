@@ -17,7 +17,9 @@ namespace Explorus
 
         private int SlimePositionX = 0;
         private int SlimePositionY = 0;
+        public bool isPaused = false;
 
+        private Image iPausedImage;
         private Image iPlayerImage;
 
         private Map map;
@@ -31,6 +33,12 @@ namespace Explorus
 
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
+
+            iPausedImage = Image.FromFile(Application.StartupPath + "/../../Resources/pause.PNG");
+            // TODO: use the interface size instead
+            iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
+
+
             iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
 
@@ -53,18 +61,24 @@ namespace Explorus
         }
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-
-            Graphics graphic = e.Graphics;
-            graphic.Clear(Color.Black);
-
-            oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
-
-            e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
-
-            for(int i = 0; i< map.objectMap.Count(); i++)
+            if (isPaused)
             {
-                e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
+                e.Graphics.DrawImage(iPausedImage, new Point(0, 0));
             }
+            else
+            {
+                Graphics graphic = e.Graphics;
+                graphic.Clear(Color.Black);
+
+                oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+
+                e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
+
+                for(int i = 0; i< map.objectMap.Count(); i++)
+                {
+                    e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
+                }
+        }
             
 
         }
@@ -89,6 +103,15 @@ namespace Explorus
         {
             SlimePositionX += x;
             SlimePositionY += y;
+        }
+        public void displayPause()
+        {
+            //oGameForm.
+        }
+
+        public static Image resizeImage(Image imgToResize, Size size)
+        {
+            return (Image)(new Bitmap(imgToResize, size));
         }
                 
     }
