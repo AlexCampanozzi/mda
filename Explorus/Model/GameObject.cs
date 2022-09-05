@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Explorus
 {
@@ -13,7 +15,10 @@ namespace Explorus
     public class GameObject
     {
         Image image;
-        Point position;
+        protected Point position;
+        public Point gridPosition;
+
+        public Keys currentInput = Keys.None;
         public  GameObject(Point pos, Image img)
         {
             position = pos;
@@ -34,6 +39,17 @@ namespace Explorus
             position = pos;
         }
 
+        public Point GetGridPosition()
+        {
+            return gridPosition;
+        }
+
+        public void SetGridPosition(Point pos)
+        {
+            gridPosition = pos;
+        }
+
+
         public void SetPosition(int x, int y)
         {
             position = new Point(x, y);
@@ -42,6 +58,16 @@ namespace Explorus
         public Image GetImage()
         {
             return image;
+        }
+
+        public virtual void update()
+        {
+            // TODO
+        }
+
+        public virtual void processInput()
+        {
+
         }
     }
 }

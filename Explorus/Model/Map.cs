@@ -2,16 +2,37 @@
 using System.Drawing;
 using System;
 using System.Collections.Generic;
+using Explorus.Properties;
 
+// This class is a singleton(on essaye)
 namespace Explorus
 {
-    public class Map
+    public sealed class Map 
     {
+        private static Map instance = null;
+        private static readonly object padlock = new object();
 
         public List<GameObject> objectMap;
-        public Map(Bitmap mapImage)
+        public objectTypes[,] typeMap = null;
+        
+        private Map()
         {
-            objectMap = createObjectsFromMap(mapParser(mapImage));
+            objectMap = createObjectsFromMap(mapParser(new Bitmap("./Resources/map.png")));
+        }
+
+        public static Map GetInstance()
+        {
+            if(instance == null)
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new Map();
+                    }
+                }
+            }
+            return instance;
         }
 
         private objectTypes[,] mapParser(Bitmap mapImage)
@@ -21,7 +42,7 @@ namespace Explorus
             mapSizeFloat = mapImage.GetBounds(ref pixelRef);
             int[] mapSize = new int[2]{ (int)mapSizeFloat.Width, (int)mapSizeFloat.Height };
 
-            objectTypes[,] typeMap = new objectTypes[mapSize[0], mapSize[1]];
+            typeMap = new objectTypes[mapSize[0], mapSize[1]];
 
             for(int x = 0; x<mapSize[0]; x++)
             {
@@ -29,6 +50,7 @@ namespace Explorus
                 {
                     typeMap[x, y] = colorToType(mapImage.GetPixel(x, y));
                 }
+
             }
             return typeMap;
         }
@@ -57,6 +79,7 @@ namespace Explorus
             List<GameObject> oMap = new List<GameObject>();           
 
             int i = 0;
+            GameObject currentObject;
 
             for (int x = 0; x< typeMap.GetLength(0); x++)
             {
@@ -67,17 +90,20 @@ namespace Explorus
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                oMap.Add(new Slimus(x * 96, y * 96));
+                                currentObject = new Slimus(x * 96, y * 96);                              
                                 break;
                             case objectTypes.Wall:
-                                oMap.Add(new Wall(x*96, y * 96));
+                                currentObject = new Wall(x*96, y * 96);
                                 break;
                             case objectTypes.Key:
-                                oMap.Add(new Key(x * 96, y * 96));
+                                currentObject = new Key(x * 96, y * 96);
                                 break;
                             default:
-                                break;
+                                continue;
                         }
+                        currentObject.gridPosition = new Point(x, y);
+                        oMap.Add(currentObject);
+
                     }
                 }
             }

@@ -13,5 +13,10 @@ namespace Explorus
         {
 
         }
+
+        public override void update()
+        {
+            //mettre la gestion de collisiotn de clé vs. slime ici, donc la clé va gérer sa propre suppression (peut être. a voir)
+        }
     }
 }
