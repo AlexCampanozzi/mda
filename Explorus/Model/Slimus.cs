@@ -9,6 +9,7 @@ namespace Explorus
         private int slimeVelocity = 96;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
+        public int gemCollected = 0;
 
         public Slimus(Point pos) : base(pos, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
         {
@@ -69,7 +70,7 @@ namespace Explorus
 
             if (nextGrid != objectTypes.Player)
             {
-                Console.WriteLine(nextGrid);
+                //Console.WriteLine(nextGrid);
             }
 
 
@@ -102,10 +103,17 @@ namespace Explorus
             }
             SetGridPosition(gridPosition); //maybe useless since public 
 
+            Map oMap = Map.GetInstance();
             // process gems logics
-            if (gridMap[gridPosition.X, gridPosition.Y] == objectTypes.Key) // IMPORTANT CHANGE TO GEMS
+            for (int i = 0; i < oMap.objectMap.Count; i++)
             {
-                Console.WriteLine("WAAAAAAAAAAAAAAAAAAAAZZZZZZZZZZZAAAAAAAAAAAAAAAAAAAAAAA");
+                if ((oMap.objectMap[i].GetType() == typeof(Key)) && (oMap.objectMap[i].GetPosition() == position))
+                {
+                    gemCollected += 1;
+                    oMap.objectMap[i].removeItselfFromGame();
+                    Console.WriteLine(gemCollected);
+                    break;
+                }
             }
         }
     }

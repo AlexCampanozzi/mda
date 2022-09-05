@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Explorus
 {
@@ -16,7 +18,17 @@ namespace Explorus
 
         public override void update()
         {
-            //mettre la gestion de collisiotn de clé vs. slime ici, donc la clé va gérer sa propre suppression (peut être. a voir)
+            Map oMap = Map.GetInstance();
+            objectTypes[,] gridMap = oMap.typeMap;
+
+            for (int i = 0; i < oMap.objectMap.Count; i++)
+            {
+                if (oMap.objectMap[i].GetType() == typeof(Slimus))
+                {
+                    //Console.WriteLine(oMap.objectMap[i]);
+                }
+
+            }
         }
     }
 }

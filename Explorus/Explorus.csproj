@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\gameMaster.cs" />
     <Compile Include="Controller\GameEngine.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>

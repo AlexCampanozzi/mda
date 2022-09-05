@@ -15,7 +15,7 @@ namespace Explorus
     public class GameObject
     {
         Image image;
-        protected Point position;
+        protected Point position;   
         public Point gridPosition;
 
         public Keys currentInput = Keys.None;
@@ -69,5 +69,18 @@ namespace Explorus
         {
 
         }
+
+        public void removeItselfFromGame()
+        {
+            Map oMap = Map.GetInstance();
+            for (int i = 0; i < oMap.objectMap.Count; i++)
+            {
+                if (oMap.objectMap[i] == this)
+                {
+                    oMap.objectMap.RemoveAt(i);
+                }
+            }
+        }
+
     }
 }
