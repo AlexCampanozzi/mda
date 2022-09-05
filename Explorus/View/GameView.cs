@@ -20,7 +20,7 @@ namespace Explorus
         private Image iPausedImage;
         private Image iPlayerImage;
 
-        private Map map;
+        public Map map;
 
         public GameView()
         {
@@ -81,7 +81,7 @@ namespace Explorus
                         Point point = map.objectMap[i].GetPosition();
                         //SlimePositionX = point.X;
                         //SlimePositionY = point.Y;
-                        map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
+                        //map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
                     }
 
                     e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
@@ -109,8 +109,8 @@ namespace Explorus
 
         public void moveSlimus(int x, int y)
         {
-            SlimePositionX += x;
-            SlimePositionY += y;
+            //SlimePositionX += x;
+            //SlimePositionY += y;
         }
 
         public static Image resizeImage(Image imgToResize, Size size)

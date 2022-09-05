@@ -20,12 +20,14 @@ namespace Explorus
             this.KeyPreview = true;
 
             this.KeyDown += new KeyEventHandler(readKeyboardInput);
+            //this.KeyPress += new KeyPressEventHandler(keypressed);
         }
 
         private void readKeyboardInput(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             currentInput = e.KeyCode;
         }
+
 
         public Keys getCurrentInput()
         {
