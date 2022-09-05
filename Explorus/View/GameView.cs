@@ -70,20 +70,8 @@ namespace Explorus
 
                 oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
-                //e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
-
                 for(int i = 0; i< map.objectMap.Count(); i++)
                 {
-                    //Console.WriteLine(map.objectMap[i].GetType());
-
-                    if (map.objectMap[i].GetType() == typeof(Slimus))
-                    {
-                        Point point = map.objectMap[i].GetPosition();
-                        //SlimePositionX = point.X;
-                        //SlimePositionY = point.Y;
-                        //map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
-                    }
-
                     e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
                 }
         }
@@ -105,12 +93,6 @@ namespace Explorus
             Keys currentInput = oGameForm.getCurrentInput();
             oGameForm.resetCurrentInput();
             return currentInput;
-        }
-
-        public void moveSlimus(int x, int y)
-        {
-            //SlimePositionX += x;
-            //SlimePositionY += y;
         }
 
         public static Image resizeImage(Image imgToResize, Size size)

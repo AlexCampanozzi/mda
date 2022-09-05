@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Explorus
 {
@@ -13,5 +14,16 @@ namespace Explorus
         {
 
         }
+
+        public override void update()
+        {
+            objectTypes[,] gridMap = Map.GetInstance().typeMap;
+
+            if (gridMap[gridPosition.X, gridPosition.Y] == objectTypes.Player)
+            {
+                Console.WriteLine("deeeleeeete");
+            }
+        }
     }
+
 }

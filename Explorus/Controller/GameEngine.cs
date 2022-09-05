@@ -8,6 +8,8 @@ using System.Drawing;
 using System.Windows.Input;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using System.Security.Cryptography.X509Certificates;
+using Explorus.Controller;
 
 enum gameState
 {
@@ -102,21 +104,21 @@ namespace Explorus
             }
         private void update()
         {
-            // 
-            //oView.moveSlimus(slimeDirX * slimeVelocity, slimeDirY * slimeVelocity);
-            //process collision
+            GameMaster gameMaster = GameMaster.GetInstance();
+
+            Map oMap = Map.GetInstance();
 
             // process movement
             for (int i = 0; i < oView.map.objectMap.Count(); i++)
             {
-                if (oView.map.objectMap[i].GetType() == typeof(Slimus))
-                {
-                    Point point = oView.map.objectMap[i].GetPosition();
-                    oView.map.objectMap[i].currentInput = currentInput; //list of game objects
-                    oView.map.objectMap[i].update();
-                }
-               
+                oView.map.objectMap[i].currentInput = currentInput; //list of game objects
+                oView.map.objectMap[i].update();
+
             }
+
+            gameMaster.update();
+
+
         }
 
     }
