@@ -29,3 +29,15 @@ C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\TilesS
 C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.exe.config
 C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.exe
 C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Explorus.pdb
+E:\Projets\mda\Explorus\obj\Debug\Explorus.csproj.AssemblyReference.cache
+E:\Projets\mda\Explorus\obj\Debug\Explorus.csproj.SuggestedBindingRedirects.cache
+E:\Projets\mda\Explorus\obj\Debug\Explorus.Properties.Resources.resources
+E:\Projets\mda\Explorus\obj\Debug\Explorus.csproj.GenerateResource.cache
+E:\Projets\mda\Explorus\obj\Debug\Explorus.csproj.CoreCompileInputs.cache
+E:\Projets\mda\Explorus\obj\Debug\Explorus.exe
+E:\Projets\mda\Explorus\obj\Debug\Explorus.pdb
+E:\Projets\mda\Explorus\bin\Debug\Resources\map.png
+E:\Projets\mda\Explorus\bin\Debug\Resources\TilesSheet.png
+E:\Projets\mda\Explorus\bin\Debug\Explorus.exe.config
+E:\Projets\mda\Explorus\bin\Debug\Explorus.exe
+E:\Projets\mda\Explorus\bin\Debug\Explorus.pdb

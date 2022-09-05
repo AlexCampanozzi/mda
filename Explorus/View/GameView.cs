@@ -15,14 +15,12 @@ namespace Explorus
         private double fps;
         private GameForm oGameForm;
 
-        private int SlimePositionX = 0;
-        private int SlimePositionY = 0;
         public bool isPaused = false;
 
         private Image iPausedImage;
         private Image iPlayerImage;
 
-        private Map map;
+        public Map map;
 
         public GameView()
         {
@@ -72,10 +70,20 @@ namespace Explorus
 
                 oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
-                e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
+                //e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
 
                 for(int i = 0; i< map.objectMap.Count(); i++)
                 {
+                    //Console.WriteLine(map.objectMap[i].GetType());
+
+                    if (map.objectMap[i].GetType() == typeof(Slimus))
+                    {
+                        Point point = map.objectMap[i].GetPosition();
+                        //SlimePositionX = point.X;
+                        //SlimePositionY = point.Y;
+                        //map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
+                    }
+
                     e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
                 }
         }
@@ -99,14 +107,10 @@ namespace Explorus
             return currentInput;
         }
 
-        public void moveRectangle(int x, int y)
+        public void moveSlimus(int x, int y)
         {
-            SlimePositionX += x;
-            SlimePositionY += y;
-        }
-        public void displayPause()
-        {
-            //oGameForm.
+            //SlimePositionX += x;
+            //SlimePositionY += y;
         }
 
         public static Image resizeImage(Image imgToResize, Size size)

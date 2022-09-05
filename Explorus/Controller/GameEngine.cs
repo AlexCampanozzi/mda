@@ -21,10 +21,11 @@ namespace Explorus
     public class GameEngine
     {
         private GameView oView;
-        private int slimeVelocity = 5;
+        private gameState currentGameState;
+        private Keys currentInput;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
-        private gameState currentGameState;
+        
 
         public GameEngine()
         {
@@ -60,10 +61,6 @@ namespace Explorus
                         lag -= MS_PER_UPDATE;
                     }
                 }
-                else
-                {
-                    oView.displayPause();
-                }
                 oView.Render();
 
                 Thread.Sleep(1);
@@ -78,7 +75,7 @@ namespace Explorus
 
         private void processInput()
         {
-            Keys currentInput = oView.getCurrentInput();
+            currentInput = oView.getCurrentInput();
 
             switch (currentInput)
             {
@@ -93,40 +90,33 @@ namespace Explorus
                     currentGameState = gameState.Paused;
                     oView.isPaused = true;
                     break;
-
-                case Keys.Left:
-                    Console.WriteLine("Left");
-                    slimeDirX = -1;
-                    slimeDirY = 0;
-                    break;
-
-                case Keys.Right:
-                    Console.WriteLine("Right");
-                    slimeDirX = 1;
-                    slimeDirY = 0;
-                    break;
-
-                case Keys.Up:
-                    Console.WriteLine("Up");
-                    slimeDirX = 0;
-                    slimeDirY = -1;
-                    break;
-
-                case Keys.Down:
-                    Console.WriteLine("Down");
-                    slimeDirX = 0;
-                    slimeDirY = 1;
-                    break;
-
                 default:
-                    slimeDirX = 0;
-                    slimeDirY = 0;
                     break;
             }
-        }
+
+            for (int i = 0; i < oView.map.objectMap.Count(); i++)
+            {
+                oView.map.objectMap[i].processInput();
+            }
+
+            }
         private void update()
         {
-            oView.moveRectangle(slimeDirX*slimeVelocity, slimeDirY * slimeVelocity);
+            // 
+            //oView.moveSlimus(slimeDirX * slimeVelocity, slimeDirY * slimeVelocity);
+            //process collision
+
+            // process movement
+            for (int i = 0; i < oView.map.objectMap.Count(); i++)
+            {
+                if (oView.map.objectMap[i].GetType() == typeof(Slimus))
+                {
+                    Point point = oView.map.objectMap[i].GetPosition();
+                    oView.map.objectMap[i].currentInput = currentInput; //list of game objects
+                    oView.map.objectMap[i].update();
+                }
+               
+            }
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace Explorus
 {
@@ -13,7 +14,9 @@ namespace Explorus
     public class GameObject
     {
         Image image;
-        Point position;
+        protected Point position;
+
+        public Keys currentInput = Keys.None;
         public  GameObject(Point pos, Image img)
         {
             position = pos;
@@ -42,6 +45,16 @@ namespace Explorus
         public Image GetImage()
         {
             return image;
+        }
+
+        public virtual void update()
+        {
+            // TODO
+        }
+
+        public virtual void processInput()
+        {
+
         }
     }
 }
