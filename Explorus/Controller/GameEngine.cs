@@ -8,12 +8,18 @@ using System.Drawing;
 using System.Windows.Input;
 using System.Windows.Forms;
 
+
 namespace Explorus
 {
     public class GameEngine
     {
         private GameView oView;
         private Thread thread;
+
+        static Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
+        static Rectangle slimusRectangle = new Rectangle(0, 96, 96, 96);
+
+        public Slimus slimus = new Slimus(new Position(5, 5), new Image2D(0, 0, myBitmap.Clone(slimusRectangle, myBitmap.PixelFormat)));
 
         public GameEngine()
         {
@@ -62,6 +68,8 @@ namespace Explorus
         private void processInput()
         {
             Keys currentInput = oView.getCurrentInput();
+
+            if(currently)
 
             switch (currentInput)
             {

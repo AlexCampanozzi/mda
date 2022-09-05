@@ -17,11 +17,13 @@ namespace Explorus
         private int rectanglePosition = 0;
 
         private Image2D iPlayerImage;
+        private GameEngine oGameEngine;
 
-        public GameView()
+        public GameView(GameEngine gameEngine)
         {
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
+            oGameEngine = gameEngine;
 
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
@@ -59,7 +61,7 @@ namespace Explorus
             // Fill rectangle to screen.
             //graphic.FillRectangle(yellowBrush, rect);
 
-            e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(rectanglePosition, 20));
+            e.Graphics.DrawImage(iPlayerImage.getImage(), new Point(oGameEngine.slimus.mouvement.right, 20));
 
             oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
