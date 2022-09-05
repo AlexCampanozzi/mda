@@ -21,9 +21,6 @@ namespace Explorus
     public class GameEngine
     {
         private GameView oView;
-        private int slimeVelocity = 5;
-        private int slimeDirX = 0;
-        private int slimeDirY = 0;
         private gameState currentGameState;
 
         public GameEngine()
@@ -60,10 +57,6 @@ namespace Explorus
                         lag -= MS_PER_UPDATE;
                     }
                 }
-                else
-                {
-                    oView.displayPause();
-                }
                 oView.Render();
 
                 Thread.Sleep(1);
@@ -94,7 +87,7 @@ namespace Explorus
                     oView.isPaused = true;
                     break;
 
-                case Keys.Left:
+                /*case Keys.Left:
                     Console.WriteLine("Left");
                     slimeDirX = -1;
                     slimeDirY = 0;
@@ -121,12 +114,13 @@ namespace Explorus
                 default:
                     slimeDirX = 0;
                     slimeDirY = 0;
-                    break;
+                    break;*/
             }
         }
         private void update()
         {
-            oView.moveRectangle(slimeDirX*slimeVelocity, slimeDirY * slimeVelocity);
+            // 
+            oView.moveSlimus(slimeDirX * slimeVelocity, slimeDirY * slimeVelocity);
         }
 
     }

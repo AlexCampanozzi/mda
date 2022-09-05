@@ -24,10 +24,7 @@ namespace Explorus
 
         private void readKeyboardInput(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-           // System.Console.WriteLine(e.KeyCode);
             currentInput = e.KeyCode;
-
-
         }
 
         public Keys getCurrentInput()
