@@ -27,7 +27,7 @@ namespace Explorus
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
 
-            map = new Map(new Bitmap("./Resources/map.png"));
+            map = Map.GetInstance(); //caller le singleton de map
 
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
