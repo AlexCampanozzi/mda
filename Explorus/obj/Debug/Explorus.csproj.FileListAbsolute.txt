@@ -57,4 +57,5 @@ C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.CoreCompileIn
 C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.exe
 C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.pdb
 C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\map_valid.png
-C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Resources\map_valid.png
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\map_valid.png
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\pause.png
