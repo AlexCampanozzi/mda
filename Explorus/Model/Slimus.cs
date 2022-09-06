@@ -6,7 +6,7 @@ namespace Explorus
 {
     public class Slimus : GameObject
     {
-        private int slimeVelocity = 96;
+        private int slimeVelocity = 1;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
 
@@ -24,7 +24,7 @@ namespace Explorus
 
         public override void processInput()
         {
-            switch (currentInput)
+            switch (GetCurrentInput())
             {
                 case Keys.Left:
                     Console.WriteLine("left");
