@@ -70,33 +70,34 @@ namespace ExplorusTests
             Console.WriteLine(player.GetGridPosition());
             for (int i = 0; i < 96; i++)
             {
-                player.SetCurrentInput(Keys.Left);
+                player.SetCurrentInput(Keys.Right);
                 player.processInput();
                 player.update();
             }
-            Assert.AreEqual(new Point(2, 1), player.GetGridPosition());
+            Assert.AreEqual(new Point(6, 0), player.GetGridPosition());
         }
 
         [TestMethod]
         public void PositionChange()
         {
-            for (int i = 0; i < 96*3; i++)
+            Console.WriteLine(player.GetPosition());
+            for (int i = 0; i < 1; i++)
             {
-                player.SetCurrentInput(Keys.Left);
+                player.SetCurrentInput(Keys.Down);
                 player.processInput();
                 player.update();
             }
-            Assert.AreEqual(new Point(480+384, 768), player.GetPosition());
+            Assert.AreEqual(new Point(480, 768), player.GetPosition());
         }
 
         [TestMethod]
         public void WallCollision()
         {
-            player.SetCurrentInput(Keys.Up);
+            player.SetCurrentInput(Keys.Down);
             player.processInput();
             player.update();
             
-            Assert.AreEqual(new Point(480 + 384, 768), player.GetPosition()); //Position stays the same since there is an obstacle
+            Assert.AreEqual(new Point(480, 768), player.GetPosition()); //Position stays the same since there is an obstacle
         }
 
     }

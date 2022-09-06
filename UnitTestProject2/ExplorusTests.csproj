@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameEngineTests.cs" />
+    <Compile Include="ObjectTest.cs" />
     <Compile Include="SlimusTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
