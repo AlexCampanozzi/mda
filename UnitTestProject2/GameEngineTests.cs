@@ -11,7 +11,7 @@ namespace ExplorusTests
     [TestClass]
     public class GameEngineTests
     {
-
+        /*
         [TestMethod]
         public void GamePause()
         {
@@ -20,7 +20,7 @@ namespace ExplorusTests
             /*if(engine.GetCurrentGameState() == Explorus.GameState.Paused)
             {
                 Close();
-            }*/
+            }
             Assert.AreEqual(Explorus.GameState.Paused, engine.GetCurrentGameState());
         }
 
@@ -31,6 +31,7 @@ namespace ExplorusTests
 
            Assert.AreEqual(Explorus.GameState.Resumed, engine.GetCurrentGameState());
         }
+    */
 
     }
 }
