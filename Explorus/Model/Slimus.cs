@@ -6,7 +6,7 @@ namespace Explorus
 {
     public class Slimus : GameObject
     {
-        private int slimeVelocity = 96;
+        private int slimeVelocity = 1;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         public int gemCollected = 0;
@@ -23,9 +23,12 @@ namespace Explorus
 
         }
 
+        public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
+        public int SlimeDirY { get => slimeDirY; set => slimeDirY = value; }
+
         public override void processInput()
         {
-            switch (currentInput)
+            switch (GetCurrentInput())
             {
                 case Keys.Left:
                     Console.WriteLine("left");
@@ -63,7 +66,7 @@ namespace Explorus
             bool collision = false;
             // Process collisions            
 
-            objectTypes[,] gridMap = Map.GetInstance().typeMap;
+            objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
 

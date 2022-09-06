@@ -12,9 +12,9 @@ namespace Explorus
         private static Map instance = null;
         private static readonly object padlock = new object();
 
-        public List<GameObject> objectMap;
-        public objectTypes[,] typeMap = null;
-        
+        private List<GameObject> objectMap;
+        private objectTypes[,] typeMap = null;
+
         private Map()
         {
             objectMap = createObjectsFromMap(mapParser(new Bitmap("./Resources/map.png")));
@@ -78,7 +78,6 @@ namespace Explorus
         {
             List<GameObject> oMap = new List<GameObject>();           
 
-            int i = 0;
             GameObject currentObject;
 
             for (int x = 0; x< typeMap.GetLength(0); x++)
@@ -101,7 +100,7 @@ namespace Explorus
                             default:
                                 continue;
                         }
-                        currentObject.gridPosition = new Point(x, y);
+                        currentObject.SetGridPosition(new Point(x, y));
                         oMap.Add(currentObject);
 
                     }
@@ -109,6 +108,15 @@ namespace Explorus
             }
 
             return oMap;
+        }
+        public List<GameObject> GetObjectMap()
+        { 
+            return objectMap; 
+        }
+
+        public objectTypes[,] GetTypeMap() 
+        { 
+            return typeMap;
         }
     }
 }

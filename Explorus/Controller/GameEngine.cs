@@ -25,8 +25,6 @@ namespace Explorus
         private GameView oView;
         private gameState currentGameState;
         private Keys currentInput;
-        private int slimeDirX = 0;
-        private int slimeDirY = 0;
         
 
         public GameEngine()
@@ -96,9 +94,9 @@ namespace Explorus
                     break;
             }
 
-            for (int i = 0; i < oView.map.objectMap.Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
             {
-                oView.map.objectMap[i].processInput();
+                oView.map.GetObjectMap()[i].processInput();
             }
 
             }
@@ -109,10 +107,10 @@ namespace Explorus
             Map oMap = Map.GetInstance();
 
             // process movement
-            for (int i = 0; i < oView.map.objectMap.Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
             {
-                oView.map.objectMap[i].currentInput = currentInput; //list of game objects
-                oView.map.objectMap[i].update();
+                    oView.map.GetObjectMap()[i].SetCurrentInput(currentInput); //list of game objects
+                    oView.map.GetObjectMap()[i].update();
 
             }
 

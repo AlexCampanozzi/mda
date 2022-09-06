@@ -16,9 +16,10 @@ namespace Explorus
     {
         Image image;
         protected Point position;   
-        public Point gridPosition;
+        protected Point gridPosition;
+        private Keys currentInput = Keys.None;
 
-        public Keys currentInput = Keys.None;
+
         public  GameObject(Point pos, Image img)
         {
             position = pos;
@@ -58,6 +59,15 @@ namespace Explorus
         public Image GetImage()
         {
             return image;
+        }
+        public Keys GetCurrentInput()
+        {
+            return this.currentInput;
+        }
+
+        public void SetCurrentInput(Keys key)
+        {
+            currentInput = key;
         }
 
         public virtual void update()

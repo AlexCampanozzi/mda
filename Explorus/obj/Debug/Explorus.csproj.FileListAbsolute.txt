@@ -41,3 +41,4 @@ E:\Projets\mda\Explorus\bin\Debug\Resources\TilesSheet.png
 E:\Projets\mda\Explorus\bin\Debug\Explorus.exe.config
 E:\Projets\mda\Explorus\bin\Debug\Explorus.exe
 E:\Projets\mda\Explorus\bin\Debug\Explorus.pdb
+C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Resources\map.png
