@@ -56,7 +56,6 @@ namespace Explorus
                 }
                 oView.Render();
 
-                oView.Render();
                 Thread.Sleep(1);
             }
         }
@@ -108,7 +107,8 @@ namespace Explorus
             }
 
             gameMaster.update();
-
+            oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
+            oView.getHeader().setGem(gameMaster.getGemStatus());
 
         }
 

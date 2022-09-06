@@ -15,6 +15,7 @@ namespace Explorus.Controller
         private int numberOfGem = 0;
 
         private bool keyStatus = false;
+        private int gemStatus = 0;
 
         private GameMaster()
         {
@@ -49,9 +50,11 @@ namespace Explorus.Controller
             {
                 if (oMap.GetObjectList()[i].GetType() == typeof(Slimus))
                 {
+                    gemStatus = ((Slimus)oMap.GetObjectList()[i]).gemCollected * 100 / numberOfGem;
                     if (((Slimus) oMap.GetObjectList()[i]).gemCollected == numberOfGem)
                     {
                         keyStatus = true;
+                        
                     }
                 }
             }
@@ -67,6 +70,11 @@ namespace Explorus.Controller
         public void useKey()
         {
             keyStatus = false;
+        }
+
+        public int getGemStatus()
+        {
+            return gemStatus;
         }
 
         public void rescueSlime()
