@@ -19,11 +19,11 @@ namespace Explorus
         public override void update()
         {
             Map oMap = Map.GetInstance();
-            objectTypes[,] gridMap = oMap.typeMap;
+            objectTypes[,] gridMap = oMap.GetTypeMap();
 
-            for (int i = 0; i < oMap.objectMap.Count; i++)
+            for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if (oMap.objectMap[i].GetType() == typeof(Slimus))
+                if (oMap.GetObjectList()[i].GetType() == typeof(Slimus))
                 {
                     //Console.WriteLine(oMap.objectMap[i]);
                 }

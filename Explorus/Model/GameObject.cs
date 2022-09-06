@@ -83,11 +83,11 @@ namespace Explorus
         public void removeItselfFromGame()
         {
             Map oMap = Map.GetInstance();
-            for (int i = 0; i < oMap.objectMap.Count; i++)
+            for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if (oMap.objectMap[i] == this)
+                if (oMap.GetObjectList()[i] == this)
                 {
-                    oMap.objectMap.RemoveAt(i);
+                    oMap.GetObjectList().RemoveAt(i);
                 }
             }
         }

@@ -94,9 +94,9 @@ namespace Explorus
                     break;
             }
 
-            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
             {
-                oView.map.GetObjectMap()[i].processInput();
+                oView.map.GetObjectList()[i].processInput();
             }
 
             }
@@ -107,10 +107,10 @@ namespace Explorus
             Map oMap = Map.GetInstance();
 
             // process movement
-            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
             {
-                    oView.map.GetObjectMap()[i].SetCurrentInput(currentInput); //list of game objects
-                    oView.map.GetObjectMap()[i].update();
+                    oView.map.GetObjectList()[i].SetCurrentInput(currentInput); //list of game objects
+                    oView.map.GetObjectList()[i].update();
 
             }
 

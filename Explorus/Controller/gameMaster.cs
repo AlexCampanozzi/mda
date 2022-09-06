@@ -16,9 +16,9 @@ namespace Explorus.Controller
 
         private GameMaster()
         {
-            for (int i = 0; i < oMap.objectMap.Count; i++)
+            for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if (oMap.objectMap[i].GetType() == typeof(Key))
+                if (oMap.GetObjectList()[i].GetType() == typeof(Key))
                 {
                     numberOfKey++;
                 }
@@ -43,11 +43,11 @@ namespace Explorus.Controller
         public void update()
         {
             
-            for (int i = 0; i < oMap.objectMap.Count; i++)
+            for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if (oMap.objectMap[i].GetType() == typeof(Slimus))
+                if (oMap.GetObjectList()[i].GetType() == typeof(Slimus))
                 {
-                    if (((Slimus) oMap.objectMap[i]).gemCollected == numberOfKey)
+                    if (((Slimus) oMap.GetObjectList()[i]).gemCollected == numberOfKey)
                     {
                         openDoor();
                     }

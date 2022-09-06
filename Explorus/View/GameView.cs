@@ -70,9 +70,9 @@ namespace Explorus
 
                 oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
-                for(int i = 0; i< map.GetObjectMap().Count(); i++)
+                for(int i = 0; i< map.GetObjectList().Count(); i++)
                 {
-                    e.Graphics.DrawImage(map.GetObjectMap()[i].GetImage(), map.GetObjectMap()[i].GetPosition());
+                    e.Graphics.DrawImage(map.GetObjectList()[i].GetImage(), map.GetObjectList()[i].GetPosition());
                 }
         }
             

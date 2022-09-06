@@ -108,12 +108,12 @@ namespace Explorus
 
             Map oMap = Map.GetInstance();
             // process gems logics
-            for (int i = 0; i < oMap.objectMap.Count; i++)
+            for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if ((oMap.objectMap[i].GetType() == typeof(Key)) && (oMap.objectMap[i].GetPosition() == position))
+                if ((oMap.GetObjectList()[i].GetType() == typeof(Key)) && (oMap.GetObjectList()[i].GetPosition() == position))
                 {
                     gemCollected += 1;
-                    oMap.objectMap[i].removeItselfFromGame();
+                    oMap.GetObjectList()[i].removeItselfFromGame();
                     Console.WriteLine(gemCollected);
                     break;
                 }

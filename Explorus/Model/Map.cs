@@ -12,12 +12,12 @@ namespace Explorus
         private static Map instance = null;
         private static readonly object padlock = new object();
 
-        private List<GameObject> objectMap;
+        private List<GameObject> objectList;
         private objectTypes[,] typeMap = null;
 
         private Map()
         {
-            objectMap = createObjectsFromMap(mapParser(new Bitmap("./Resources/map.png")));
+            objectList = createObjectsFromMap(mapParser(new Bitmap("./Resources/map.png")));
         }
 
         public static Map GetInstance()
@@ -109,9 +109,9 @@ namespace Explorus
 
             return oMap;
         }
-        public List<GameObject> GetObjectMap()
+        public List<GameObject> GetObjectList()
         { 
-            return objectMap; 
+            return objectList; 
         }
 
         public objectTypes[,] GetTypeMap() 

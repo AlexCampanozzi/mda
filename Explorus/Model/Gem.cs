@@ -17,7 +17,7 @@ namespace Explorus
 
         public override void update()
         {
-            objectTypes[,] gridMap = Map.GetInstance().typeMap;
+            objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
 
             if (gridMap[gridPosition.X, gridPosition.Y] == objectTypes.Player)
             {
