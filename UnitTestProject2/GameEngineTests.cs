@@ -11,15 +11,25 @@ namespace ExplorusTests
     [TestClass]
     public class GameEngineTests
     {
-        GameEngine engine = new GameEngine();
+
         [TestMethod]
         public void GamePause()
         {
-            if(engine.GetCurrentGameState() == Explorus.GameState.Paused)
+            GameEngine engine = new GameEngine();
+
+            /*if(engine.GetCurrentGameState() == Explorus.GameState.Paused)
             {
-                engine = null;
-            }
+                Close();
+            }*/
             Assert.AreEqual(Explorus.GameState.Paused, engine.GetCurrentGameState());
+        }
+
+        [TestMethod]
+        public void GameResume()
+        {
+            GameEngine engine = new GameEngine();
+
+           Assert.AreEqual(Explorus.GameState.Resumed, engine.GetCurrentGameState());
         }
 
     }
