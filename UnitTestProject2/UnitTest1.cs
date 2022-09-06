@@ -12,6 +12,7 @@ namespace ExplorusTests
     public class SlimusTests
     {
         private Slimus player = new Slimus(new Point(10, 15));
+        private Map map = Map.GetInstance();
 
         [TestMethod]
         public void CreateSlimusPosition()
@@ -63,13 +64,6 @@ namespace ExplorusTests
             Assert.AreEqual(1, player.SlimeDirY);
         }
 
-        [TestMethod]
-        public void ChangeGrid()
-        {
-            player.SetCurrentInput(Keys.Down);
-            player.processInput();
-            Assert.AreEqual(0, player.SlimeDirX);
-            Assert.AreEqual(1, player.SlimeDirY);
-        }
+
     }
 }

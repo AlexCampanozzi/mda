@@ -15,9 +15,6 @@ namespace Explorus
         private List<GameObject> objectMap;
         private objectTypes[,] typeMap = null;
 
-        public List<GameObject> ObjectMap { get => objectMap; set => objectMap = value; }
-        public objectTypes[,] TypeMap { get => typeMap; set => typeMap = value; }
-
         private Map()
         {
             objectMap = createObjectsFromMap(mapParser(new Bitmap("./Resources/map.png")));
@@ -111,6 +108,15 @@ namespace Explorus
             }
 
             return oMap;
+        }
+        public List<GameObject> GetObjectMap()
+        { 
+            return objectMap; 
+        }
+
+        public objectTypes[,] GetTypeMap() 
+        { 
+            return typeMap;
         }
     }
 }

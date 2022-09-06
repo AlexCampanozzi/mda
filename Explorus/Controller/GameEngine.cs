@@ -92,9 +92,9 @@ namespace Explorus
                     break;
             }
 
-            for (int i = 0; i < oView.map.ObjectMap.Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
             {
-                oView.map.ObjectMap[i].processInput();
+                oView.map.GetObjectMap()[i].processInput();
             }
 
             }
@@ -105,13 +105,13 @@ namespace Explorus
             //process collision
 
             // process movement
-            for (int i = 0; i < oView.map.ObjectMap.Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
             {
-                if (oView.map.ObjectMap[i].GetType() == typeof(Slimus))
+                if (oView.map.GetObjectMap()[i].GetType() == typeof(Slimus))
                 {
-                    Point point = oView.map.ObjectMap[i].GetPosition();
-                    oView.map.ObjectMap[i].SetCurrentInput(currentInput); //list of game objects
-                    oView.map.ObjectMap[i].update();
+                    Point point = oView.map.GetObjectMap()[i].GetPosition();
+                    oView.map.GetObjectMap()[i].SetCurrentInput(currentInput); //list of game objects
+                    oView.map.GetObjectMap()[i].update();
                 }
                
             }

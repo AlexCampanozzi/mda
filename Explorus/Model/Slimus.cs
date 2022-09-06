@@ -65,7 +65,7 @@ namespace Explorus
             bool collision = false;
             // Process collisions            
 
-            objectTypes[,] gridMap = Map.GetInstance().TypeMap;
+            objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
 
