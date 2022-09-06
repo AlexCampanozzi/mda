@@ -115,7 +115,7 @@ namespace Explorus
             {
                 if (oView.map.objectMap[i].GetType() == typeof(Slimus))
                 {
-                    Point point = oView.map.objectMap[i].GetPosition();
+                    //Point point = oView.map.objectMap[i].GetPosition();
                     oView.map.objectMap[i].currentInput = currentInput; //list of game objects
                     oView.map.objectMap[i].update();
                 }

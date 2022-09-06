@@ -29,15 +29,15 @@ namespace Explorus
 
             map = Map.GetInstance(); //caller le singleton de map
 
-            Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
-            Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
+            //Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
+            //Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
 
             iPausedImage = Image.FromFile(Application.StartupPath + "/../../Resources/pause.PNG");
             // TODO: use the interface size instead
             iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
 
 
-            iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
+            //iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
 
         public void Show() { Application.Run(oGameForm); }
@@ -68,22 +68,13 @@ namespace Explorus
                 Graphics graphic = e.Graphics;
                 graphic.Clear(Color.Black);
 
-                oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+                //oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
                 //e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
 
                 for(int i = 0; i< map.objectMap.Count(); i++)
                 {
                     //Console.WriteLine(map.objectMap[i].GetType());
-
-                    if (map.objectMap[i].GetType() == typeof(Slimus))
-                    {
-                        Point point = map.objectMap[i].GetPosition();
-                        //SlimePositionX = point.X;
-                        //SlimePositionY = point.Y;
-                        //map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
-                    }
-
                     e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
                 }
         }
