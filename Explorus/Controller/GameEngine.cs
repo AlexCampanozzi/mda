@@ -4,12 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 using Explorus.Controller;
 
-public enum GameState
-{
-    Resumed,
-    Paused,
-}
-
 
 namespace Explorus
 {
@@ -129,6 +123,11 @@ namespace Explorus
         public GameState GetCurrentGameState()
         {
             return currentGameState;
+        }
+
+        public void Close()
+        {
+
         }
 
     }
