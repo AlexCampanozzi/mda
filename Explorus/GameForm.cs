@@ -12,10 +12,31 @@ namespace Explorus
 {
     public partial class GameForm : Form
     {
+        public Keys currentInput;
         public GameForm()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
+            this.KeyPreview = true;
+
+            this.KeyDown += new KeyEventHandler(readKeyboardInput);
+            //this.KeyPress += new KeyPressEventHandler(keypressed);
+        }
+
+        private void readKeyboardInput(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            currentInput = e.KeyCode;
+        }
+
+
+        public Keys getCurrentInput()
+        {
+            return currentInput;
+        }
+
+        public void resetCurrentInput()
+        {
+            currentInput = Keys.None;
         }
     }
 }
