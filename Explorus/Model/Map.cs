@@ -89,7 +89,7 @@ namespace Explorus
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                currentObject = new Slimus(x * 96, y * 96);                              
+                                currentObject = new Slimus(x * 96, y * 96);
                                 break;
                             case objectTypes.Wall:
                                 currentObject = new Wall(x*96, y * 96);

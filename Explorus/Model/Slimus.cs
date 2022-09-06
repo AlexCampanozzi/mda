@@ -175,7 +175,6 @@ namespace Explorus
                 }
 
             }
-            SetGridPosition(gridPosition); //maybe useless since public 
 
             Map oMap = Map.GetInstance();
             // process gems logics
