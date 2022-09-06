@@ -7,7 +7,7 @@ namespace Explorus
 {
     public class Slimus : GameObject
     {
-        private int slimeVelocity = 1;
+        private int slimeVelocity = 3;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
@@ -35,7 +35,6 @@ namespace Explorus
 
         public Slimus(Point pos) : base(pos, states[1])
         {
-            //position = pos;
             image = states[1];
             goalPosition = pos;
         }
@@ -56,28 +55,32 @@ namespace Explorus
                     Console.WriteLine("left");
                     slimeDirX = -1;
                     slimeDirY = 0;
-                    last_movement = 30;
+                    if(last_slimeDirX == 0 && last_slimeDirY == 0)
+                        last_movement = 30;
                     break;
 
                 case Keys.Right:
                     Console.WriteLine("right");
                     slimeDirX = 1;
                     slimeDirY = 0;
-                    last_movement = 10;
+                    if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                        last_movement = 10;
                     break;
 
                 case Keys.Up:
                     Console.WriteLine("up");
                     slimeDirX = 0;
                     slimeDirY = -1;
-                    last_movement = 20;
+                    if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                        last_movement = 20;
                     break;
 
                 case Keys.Down:
                     Console.WriteLine("down");
                     slimeDirX = 0;
                     slimeDirY = 1;
-                    last_movement = 0;
+                    if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                        last_movement = 0;
                     break;
 
                 default: // None or other
@@ -94,17 +97,10 @@ namespace Explorus
 
         private void SetImage()
         {
-            int[] state_order ={1,2,3,2};
-            int current_state = state_order[last_state];
-            if (frame_count > 30) 
-            {
-                last_state += 1;
-                if (last_state > 3) { last_state=0; }
-                frame_count = 0;
-            }
-
+            int[] state_order = { 1, 2, 3, 2 };
+            int temp = (int)Math.Floor((position.X % 96.0 + position.Y % 96.0) / 24.0);
+            int current_state = state_order[temp];
             image = states[last_movement + current_state];
-            frame_count +=1; 
         }
 
         public override void update()
@@ -116,23 +112,11 @@ namespace Explorus
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
             
-
-            if (nextGrid != objectTypes.Player)
-            {
-                Console.WriteLine(nextGrid);
-            }
-
-
-            if (nextGrid == objectTypes.Wall)
-            {
-                collision = true;
-            }
-
             Point newPosition = GetPosition();
-            SetImage();
-
-            if (collision == false)
+            
+            if (nextGrid != objectTypes.Wall) //Collision
             {
+                
                 // mouvements intermédiaire pour voir slimus glisser
                 if (goalPosition == newPosition)
                 {
@@ -141,22 +125,50 @@ namespace Explorus
                     last_slimeDirX = slimeDirX;
                     last_slimeDirY = slimeDirY;
                 }
+
+                if(last_slimeDirX != 0 || last_slimeDirY != 0)
+                {
+                    SetImage();
+                }
+
                 newPosition.X = (newPosition.X + last_slimeDirX * slimeVelocity);
                 newPosition.Y = (newPosition.Y + last_slimeDirY * slimeVelocity);
+
+
                 SetPosition(newPosition);
                 position = newPosition;
 
-
-                // occur some problems with the speed due to arrondissement
-                if(position.X % 96.0 == 0)
+                if(last_slimeDirX == 1)
                 {
-                    gridPosition.X = Convert.ToInt32(Math.Floor(position.X / 96.0));
-                    
+                    if(position.X >= ((gridPosition.X + last_slimeDirX) * 96.0))
+                    {
+                        gridPosition.X = gridPosition.X + last_slimeDirX;
+                        position.X = gridPosition.X * 96;
+                    }
                 }
-                if(position.Y % 96.0 == 0)
+                else if(last_slimeDirX == -1)
                 {
-                    gridPosition.Y = Convert.ToInt32(Math.Floor(position.Y / 96.0));
- 
+                    if (position.X <= ((gridPosition.X + last_slimeDirX) * 96.0))
+                    {
+                        gridPosition.X = gridPosition.X + last_slimeDirX;
+                        position.X = gridPosition.X * 96;
+                    }
+                }
+                else if(last_slimeDirY == 1)
+                {
+                    if (position.Y >= ((gridPosition.Y + last_slimeDirY) * 96.0))
+                    {
+                        gridPosition.Y = gridPosition.Y + last_slimeDirY;
+                        position.Y = gridPosition.Y * 96;
+                    }
+                }
+                else if (last_slimeDirY == -1)
+                {
+                    if (position.Y <= ((gridPosition.Y + last_slimeDirY) * 96.0))
+                    {
+                        gridPosition.Y = gridPosition.Y + last_slimeDirY;
+                        position.Y = gridPosition.Y * 96;
+                    }
                 }
 
             }
