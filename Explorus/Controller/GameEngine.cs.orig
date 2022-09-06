@@ -63,6 +63,7 @@ namespace Explorus
                 }
                 oView.Render();
 
+                oView.Render();
                 Thread.Sleep(1);
             }
         }
@@ -90,13 +91,16 @@ namespace Explorus
                     currentGameState = gameState.Paused;
                     oView.isPaused = true;
                     break;
+
                 default:
+                    slimeDirX = 0;
+                    slimeDirY = 0;
                     break;
             }
 
-            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
             {
-                oView.map.GetObjectMap()[i].processInput();
+                oView.map.GetObjectList()[i].processInput();
             }
 
             }
@@ -107,21 +111,21 @@ namespace Explorus
             Map oMap = Map.GetInstance();
 
             // process movement
-            for (int i = 0; i < oView.map.GetObjectMap().Count(); i++)
+            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
             {
 <<<<<<< HEAD
-                oView.map.objectMap[i].currentInput = currentInput; //list of game objects
-                oView.map.objectMap[i].update();
+                    oView.map.GetObjectList()[i].SetCurrentInput(currentInput); //list of game objects
+                    oView.map.GetObjectList()[i].update();
 
 =======
-                if (oView.map.GetObjectMap()[i].GetType() == typeof(Slimus))
+                if (oView.map.objectMap[i].GetType() == typeof(Slimus))
                 {
-                    Point point = oView.map.GetObjectMap()[i].GetPosition();
-                    oView.map.GetObjectMap()[i].SetCurrentInput(currentInput); //list of game objects
-                    oView.map.GetObjectMap()[i].update();
+                    //Point point = oView.map.objectMap[i].GetPosition();
+                    oView.map.objectMap[i].currentInput = currentInput; //list of game objects
+                    oView.map.objectMap[i].update();
                 }
                
->>>>>>> origin/unit_test
+>>>>>>> animation
             }
 
             gameMaster.update();

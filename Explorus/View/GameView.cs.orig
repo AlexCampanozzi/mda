@@ -29,15 +29,15 @@ namespace Explorus
 
             map = Map.GetInstance(); //caller le singleton de map
 
-            Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
-            Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
+            //Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
+            //Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
 
             iPausedImage = Image.FromFile(Application.StartupPath + "/../../Resources/pause.PNG");
             // TODO: use the interface size instead
             iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
 
 
-            iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
+            //iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
 
         public void Show() { Application.Run(oGameForm); }
@@ -68,29 +68,16 @@ namespace Explorus
                 Graphics graphic = e.Graphics;
                 graphic.Clear(Color.Black);
 
-                oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+                //oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
+                for(int i = 0; i< map.GetObjectList().Count(); i++)
+                {
 <<<<<<< HEAD
-                for(int i = 0; i< map.objectMap.Count(); i++)
-                {
-                    e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
+                    e.Graphics.DrawImage(map.GetObjectList()[i].GetImage(), map.GetObjectList()[i].GetPosition());
 =======
-                //e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
-
-                for(int i = 0; i< map.GetObjectMap().Count(); i++)
-                {
                     //Console.WriteLine(map.objectMap[i].GetType());
-
-                    if (map.GetObjectMap()[i].GetType() == typeof(Slimus))
-                    {
-                        Point point = map.GetObjectMap()[i].GetPosition();
-                        //SlimePositionX = point.X;
-                        //SlimePositionY = point.Y;
-                        //map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
-                    }
-
-                    e.Graphics.DrawImage(map.GetObjectMap()[i].GetImage(), map.GetObjectMap()[i].GetPosition());
->>>>>>> origin/unit_test
+                    e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
+>>>>>>> animation
                 }
         }
             

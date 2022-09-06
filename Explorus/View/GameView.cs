@@ -29,15 +29,15 @@ namespace Explorus
 
             map = Map.GetInstance(); //caller le singleton de map
 
-            Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
-            Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
+            //Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
+            //Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
 
             iPausedImage = Image.FromFile(Application.StartupPath + "/../../Resources/pause.PNG");
             // TODO: use the interface size instead
             iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
 
 
-            iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
+            //iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
 
         public void Show() { Application.Run(oGameForm); }
@@ -68,7 +68,7 @@ namespace Explorus
                 Graphics graphic = e.Graphics;
                 graphic.Clear(Color.Black);
 
-                oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+                //oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
 
                 for(int i = 0; i< map.GetObjectList().Count(); i++)
                 {

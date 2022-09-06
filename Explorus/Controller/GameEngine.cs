@@ -63,6 +63,7 @@ namespace Explorus
                 }
                 oView.Render();
 
+                oView.Render();
                 Thread.Sleep(1);
             }
         }
@@ -90,7 +91,10 @@ namespace Explorus
                     currentGameState = gameState.Paused;
                     oView.isPaused = true;
                     break;
+
                 default:
+                    slimeDirX = 0;
+                    slimeDirY = 0;
                     break;
             }
 

@@ -56,7 +56,7 @@ namespace Explorus
             position = new Point(x, y);
         }
 
-        public Image GetImage()
+        public virtual Image GetImage()
         {
             return image;
         }
