@@ -17,7 +17,7 @@ namespace Explorus
 
         private Map()
         {
-            objectList = createObjectsFromMap(mapParser(new Bitmap("./Resources/map.png")));
+            objectList = createObjectsFromMap(mapParser(new Bitmap("./Resources/map_valid.png")));
         }
 
         public static Map GetInstance()
@@ -69,6 +69,8 @@ namespace Explorus
                     return objectTypes.Gem;
                 case "ff0000ff"://blue
                     return objectTypes.Player;
+                case "ff00ff00"://green
+                    return objectTypes.Slime;
                 default:
                     return objectTypes.Empty;
             }
@@ -84,7 +86,7 @@ namespace Explorus
             {
                 for(int y = 0; y < typeMap.GetLength(1); y++)
                 {
-                    if (typeMap[x, y] != objectTypes.Empty && typeMap[x,y] != objectTypes.Door)
+                    if (typeMap[x, y] != objectTypes.Empty) // && typeMap[x,y] != objectTypes.Door)
                     {
                         switch(typeMap[x, y])
                         {
@@ -100,6 +102,12 @@ namespace Explorus
                             case objectTypes.Gem:
                                 currentObject = new Gem(x * 96 +24, y * 96 + 24);
                                 break;
+                            case objectTypes.Slime:
+                                currentObject = new Slime(x * 96 + 24, y * 96 + 24);
+                                break;
+                            case objectTypes.Door:
+                                currentObject = new Door(x * 96, y * 96);
+                                break;
                             default:
                                 continue;
                         }
@@ -111,6 +119,11 @@ namespace Explorus
             }
 
             return oMap;
+        }
+
+        public void removeObjectFromMap(int x, int y)
+        {
+            typeMap[x, y] = objectTypes.Empty;
         }
         public List<GameObject> GetObjectList()
         { 

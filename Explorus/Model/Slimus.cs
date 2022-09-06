@@ -2,12 +2,13 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using Explorus.Controller;
 
 namespace Explorus
 {
     public class Slimus : GameObject
     {
-        private int slimeVelocity = 3;
+        private int slimeVelocity = 6;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
@@ -116,8 +117,26 @@ namespace Explorus
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
             
             Point newPosition = GetPosition();
-            
-            if (nextGrid != objectTypes.Wall) //Collision
+
+            GameMaster gameMaster = GameMaster.GetInstance();
+            Map oMap = Map.GetInstance();
+
+            if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
+            {
+                for (int i = 0; i < oMap.GetObjectList().Count; i++)
+                {
+                    if (oMap.GetObjectList()[i].GetType() == typeof(Door))
+                    {
+                        oMap.GetObjectList()[i].removeItselfFromGame();
+                        oMap.removeObjectFromMap(gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY);
+                        gameMaster.useKey();
+                        //nextGrid = objectTypes.Empty;
+                        break;
+                    }
+                }
+            }
+
+            if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
             {
                 
                 // mouvements intermédiaire pour voir slimus glisser
@@ -176,7 +195,6 @@ namespace Explorus
 
             }
 
-            Map oMap = Map.GetInstance();
             // process gems logics
             for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {

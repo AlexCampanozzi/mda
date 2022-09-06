@@ -56,3 +56,4 @@ C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.GenerateResou
 C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.CoreCompileInputs.cache
 C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.exe
 C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.pdb
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\map_valid.png

@@ -11,7 +11,8 @@ namespace Explorus
         Player,
         Door,
         Empty,
-        Gem
+        Gem,
+        Slime,
     }
     public class GameObject
     {
@@ -60,6 +61,11 @@ namespace Explorus
         public virtual Image GetImage()
         {
             return image;
+        }
+
+        public virtual void SetImage(Image img)
+        {
+            image = img;
         }
         public Keys GetCurrentInput()
         {

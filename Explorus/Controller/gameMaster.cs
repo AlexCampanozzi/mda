@@ -12,15 +12,17 @@ namespace Explorus.Controller
         private static readonly object padlock = new object();
 
         private Map oMap = Map.GetInstance();
-        private int numberOfKey = 0;
+        private int numberOfGem = 0;
+
+        private bool keyStatus = false;
 
         private GameMaster()
         {
             for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if (oMap.GetObjectList()[i].GetType() == typeof(Key))
+                if (oMap.GetObjectList()[i].GetType() == typeof(Gem))
                 {
-                    numberOfKey++;
+                    numberOfGem++;
                 }
             }
         }
@@ -47,9 +49,9 @@ namespace Explorus.Controller
             {
                 if (oMap.GetObjectList()[i].GetType() == typeof(Slimus))
                 {
-                    if (((Slimus) oMap.GetObjectList()[i]).gemCollected == numberOfKey)
+                    if (((Slimus) oMap.GetObjectList()[i]).gemCollected == numberOfGem)
                     {
-                        openDoor();
+                        keyStatus = true;
                     }
                 }
             }
@@ -57,9 +59,14 @@ namespace Explorus.Controller
 
         }
 
-        private void openDoor()
+        public bool GetKeyStatus()
         {
+            return keyStatus;
+        }
 
+        public void useKey()
+        {
+            keyStatus = false;
         }
 
         private void triggerLevelComplete()
