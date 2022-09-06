@@ -72,19 +72,19 @@ namespace Explorus
 
                 //e.Graphics.DrawImage(iPlayerImage, new Point(SlimePositionX, SlimePositionY));
 
-                for(int i = 0; i< map.objectMap.Count(); i++)
+                for(int i = 0; i< map.ObjectMap.Count(); i++)
                 {
                     //Console.WriteLine(map.objectMap[i].GetType());
 
-                    if (map.objectMap[i].GetType() == typeof(Slimus))
+                    if (map.ObjectMap[i].GetType() == typeof(Slimus))
                     {
-                        Point point = map.objectMap[i].GetPosition();
+                        Point point = map.ObjectMap[i].GetPosition();
                         //SlimePositionX = point.X;
                         //SlimePositionY = point.Y;
                         //map.objectMap[i].SetPosition(SlimePositionX, SlimePositionY);
                     }
 
-                    e.Graphics.DrawImage(map.objectMap[i].GetImage(), map.objectMap[i].GetPosition());
+                    e.Graphics.DrawImage(map.ObjectMap[i].GetImage(), map.ObjectMap[i].GetPosition());
                 }
         }
             

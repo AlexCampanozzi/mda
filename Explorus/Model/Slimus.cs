@@ -22,6 +22,9 @@ namespace Explorus
 
         }
 
+        public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
+        public int SlimeDirY { get => slimeDirY; set => slimeDirY = value; }
+
         public override void processInput()
         {
             switch (GetCurrentInput())
@@ -62,7 +65,7 @@ namespace Explorus
             bool collision = false;
             // Process collisions            
 
-            objectTypes[,] gridMap = Map.GetInstance().typeMap;
+            objectTypes[,] gridMap = Map.GetInstance().TypeMap;
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
 
