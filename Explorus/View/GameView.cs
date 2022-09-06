@@ -25,6 +25,7 @@ namespace Explorus
         public GameView()
         {
             oGameForm = new GameForm();
+            oGameForm.MinimumSize = new Size(600, 600);
             oGameForm.Paint += GameRenderer;
 
             map = Map.GetInstance(); //caller le singleton de map
@@ -69,14 +70,32 @@ namespace Explorus
                 graphic.Clear(Color.Black);
 
                 oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
+                int xSize = map.GetTypeMap().GetLength(0) * 96;
+                int ySize = map.GetTypeMap().GetLength(1) * 96;
+
+                float xScaling = ((float)oGameForm.Size.Width - 16)/(float)xSize;
+                float yScaling = ((float)oGameForm.Size.Height - 42)/(float)ySize;
+
+                float minScale = Math.Min(xScaling, yScaling);
+                int xOffset = 0;
+                int yOffset = 0;
+                if (xScaling > yScaling)
+                {
+                    xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize))/ 2;
+                }
+                else
+                {
+                    yOffset = (oGameForm.Size.Height - 30 - (int)(xScaling * (float)ySize)) / 2;
+                }
+                
 
                 for(int i = 0; i< map.GetObjectList().Count(); i++)
                 {
-                    e.Graphics.DrawImage(map.GetObjectList()[i].GetImage(), map.GetObjectList()[i].GetPosition());
+                    Image img = map.GetObjectList()[i].GetImage();
+                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)(map.GetObjectList()[i].GetPosition().X * minScale) + xOffset, (int)(map.GetObjectList()[i].GetPosition().Y * minScale) + yOffset), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
         }
             
-
         }
         public double getFPS()
         {
