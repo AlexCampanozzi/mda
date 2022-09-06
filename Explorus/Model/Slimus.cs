@@ -14,8 +14,8 @@ namespace Explorus
         public Slimus(Point pos) : base(pos, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
         {
             position = pos;
-
-
+            gridPosition.X = pos.X / 96;
+            gridPosition.Y = pos.Y / 96;
         }
 
         public Slimus(int x, int y) : base(x, y, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
@@ -79,6 +79,7 @@ namespace Explorus
 
             if (nextGrid == objectTypes.Wall)
             {
+                Console.WriteLine("collision");
                 collision = true;
             }
 
@@ -104,7 +105,6 @@ namespace Explorus
                 }
 
             }
-            SetGridPosition(gridPosition); //maybe useless since public 
 
             Map oMap = Map.GetInstance();
             // process gems logics

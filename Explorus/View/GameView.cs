@@ -15,12 +15,12 @@ namespace Explorus
         private double fps;
         private GameForm oGameForm;
 
-        public bool isPaused = false;
+        private bool isPaused = false;
 
         private Image iPausedImage;
         private Image iPlayerImage;
 
-        public Map map;
+        private Map map;
 
         public GameView()
         {
@@ -32,7 +32,7 @@ namespace Explorus
             Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
 
-            iPausedImage = Image.FromFile(Application.StartupPath + "/../../Resources/pause.PNG");
+            iPausedImage = Image.FromFile("./Resources/pause.png");
             // TODO: use the interface size instead
             iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
 
@@ -99,6 +99,18 @@ namespace Explorus
         {
             return (Image)(new Bitmap(imgToResize, size));
         }
-                
+
+        public bool getIsPaused()
+        {
+            return isPaused;
+        }
+        public void setIsPaused(bool state)
+        {
+            isPaused = state;
+        }
+        public Map getMap()
+        {
+            return map;
+        }
     }
 }

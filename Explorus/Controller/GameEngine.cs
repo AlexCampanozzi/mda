@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Drawing;
-using System.Windows.Input;
 using System.Windows.Forms;
-using System.Drawing.Text;
-using System.Security.Cryptography.X509Certificates;
 using Explorus.Controller;
 
-enum gameState
+public enum GameState
 {
     Resumed,
     Paused,
@@ -20,10 +13,16 @@ enum gameState
 
 namespace Explorus
 {
+    public enum GameState
+    {
+        Resumed,
+        Paused,
+    }
+
     public class GameEngine
     {
         private GameView oView;
-        private gameState currentGameState;
+        private GameState currentGameState;
         private Keys currentInput;
         
 
@@ -53,7 +52,7 @@ namespace Explorus
                 lag += elapsed;
 
                 processInput();
-                if (currentGameState == gameState.Resumed)
+                if (currentGameState == GameState.Resumed)
                 {
                     while (lag >= MS_PER_UPDATE)
                     {
@@ -81,22 +80,22 @@ namespace Explorus
             {
                 case Keys.R:
                     Console.WriteLine("Resume");
-                    currentGameState = gameState.Resumed;
-                    oView.isPaused = false;
+                    currentGameState = GameState.Resumed;
+                    oView.setIsPaused(false);
                     break;
 
                 case Keys.P:
                     Console.WriteLine("Pause");
-                    currentGameState = gameState.Paused;
-                    oView.isPaused = true;
+                    currentGameState = GameState.Paused;
+                    oView.setIsPaused(true);
                     break;
                 default:
                     break;
             }
 
-            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
+            for (int i = 0; i < oView.getMap().GetObjectList().Count(); i++)
             {
-                oView.map.GetObjectList()[i].processInput();
+                oView.getMap().GetObjectList()[i].processInput();
             }
 
             }
@@ -104,19 +103,32 @@ namespace Explorus
         {
             GameMaster gameMaster = GameMaster.GetInstance();
 
-            Map oMap = Map.GetInstance();
-
             // process movement
-            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
+            for (int i = 0; i < oView.getMap().GetObjectList().Count(); i++)
             {
-                    oView.map.GetObjectList()[i].SetCurrentInput(currentInput); //list of game objects
-                    oView.map.GetObjectList()[i].update();
+                    oView.getMap().GetObjectList()[i].SetCurrentInput(currentInput); //list of game objects
+                    oView.getMap().GetObjectList()[i].update();
 
             }
 
             gameMaster.update();
 
 
+        }
+
+        public Keys GetCurrentInput()
+        {
+            return this.currentInput;
+        }
+
+        public void SetCurrentInput(Keys key)
+        {
+            currentInput = key;
+        }
+
+        public GameState GetCurrentGameState()
+        {
+            return currentGameState;
         }
 
     }
