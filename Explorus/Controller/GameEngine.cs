@@ -93,8 +93,6 @@ namespace Explorus
                     break;
 
                 default:
-                    slimeDirX = 0;
-                    slimeDirY = 0;
                     break;
             }
 

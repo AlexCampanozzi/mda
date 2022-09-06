@@ -32,7 +32,7 @@ namespace Explorus
             {32, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
             {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
         };
-
+        public int gemCollected = 0;
         public Slimus(Point pos) : base(pos, states[1])
         {
             image = states[1];
@@ -185,7 +185,6 @@ namespace Explorus
                 {
                     gemCollected += 1;
                     oMap.GetObjectList()[i].removeItselfFromGame();
-                    Console.WriteLine(gemCollected);
                     break;
                 }
             }
