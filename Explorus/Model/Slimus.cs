@@ -204,6 +204,12 @@ namespace Explorus
                     oMap.GetObjectList()[i].removeItselfFromGame();
                     break;
                 }
+                if ((oMap.GetObjectList()[i].GetType() == typeof(Slime)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
+                {
+                    oMap.GetObjectList()[i].removeItselfFromGame();
+                    gameMaster.rescueSlime();
+                }
+
             }
         }
     }

@@ -69,6 +69,10 @@ namespace Explorus.Controller
             keyStatus = false;
         }
 
+        public void rescueSlime()
+        {
+
+        }
         private void triggerLevelComplete()
         {
 
