@@ -59,3 +59,4 @@ C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.pdb
 C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\map_valid.png
 C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\map_valid.png
 C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\pause.png
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\EndOfLevel.png
