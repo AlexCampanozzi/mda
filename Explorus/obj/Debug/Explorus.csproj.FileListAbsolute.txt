@@ -43,3 +43,16 @@ E:\Projets\mda\Explorus\bin\Debug\Explorus.exe
 E:\Projets\mda\Explorus\bin\Debug\Explorus.pdb
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Resources\map.png
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Resources\pause.png
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\map.png
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\pause.png
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\TilesSheet.png
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Explorus.exe.config
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Explorus.exe
+C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Explorus.pdb
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.AssemblyReference.cache
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.SuggestedBindingRedirects.cache
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.Properties.Resources.resources
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.GenerateResource.cache
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.csproj.CoreCompileInputs.cache
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.exe
+C:\Users\victo\Source\Repos\mda\Explorus\obj\Debug\Explorus.pdb

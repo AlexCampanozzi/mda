@@ -180,7 +180,7 @@ namespace Explorus
             // process gems logics
             for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if ((oMap.GetObjectList()[i].GetType() == typeof(Key)) && (oMap.GetObjectList()[i].GetPosition() == position))
+                if ((oMap.GetObjectList()[i].GetType() == typeof(Gem)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
                 {
                     gemCollected += 1;
                     oMap.GetObjectList()[i].removeItselfFromGame();

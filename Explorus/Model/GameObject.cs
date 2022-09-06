@@ -10,7 +10,8 @@ namespace Explorus
         Key,
         Player,
         Door,
-        Empty
+        Empty,
+        Gem
     }
     public class GameObject
     {

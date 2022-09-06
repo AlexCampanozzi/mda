@@ -66,7 +66,7 @@ namespace Explorus
                 case "ffff0000"://red
                     return objectTypes.Door;
                 case "ffffff00"://yellow
-                    return objectTypes.Key;
+                    return objectTypes.Gem;
                 case "ff0000ff"://blue
                     return objectTypes.Player;
                 default:
@@ -96,6 +96,9 @@ namespace Explorus
                                 break;
                             case objectTypes.Key:
                                 currentObject = new Key(x * 96, y * 96);
+                                break;
+                            case objectTypes.Gem:
+                                currentObject = new Gem(x * 96 +24, y * 96 + 24);
                                 break;
                             default:
                                 continue;
