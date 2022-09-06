@@ -21,7 +21,7 @@ namespace Explorus
         private Image iPlayerImage;
 
         private Map map;
-
+        private Header header;
         public GameView()
         {
             oGameForm = new GameForm();
@@ -29,6 +29,7 @@ namespace Explorus
             oGameForm.Paint += GameRenderer;
 
             map = Map.GetInstance(); //caller le singleton de map
+            header = Header.GetInstance();
 
             //Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
             //Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
@@ -45,10 +46,18 @@ namespace Explorus
 
         public void Render()
         {
-            if (oGameForm.Visible)
-                oGameForm.BeginInvoke((MethodInvoker)delegate {
-                    oGameForm.Refresh();
-                });
+            try
+            {
+                if (oGameForm.Visible)
+                    oGameForm.BeginInvoke((MethodInvoker)delegate
+                    {
+                        oGameForm.Refresh();
+                    });
+            }
+            catch
+            {
+
+            }
         }
 
         public void Close()
@@ -68,32 +77,34 @@ namespace Explorus
             {
                 Graphics graphic = e.Graphics;
                 graphic.Clear(Color.Black);
-
+                
                 //oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
                 int xSize = map.GetTypeMap().GetLength(0) * 96;
-                int ySize = map.GetTypeMap().GetLength(1) * 96;
+                int ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
 
-                float xScaling = ((float)oGameForm.Size.Width - 16)/(float)xSize;
-                float yScaling = ((float)oGameForm.Size.Height - 42)/(float)ySize;
+                float xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
+                float yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
 
                 float minScale = Math.Min(xScaling, yScaling);
                 int xOffset = 0;
                 int yOffset = 0;
                 if (xScaling > yScaling)
                 {
-                    xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize))/ 2;
+                    xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize)) / 2;
                 }
                 else
                 {
-                    yOffset = (oGameForm.Size.Height - 30 - (int)(xScaling * (float)ySize)) / 2;
+                    yOffset = (oGameForm.Size.Height - (int)(xScaling * (float)ySize)) / 2;
                 }
-                
 
-                for(int i = 0; i< map.GetObjectList().Count(); i++)
+
+                for (int i = 0; i < map.GetObjectList().Count(); i++)
                 {
                     Image img = map.GetObjectList()[i].GetImage();
-                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)(map.GetObjectList()[i].GetPosition().X * minScale) + xOffset, (int)(map.GetObjectList()[i].GetPosition().Y * minScale) + yOffset), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)(map.GetObjectList()[i].GetPosition().X * minScale) + xOffset, (int)(map.GetObjectList()[i].GetPosition().Y * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
+                e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
+                
         }
             
         }
@@ -130,6 +141,11 @@ namespace Explorus
         public Map getMap()
         {
             return map;
+        }
+
+        public Header getHeader()
+        {
+            return header;
         }
     }
 }
