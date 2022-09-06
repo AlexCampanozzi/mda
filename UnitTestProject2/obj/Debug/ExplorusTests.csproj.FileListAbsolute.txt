@@ -19,3 +19,4 @@ C:\Users\inspi\Desktop\Explorus\mda\UnitTestProject2\obj\Debug\ExplorusTests.csp
 C:\Users\inspi\Desktop\Explorus\mda\UnitTestProject2\obj\Debug\UnitTestProject2.dll
 C:\Users\inspi\Desktop\Explorus\mda\UnitTestProject2\obj\Debug\UnitTestProject2.pdb
 C:\Users\inspi\Desktop\Explorus\mda\UnitTestProject2\bin\Debug\Resources\pause.png
+C:\Users\inspi\Desktop\Explorus\mda\UnitTestProject2\bin\Debug\Resources\map_valid.png

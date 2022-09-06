@@ -92,6 +92,8 @@ namespace Explorus
                         {
                             case objectTypes.Player:
                                 currentObject = new Slimus(x * 96, y * 96);
+                                Console.WriteLine(x * 96);
+                                Console.WriteLine(y * 96);
                                 break;
                             case objectTypes.Wall:
                                 currentObject = new Wall(x*96, y * 96);
