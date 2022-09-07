@@ -18,7 +18,6 @@ namespace Explorus
         private GameView oView;
         private GameState currentGameState;
         private Keys currentInput;
-        
 
         public GameEngine()
         {
@@ -33,8 +32,7 @@ namespace Explorus
             long previousTime = getTime();
             double lag = 0.0;
             int MS_PER_UPDATE = 10;
-
-            while (true)
+            while (oView.notClosed())
             {
                 long currentTime = getTime();
                 long elapsed = currentTime - previousTime;

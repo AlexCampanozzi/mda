@@ -22,12 +22,15 @@ namespace Explorus
 
         private Map map;
         private Header header;
+
+        private bool formOpen;
         public GameView()
         {
             oGameForm = new GameForm();
             oGameForm.MinimumSize = new Size(600, 600);
             oGameForm.Paint += GameRenderer;
-
+            formOpen = true;
+            oGameForm.FormClosed += new FormClosedEventHandler(FormClosed);
             map = Map.GetInstance(); //caller le singleton de map
             header = Header.GetInstance();
 
@@ -41,7 +44,14 @@ namespace Explorus
 
             //iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
         }
-
+        private void FormClosed(object sender, FormClosedEventArgs e)
+        {
+            formOpen = false;
+        }
+        public bool notClosed()
+        {
+            return formOpen;
+        }
         public void Show() { Application.Run(oGameForm); }
 
         public void Render()
