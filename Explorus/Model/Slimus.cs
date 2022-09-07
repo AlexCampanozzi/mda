@@ -100,7 +100,7 @@ namespace Explorus
 
         private void SetImage()
         {
-            int[] state_order = { 1, 2, 3, 2 };
+            int[] state_order = { 2, 3, 2, 1 };
             int temp = (int)Math.Floor((position.X % 96.0 + position.Y % 96.0) / 24.0);
             int current_state = state_order[temp];
             image = states[last_movement + current_state];
