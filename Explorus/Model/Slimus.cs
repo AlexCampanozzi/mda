@@ -33,7 +33,6 @@ namespace Explorus
             {32, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
             {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
         };
-        public int gemCollected = 0;
         public Slimus(Point pos) : base(pos, states[1])
         {
             image = states[1];
@@ -101,7 +100,7 @@ namespace Explorus
 
         private void SetImage()
         {
-            int[] state_order = { 1, 2, 3, 2 };
+            int[] state_order = { 2, 3, 2, 1 };
             int temp = (int)Math.Floor((position.X % 96.0 + position.Y % 96.0) / 24.0);
             int current_state = state_order[temp];
             image = states[last_movement + current_state];
@@ -200,7 +199,7 @@ namespace Explorus
             {
                 if ((oMap.GetObjectList()[i].GetType() == typeof(Gem)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
                 {
-                    gemCollected += 1;
+                    gameMaster.GemCollected();
                     oMap.GetObjectList()[i].removeItselfFromGame();
                     break;
                 }

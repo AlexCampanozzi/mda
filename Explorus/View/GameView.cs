@@ -16,9 +16,10 @@ namespace Explorus
         private GameForm oGameForm;
 
         private bool isPaused = false;
+        private bool isOver = false;
 
         private Image iPausedImage;
-        private Image iPlayerImage;
+        private Image iEndImage;
 
         private Map map;
         private Header header;
@@ -34,15 +35,11 @@ namespace Explorus
             map = Map.GetInstance(); //caller le singleton de map
             header = Header.GetInstance();
 
-            //Bitmap myBitmap = new Bitmap("./Resources/TilesSheet.png");
-            //Rectangle cloneRect = new Rectangle(0, 96, 96, 96);
-
             iPausedImage = Image.FromFile("./Resources/pause.png");
             // TODO: use the interface size instead
             iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
 
-
-            //iPlayerImage = myBitmap.Clone(cloneRect, myBitmap.PixelFormat);
+            iEndImage = Image.FromFile("./Resources/EndOfLevel.png");
         }
         private void FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -79,7 +76,11 @@ namespace Explorus
         }
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-            if (isPaused)
+            if (isOver)
+            {
+                e.Graphics.DrawImage(iEndImage, new Point(0, 0));
+            }
+            else if (isPaused)
             {
                 e.Graphics.DrawImage(iPausedImage, new Point(0, 0));
             }
@@ -147,6 +148,16 @@ namespace Explorus
         public void setIsPaused(bool state)
         {
             isPaused = state;
+        }
+
+        public bool getIsOver()
+        {
+            return isOver;
+        }
+
+        public void setIsOver(bool state)
+        {
+            isOver = state;
         }
         public Map getMap()
         {

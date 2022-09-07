@@ -11,6 +11,7 @@ namespace Explorus
     {
         Resumed,
         Paused,
+        End,
     }
 
     public class GameEngine
@@ -42,8 +43,17 @@ namespace Explorus
 
 
                 lag += elapsed;
+                
+                if (currentGameState != GameState.End)
+                {
+                    processInput();
+                }
+                else
+                {
+                    Thread.Sleep(4000);
+                    Application.Exit();
+                }
 
-                processInput();
                 if (currentGameState == GameState.Resumed)
                 {
                     while (lag >= MS_PER_UPDATE)
@@ -95,6 +105,12 @@ namespace Explorus
         private void update()
         {
             GameMaster gameMaster = GameMaster.GetInstance();
+
+            if (gameMaster.isLevelOver()) 
+            { 
+                currentGameState = GameState.End;
+                oView.setIsOver(true);
+            }
 
             // process movement
             for (int i = 0; i < oView.getMap().GetObjectList().Count(); i++)
