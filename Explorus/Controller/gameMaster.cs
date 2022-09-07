@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Explorus.Controller
 {
@@ -53,20 +54,57 @@ namespace Explorus.Controller
             }
         }
 
+        public void checkGems(Point gridPosition)
+        {
+            oMap = Map.GetInstance();
+            for (int i = 0; i < oMap.GetObjectList().Count; i++)
+            {
+                if(oMap.GetObjectList()[i].GetGridPosition() == gridPosition)
+                {
+                    if (oMap.GetObjectList()[i].GetType() == typeof(Gem))
+                    {
+                        gemCollected++;
+                        oMap.GetObjectList()[i].removeItselfFromGame();
+                        break;
+                    }
+                    else if (oMap.GetObjectList()[i].GetType() == typeof(Slime))
+                    {
+                        oMap.GetObjectList()[i].removeItselfFromGame();
+                        rescueSlime();
+                    }
+                }
+
+            }
+        }
+
+        public void checkDoor(int collisionx, int collisiony)
+        {
+            oMap = Map.GetInstance();
+            if (keyStatus)
+            {
+                for (int i = 0; i < oMap.GetObjectList().Count; i++)
+                {
+                    if (oMap.GetObjectList()[i].GetType() == typeof(Door))
+                    {
+                        oMap.GetObjectList()[i].removeItselfFromGame();
+                        oMap.removeObjectFromMap(collisionx, collisiony);
+                        useKey();
+                        break;
+                    }
+                }
+            }
+        }
+
         public bool GetKeyStatus()
         {
             return keyStatus;
         }
 
-        public void useKey()
+        private void useKey()
         {
             keyStatus = false;
         }
 
-        public void GemCollected()
-        {
-            gemCollected++;
-        }
 
         public int getGemStatus()
         {

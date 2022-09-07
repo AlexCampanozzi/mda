@@ -108,8 +108,10 @@ namespace Explorus
 
         public override void update()
         {
-            bool collision = false;
-            // Process collisions            
+
+            GameMaster gameMaster = GameMaster.GetInstance();
+            Map oMap = Map.GetInstance();
+
 
             objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
 
@@ -117,22 +119,11 @@ namespace Explorus
             
             Point newPosition = GetPosition();
 
-            GameMaster gameMaster = GameMaster.GetInstance();
-            Map oMap = Map.GetInstance();
 
-            if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
+            if (nextGrid == objectTypes.Door)// && gameMaster.GetKeyStatus())
             {
-                for (int i = 0; i < oMap.GetObjectList().Count; i++)
-                {
-                    if (oMap.GetObjectList()[i].GetType() == typeof(Door))
-                    {
-                        oMap.GetObjectList()[i].removeItselfFromGame();
-                        oMap.removeObjectFromMap(gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY);
-                        gameMaster.useKey();
-                        //nextGrid = objectTypes.Empty;
-                        break;
-                    }
-                }
+                gameMaster.checkDoor(gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY);
+                
             }
 
             if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
@@ -195,21 +186,7 @@ namespace Explorus
             }
 
             // process gems logics
-            for (int i = 0; i < oMap.GetObjectList().Count; i++)
-            {
-                if ((oMap.GetObjectList()[i].GetType() == typeof(Gem)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
-                {
-                    gameMaster.GemCollected();
-                    oMap.GetObjectList()[i].removeItselfFromGame();
-                    break;
-                }
-                if ((oMap.GetObjectList()[i].GetType() == typeof(Slime)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
-                {
-                    oMap.GetObjectList()[i].removeItselfFromGame();
-                    gameMaster.rescueSlime();
-                }
-
-            }
+            gameMaster.checkGems(gridPosition);
         }
     }
 }
