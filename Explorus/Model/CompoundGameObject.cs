@@ -14,25 +14,26 @@ namespace Explorus
             componentList.Add(currentObject);
             currentObject.SetGridPosition(new Point(x, y));
             Console.WriteLine(currentObject.GetType());
-
         }
+
         public void remove(GameObject toBeDeletedObject) //not working
         {
-            foreach (GameObject currentObject in componentList)
+            for (int i = 0; i < componentList.Count; i++)
             {
-                if (currentObject == toBeDeletedObject)
+                if (componentList[i] == toBeDeletedObject)
                 {
-                    componentList.Remove(currentObject);
+                    componentList.RemoveAt(i);
                 }
             }
         }
 
         public void update(Keys currentInput) //not working
         {
-            foreach (GameObject currentObject in componentList)
+
+        for (int i = 0; i < componentList.Count; i++)
             {
-                currentObject.SetCurrentInput(currentInput);
-                currentObject.update();
+                componentList[i].SetCurrentInput(currentInput); //list of game objects
+                componentList[i].update();
             }
         }
 

@@ -113,16 +113,8 @@ namespace Explorus
             }
 
             // process movement
-            
-            for (int i = 0; i < oView.getMap().GetCompoundGameObject().getComponentGameObjetList().Count(); i++)
-            {
-                oView.getMap().GetCompoundGameObject().getComponentGameObjetList()[i].SetCurrentInput(currentInput); //list of game objects
-                oView.getMap().GetCompoundGameObject().getComponentGameObjetList()[i].update();
 
-            }
-            
-
-            //oView.getMap().GetCompoundGameObject().update(currentInput);
+            oView.getMap().GetCompoundGameObject().update(currentInput);
             
 
             gameMaster.update();

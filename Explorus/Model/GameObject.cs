@@ -90,20 +90,8 @@ namespace Explorus
 
         public void removeItselfFromGame()
         {
-
-            List<GameObject> compoundGameObjectList = Map.GetInstance().GetCompoundGameObject().getComponentGameObjetList();
-            Map oMap = Map.GetInstance();
-            for (int i = 0; i < oMap.GetObjectList().Count; i++)
-            {
-                if (compoundGameObjectList[i] == this)
-                {
-                    compoundGameObjectList.RemoveAt(i);
-                }
-            }
-
-            //CompoundGameObject compoundGameObjectList = Map.GetInstance().GetCompoundGameObject();
-            //compoundGameObjectList.remove(this);
-
+            CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
+            compoundGameObject.remove(this);
         }
 
     }
