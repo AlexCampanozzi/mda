@@ -9,17 +9,17 @@ Classe GameMaster
 ## Factory
 Classe Map
 
-##Flyweight
+## Flyweight
 Classe Wall (Potentiellement? not implemented yet)
 
-##Facade
+## Facade
 Classe Program (à confirmer avec l'équipe si valide)
 
-##Composite
+## Composite
 Classe CompoundGameObject
 
-##Observer
+## Observer
 Classe GameForm (unsure, on pourrait faire que le keypress est un observer)
 
-##State
+## State
 Classe GameEngine
