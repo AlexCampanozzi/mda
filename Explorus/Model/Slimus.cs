@@ -13,8 +13,6 @@ namespace Explorus
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
         private int last_slimeDirY = 0;
-        private int last_state = 0;
-        private int frame_count = 0;
         private int last_movement = 0;
         private Image image;
         private Point goalPosition;
@@ -107,10 +105,7 @@ namespace Explorus
         }
 
         public override void update()
-        {
-            bool collision = false;
-            // Process collisions            
-
+        {  
             objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];

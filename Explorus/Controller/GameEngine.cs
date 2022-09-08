@@ -56,10 +56,13 @@ namespace Explorus
 
                 if (currentGameState == GameState.Resumed)
                 {
-                    while (lag >= MS_PER_UPDATE)
+                    if(lag >= MS_PER_UPDATE)
                     {
-                        update();
-                        lag -= MS_PER_UPDATE;
+                        while (lag >= MS_PER_UPDATE)
+                        {
+                            update();
+                            lag -= MS_PER_UPDATE;
+                        }
                     }
                 }
                 oView.Render();
@@ -101,7 +104,7 @@ namespace Explorus
                 oView.getMap().GetObjectList()[i].processInput();
             }
 
-            }
+        }
         private void update()
         {
             GameMaster gameMaster = GameMaster.GetInstance();
@@ -139,11 +142,6 @@ namespace Explorus
         public GameState GetCurrentGameState()
         {
             return currentGameState;
-        }
-
-        public void Close()
-        {
-
         }
 
     }

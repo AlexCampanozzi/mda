@@ -25,6 +25,7 @@ namespace Explorus
         private Header header;
 
         private bool formOpen;
+
         public GameView()
         {
             oGameForm = new GameForm();
@@ -41,14 +42,17 @@ namespace Explorus
 
             iEndImage = Image.FromFile("./Resources/EndOfLevel.png");
         }
+
         private void FormClosed(object sender, FormClosedEventArgs e)
         {
             formOpen = false;
         }
+
         public bool notClosed()
         {
             return formOpen;
         }
+
         public void Show() { Application.Run(oGameForm); }
 
         public void Render()
@@ -99,6 +103,7 @@ namespace Explorus
                 float minScale = Math.Min(xScaling, yScaling);
                 int xOffset = 0;
                 int yOffset = 0;
+
                 if (xScaling > yScaling)
                 {
                     xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize)) / 2;
@@ -114,10 +119,8 @@ namespace Explorus
                     Image img = map.GetObjectList()[i].GetImage();
                     e.Graphics.DrawImage(img, new Rectangle(new Point((int)(map.GetObjectList()[i].GetPosition().X * minScale) + xOffset, (int)(map.GetObjectList()[i].GetPosition().Y * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
-                e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
-                
-        }
-            
+                e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));             
+            }
         }
         public double getFPS()
         {
