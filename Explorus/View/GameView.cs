@@ -113,11 +113,11 @@ namespace Explorus
                     yOffset = (oGameForm.Size.Height - (int)(xScaling * (float)ySize)) / 2;
                 }
 
-
-                for (int i = 0; i < map.GetObjectList().Count(); i++)
+                List<GameObject> compoundGameObjectList = map.GetCompoundGameObject().getComponentGameObjetList();
+                for (int i = 0; i < compoundGameObjectList.Count; i++)
                 {
-                    Image img = map.GetObjectList()[i].GetImage();
-                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)(map.GetObjectList()[i].GetPosition().X * minScale) + xOffset, (int)(map.GetObjectList()[i].GetPosition().Y * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                    Image img = compoundGameObjectList[i].GetImage();
+                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)(compoundGameObjectList[i].GetPosition().X * minScale) + xOffset, (int)(compoundGameObjectList[i].GetPosition().Y * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
                 e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));             
             }

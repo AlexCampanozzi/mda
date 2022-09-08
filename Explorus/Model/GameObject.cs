@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -89,14 +90,20 @@ namespace Explorus
 
         public void removeItselfFromGame()
         {
+
+            List<GameObject> compoundGameObjectList = Map.GetInstance().GetCompoundGameObject().getComponentGameObjetList();
             Map oMap = Map.GetInstance();
             for (int i = 0; i < oMap.GetObjectList().Count; i++)
             {
-                if (oMap.GetObjectList()[i] == this)
+                if (compoundGameObjectList[i] == this)
                 {
-                    oMap.GetObjectList().RemoveAt(i);
+                    compoundGameObjectList.RemoveAt(i);
                 }
             }
+
+            //CompoundGameObject compoundGameObjectList = Map.GetInstance().GetCompoundGameObject();
+            //compoundGameObjectList.remove(this);
+
         }
 
     }

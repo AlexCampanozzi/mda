@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Explorus.Properties;
 
-// This class is a singleton(on essaye)
+// This class is a singleton
 namespace Explorus
 {
     public sealed class Map 
@@ -13,11 +13,12 @@ namespace Explorus
         private static readonly object padlock = new object();
 
         private List<GameObject> objectList;
+        private CompoundGameObject compoundGameObject;
         private objectTypes[,] typeMap = null;
 
         private Map()
         {
-            objectList = createObjectsFromMap(mapParser(new Bitmap("./Resources/map_valid.png")));
+            objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map_valid.png")));
         }
 
         public static Map GetInstance()
@@ -76,11 +77,13 @@ namespace Explorus
             }
         }
 
-        private List<GameObject> createObjectsFromMap(objectTypes[,] typeMap)
+        private List<GameObject> createObjectsFromMapFactory(objectTypes[,] typeMap)
         {
             List<GameObject> oMap = new List<GameObject>();           
 
             GameObject currentObject;
+
+            compoundGameObject = new CompoundGameObject();
 
             for (int x = 0; x< typeMap.GetLength(0); x++)
             {
@@ -91,36 +94,33 @@ namespace Explorus
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                currentObject = new Slimus(x * 96, y * 96);
-                                Console.WriteLine(x * 96);
-                                Console.WriteLine(y * 96);
+                                compoundGameObject.add(new Slimus(x * 96, y * 96), x, y);
                                 break;
                             case objectTypes.Wall:
-                                currentObject = new Wall(x*96, y * 96);
+                                compoundGameObject.add(new Wall(x* 96, y * 96), x, y);
                                 break;
                             case objectTypes.Key:
-                                currentObject = new Key(x * 96, y * 96);
+                                compoundGameObject.add(new Key(x * 96, y * 96), x, y);
                                 break;
                             case objectTypes.Gem:
-                                currentObject = new Gem(x * 96 +24, y * 96 + 24);
+                                compoundGameObject.add(new Gem(x * 96 +24, y * 96 + 24), x, y);
                                 break;
                             case objectTypes.Slime:
-                                currentObject = new Slime(x * 96 + 24, y * 96 + 24);
+                                compoundGameObject.add(new Slime(x * 96 + 24, y * 96 + 24), x, y);
                                 break;
                             case objectTypes.Door:
-                                currentObject = new Door(x * 96, y * 96);
+                                compoundGameObject.add(new Door(x * 96, y * 96), x, y);
                                 break;
                             default:
                                 continue;
                         }
-                        currentObject.SetGridPosition(new Point(x, y));
-                        oMap.Add(currentObject);
-
+                        //currentObject.SetGridPosition(new Point(x, y));
+                        //oMap.Add(currentObject);
                     }
                 }
             }
 
-            return oMap;
+            return compoundGameObject.getComponentGameObjetList();
         }
 
         public void removeObjectFromMap(int x, int y)
@@ -135,6 +135,11 @@ namespace Explorus
         public objectTypes[,] GetTypeMap() 
         { 
             return typeMap;
+        }
+
+        public CompoundGameObject GetCompoundGameObject()
+        {
+            return compoundGameObject;
         }
     }
 }

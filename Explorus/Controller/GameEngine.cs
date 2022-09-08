@@ -99,10 +99,7 @@ namespace Explorus
                     break;
             }
 
-            for (int i = 0; i < oView.getMap().GetObjectList().Count(); i++)
-            {
-                oView.getMap().GetObjectList()[i].processInput();
-            }
+            oView.getMap().GetCompoundGameObject().processInput();
 
         }
         private void update()
@@ -116,12 +113,17 @@ namespace Explorus
             }
 
             // process movement
-            for (int i = 0; i < oView.getMap().GetObjectList().Count(); i++)
+            
+            for (int i = 0; i < oView.getMap().GetCompoundGameObject().getComponentGameObjetList().Count(); i++)
             {
-                    oView.getMap().GetObjectList()[i].SetCurrentInput(currentInput); //list of game objects
-                    oView.getMap().GetObjectList()[i].update();
+                oView.getMap().GetCompoundGameObject().getComponentGameObjetList()[i].SetCurrentInput(currentInput); //list of game objects
+                oView.getMap().GetCompoundGameObject().getComponentGameObjetList()[i].update();
 
             }
+            
+
+            //oView.getMap().GetCompoundGameObject().update(currentInput);
+            
 
             gameMaster.update();
             oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place

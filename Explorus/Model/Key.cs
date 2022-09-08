@@ -18,6 +18,7 @@ namespace Explorus
 
         public override void update()
         {
+            /*
             Map oMap = Map.GetInstance();
             objectTypes[,] gridMap = oMap.GetTypeMap();
 
@@ -28,7 +29,7 @@ namespace Explorus
                     //Console.WriteLine(oMap.objectMap[i]);
                 }
 
-            }
+            }*/
         }
     }
 }

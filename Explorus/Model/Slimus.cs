@@ -114,14 +114,15 @@ namespace Explorus
 
             GameMaster gameMaster = GameMaster.GetInstance();
             Map oMap = Map.GetInstance();
+            List<GameObject> compoundGameObjectList = Map.GetInstance().GetCompoundGameObject().getComponentGameObjetList();
 
             if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
-                for (int i = 0; i < oMap.GetObjectList().Count; i++)
+                for (int i = 0; i < compoundGameObjectList.Count; i++)
                 {
-                    if (oMap.GetObjectList()[i].GetType() == typeof(Door))
+                    if (compoundGameObjectList[i].GetType() == typeof(Door))
                     {
-                        oMap.GetObjectList()[i].removeItselfFromGame();
+                        compoundGameObjectList[i].removeItselfFromGame();
                         oMap.removeObjectFromMap(gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY);
                         gameMaster.useKey();
                         //nextGrid = objectTypes.Empty;
@@ -190,17 +191,17 @@ namespace Explorus
             }
 
             // process gems logics
-            for (int i = 0; i < oMap.GetObjectList().Count; i++)
+            for (int i = 0; i < compoundGameObjectList.Count; i++)
             {
-                if ((oMap.GetObjectList()[i].GetType() == typeof(Gem)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
+                if ((compoundGameObjectList[i].GetType() == typeof(Gem)) && (compoundGameObjectList[i].GetGridPosition() == gridPosition))
                 {
                     gameMaster.GemCollected();
-                    oMap.GetObjectList()[i].removeItselfFromGame();
+                    compoundGameObjectList[i].removeItselfFromGame();
                     break;
                 }
-                if ((oMap.GetObjectList()[i].GetType() == typeof(Slime)) && (oMap.GetObjectList()[i].GetGridPosition() == gridPosition))
+                if ((compoundGameObjectList[i].GetType() == typeof(Slime)) && (compoundGameObjectList[i].GetGridPosition() == gridPosition))
                 {
-                    oMap.GetObjectList()[i].removeItselfFromGame();
+                    compoundGameObjectList[i].removeItselfFromGame();
                     gameMaster.rescueSlime();
                 }
 

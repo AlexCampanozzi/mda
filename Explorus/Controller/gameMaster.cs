@@ -19,15 +19,19 @@ namespace Explorus.Controller
 
         private bool EndOfLevel;
 
+        private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
+
         private GameMaster()
         {
-            for (int i = 0; i < oMap.GetObjectList().Count; i++)
+
+        foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
+        {
+            if (currentObject.GetType() == typeof(Gem))
             {
-                if (oMap.GetObjectList()[i].GetType() == typeof(Gem))
-                {
-                    numberOfGem++;
-                }
+                numberOfGem++;
             }
+        }    
+
         }
 
         public static GameMaster GetInstance()
