@@ -51,9 +51,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MapTests.cs" />
     <Compile Include="GameEngineTests.cs" />
     <Compile Include="ObjectTest.cs" />
-    <Compile Include="SlimusTest.cs" />
+    <Compile Include="SlimusTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

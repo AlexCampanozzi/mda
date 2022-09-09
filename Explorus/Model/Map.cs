@@ -89,8 +89,6 @@ namespace Explorus.Model
         {
             List<GameObject> oMap = new List<GameObject>();           
 
-            GameObject currentObject;
-
             compoundGameObject = new CompoundGameObject();
 
             for (int x = 0; x< typeMap.GetLength(0); x++)

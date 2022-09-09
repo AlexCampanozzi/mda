@@ -40,8 +40,5 @@ namespace ExplorusTests
             Door door = new Door(new Point(1, 3));
             Assert.AreEqual(new Point(1, 3), door.GetPosition());
         }
-
-
-
     }
 }
