@@ -61,7 +61,6 @@
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\Gem.cs" />
     <Compile Include="Model\Header.cs" />
-    <Compile Include="Model\Key.cs" />
     <Compile Include="Model\Map.cs" />
     <Compile Include="Model\ResourceBar.cs" />
     <Compile Include="Model\Slime.cs" />

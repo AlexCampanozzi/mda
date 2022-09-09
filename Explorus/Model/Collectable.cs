@@ -16,10 +16,5 @@ namespace Explorus.Model
         {
 
         }
-
-        public Collectable(int x, int y, Image img) : base(x, y, img)
-        {
-
-        }
     }
 }

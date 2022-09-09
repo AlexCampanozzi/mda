@@ -17,10 +17,6 @@ namespace Explorus.Model
         {
             SetOpacity();
         }
-        public Door(int x, int y) : base(x, y)
-        {
-            SetOpacity();
-        }
 
         
         private void SetOpacity()

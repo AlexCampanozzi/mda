@@ -36,11 +36,6 @@ namespace Explorus.Model
             position = pos;
             image = img;
         }
-        public GameObject(int x, int y, Image img)
-        {
-            position = new Point(x, y);
-            image = img;
-        }
 
         public Point GetPosition()
         {

@@ -16,10 +16,5 @@ namespace Explorus.Model
         {
 
         }
-
-        public Wall(int x, int y) : base(x, y, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 0, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
-        {
-
-        }
     }
 }

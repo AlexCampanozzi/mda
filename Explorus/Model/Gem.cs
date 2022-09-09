@@ -17,11 +17,6 @@ namespace Explorus.Model
         {
 
         }
-
-        public Gem(int x, int y) : base(x, y, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
-        {
-
-        }
     }
 
 }

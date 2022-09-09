@@ -102,22 +102,19 @@ namespace Explorus.Model
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                compoundGameObject.add(new Slimus(x * 96, y * 96), x, y);
+                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96)), x, y);
                                 break;
                             case objectTypes.Wall:
-                                compoundGameObject.add(new Wall(x* 96, y * 96), x, y);
-                                break;
-                            case objectTypes.Key:
-                                compoundGameObject.add(new Key(x * 96, y * 96), x, y);
+                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96)), x, y);
                                 break;
                             case objectTypes.Gem:
-                                compoundGameObject.add(new Gem(x * 96 + 24, y * 96 + 24), x, y);
+                                compoundGameObject.add(new Gem(new Point(x * 96 + 24, y * 96 + 24)), x, y);
                                 break;
                             case objectTypes.Slime:
-                                compoundGameObject.add(new Slime(x * 96 + 24, y * 96 + 24), x, y);
+                                compoundGameObject.add(new Slime(new Point(x * 96 + 24, y * 96 + 24)), x, y);
                                 break;
                             case objectTypes.Door:
-                                compoundGameObject.add(new Door(x * 96, y * 96), x, y);
+                                compoundGameObject.add(new Door(new Point(x * 96, y * 96)), x, y);
                                 break;
                             default:
                                 continue;

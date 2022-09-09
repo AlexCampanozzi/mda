@@ -45,14 +45,6 @@ namespace Explorus.Model
             goalPosition = pos;
         }
 
-        public Slimus(int x, int y) : base(x, y, states[1])
-        {
-            image = states[1];
-            goalPosition.X = x;
-            goalPosition.Y = y;
-
-        }
-
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
         public int SlimeDirY { get => slimeDirY; set => slimeDirY = value; }
 
