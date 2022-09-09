@@ -21,7 +21,6 @@ namespace Explorus.Model
         {
             componentList.Add(currentObject);
             currentObject.SetGridPosition(new Point(x, y));
-            Console.WriteLine(currentObject.GetType());
         }
 
         public void remove(GameObject toBeDeletedObject)
