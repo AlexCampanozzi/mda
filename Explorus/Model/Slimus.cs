@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Explorus.Controller;
 
-namespace Explorus
+namespace Explorus.Model
 {
     public class Slimus : GameObject
     {
@@ -198,7 +198,6 @@ namespace Explorus
 
             }
 
-            // process gems logics
             for (int i = 0; i < compoundGameObjectList.Count; i++)
             {
                 if ((compoundGameObjectList[i].GetType() == typeof(Gem)) && (compoundGameObjectList[i].GetGridPosition() == gridPosition))

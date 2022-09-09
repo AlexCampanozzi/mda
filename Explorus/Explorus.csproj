@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Controller\gameMaster.cs" />
     <Compile Include="Controller\GameEngine.cs" />
+    <Compile Include="Controller\IGameEngine.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>

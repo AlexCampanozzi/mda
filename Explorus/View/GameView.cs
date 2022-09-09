@@ -8,12 +8,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-
+using System.Threading;
+using Explorus.Model;
 
 namespace Explorus
 {
@@ -61,7 +59,13 @@ namespace Explorus
             return formOpen;
         }
 
-        public void Show() { Application.Run(oGameForm); }
+        public void Show() {
+            Thread thread = new Thread(() =>
+            {
+                Application.Run(oGameForm);
+            });
+            thread.Start();
+        }
 
         public void Render()
         {

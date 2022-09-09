@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using Explorus.Properties;
 
 // This class is a singleton
-namespace Explorus
+namespace Explorus.Model
 {
     public sealed class Map 
     {
@@ -97,7 +97,7 @@ namespace Explorus
             {
                 for(int y = 0; y < typeMap.GetLength(1); y++)
                 {
-                    if (typeMap[x, y] != objectTypes.Empty) // && typeMap[x,y] != objectTypes.Door)
+                    if (typeMap[x, y] != objectTypes.Empty)
                     {
                         switch(typeMap[x, y])
                         {
@@ -122,8 +122,6 @@ namespace Explorus
                             default:
                                 continue;
                         }
-                        //currentObject.SetGridPosition(new Point(x, y));
-                        //oMap.Add(currentObject);
                     }
                 }
             }

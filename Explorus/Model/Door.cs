@@ -9,7 +9,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Explorus
+namespace Explorus.Model
 {
     public class Door : Wall
     {

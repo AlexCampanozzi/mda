@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Explorus
@@ -20,7 +20,14 @@ namespace Explorus
         static void Main()
         {
 
-            GameEngine ge = new GameEngine();
+            IGameEngine ge = new IGameEngine();
+
+            ge.Start();
+
+
+            //User can use this function to stop the game from external ressources
+            /*Thread.Sleep(10000);
+            ge.Stop();*/ 
         }
     }
 }

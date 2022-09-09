@@ -30,10 +30,20 @@ namespace Explorus
 
         public GameEngine()
         {
+            
+        }
+
+        public void Start()
+        {
             oView = new GameView();
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
             oView.Show();
+        }
+
+        public void Stop()
+        {
+            oView.Close();
         }
 
         private void GameLoop()
@@ -77,7 +87,6 @@ namespace Explorus
 
                 Thread.Sleep(1);
             }
-            Thread.Sleep(5000);
         }
 
         private long getTime()

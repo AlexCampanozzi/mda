@@ -9,7 +9,7 @@
 using System;
 using System.Drawing;
 
-namespace Explorus
+namespace Explorus.Model
 {
     public class Gem : Collectable
     {
@@ -21,16 +21,6 @@ namespace Explorus
         public Gem(int x, int y) : base(x, y, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
         {
 
-        }
-
-        public override void update()
-        {
-            objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
-
-            if (gridMap[gridPosition.X, gridPosition.Y] == objectTypes.Player)
-            {
-                Console.WriteLine("deeeleeeete");
-            }
         }
     }
 

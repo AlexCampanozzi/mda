@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Explorus
+namespace Explorus.Model
 {
     public class CompoundGameObject
     {

@@ -9,7 +9,7 @@ using System.Drawing;
  * Alex Chorel-Campanozzi choa3403
  */
 
-namespace Explorus
+namespace Explorus.Model
 {
     public sealed class Header
     {

@@ -8,7 +8,7 @@
 
 using System.Drawing;
 
-namespace Explorus
+namespace Explorus.Model
 {
     public class Slime : Collectable
     {
