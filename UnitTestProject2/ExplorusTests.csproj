@@ -51,7 +51,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompoundGameObjectTests.cs" />
     <Compile Include="GameEngineTests.cs" />
+    <Compile Include="Header.cs" />
     <Compile Include="ObjectTest.cs" />
     <Compile Include="SlimusTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

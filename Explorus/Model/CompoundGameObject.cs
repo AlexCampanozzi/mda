@@ -24,7 +24,7 @@ namespace Explorus.Model
             Console.WriteLine(currentObject.GetType());
         }
 
-        public void remove(GameObject toBeDeletedObject) //not working
+        public void remove(GameObject toBeDeletedObject)
         {
             for (int i = 0; i < componentList.Count; i++)
             {
@@ -35,12 +35,11 @@ namespace Explorus.Model
             }
         }
 
-        public void update(Keys currentInput) //not working
+        public void update(Keys currentInput)
         {
-
             for (int i = 0; i < componentList.Count; i++)
             {
-                componentList[i].SetCurrentInput(currentInput); //list of game objects
+                componentList[i].SetCurrentInput(currentInput);
                 componentList[i].update();
             }
         }
