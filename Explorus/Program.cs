@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,15 +16,9 @@ namespace Explorus
 {
     static class Program
     {
-        /// <summary>
-        /// Point d'entrée principal de l'application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new GameForm());
 
             GameEngine ge = new GameEngine();
         }

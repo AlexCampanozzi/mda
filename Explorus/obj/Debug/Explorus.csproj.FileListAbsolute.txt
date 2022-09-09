@@ -62,3 +62,4 @@ C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\pause.
 C:\Users\victo\Source\Repos\mda\Explorus\bin\Debug\Resources\EndOfLevel.png
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Resources\EndOfLevel.png
 C:\Users\inspi\Desktop\Explorus\mda\Explorus\bin\Debug\Resources\map_valid.png
+C:\Users\etien\Documents\Université\S8\APP1\Explorus\bin\Debug\Resources\EndOfLevel.png

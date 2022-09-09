@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -30,7 +38,7 @@ namespace Explorus
         public void update(Keys currentInput) //not working
         {
 
-        for (int i = 0; i < componentList.Count; i++)
+            for (int i = 0; i < componentList.Count; i++)
             {
                 componentList[i].SetCurrentInput(currentInput); //list of game objects
                 componentList[i].update();

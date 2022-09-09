@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -80,7 +88,7 @@ namespace Explorus
 
         public virtual void update()
         {
-            // TODO
+
         }
 
         public virtual void processInput()

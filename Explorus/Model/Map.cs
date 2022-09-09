@@ -1,4 +1,12 @@
-﻿using System.Collections;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System.Collections;
 using System.Drawing;
 using System;
 using System.Collections.Generic;
@@ -103,7 +111,7 @@ namespace Explorus
                                 compoundGameObject.add(new Key(x * 96, y * 96), x, y);
                                 break;
                             case objectTypes.Gem:
-                                compoundGameObject.add(new Gem(x * 96 +24, y * 96 + 24), x, y);
+                                compoundGameObject.add(new Gem(x * 96 + 24, y * 96 + 24), x, y);
                                 break;
                             case objectTypes.Slime:
                                 compoundGameObject.add(new Slime(x * 96 + 24, y * 96 + 24), x, y);

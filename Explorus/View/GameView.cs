@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -80,17 +88,19 @@ namespace Explorus
         }
         private void GameRenderer(object sender, PaintEventArgs e)
         {
+            Graphics graphic = e.Graphics;
             if (isOver)
             {
+                graphic.Clear(Color.Black);
                 e.Graphics.DrawImage(iEndImage, new Point(0, 0));
             }
             else if (isPaused)
             {
+                graphic.Clear(Color.Black);
                 e.Graphics.DrawImage(iPausedImage, new Point(0, 0));
             }
             else
             {
-                Graphics graphic = e.Graphics;
                 graphic.Clear(Color.Black);
                 
                 //oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());

@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -69,6 +77,7 @@ namespace Explorus
 
                 Thread.Sleep(1);
             }
+            Thread.Sleep(5000);
         }
 
         private long getTime()

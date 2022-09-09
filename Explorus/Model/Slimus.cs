@@ -1,6 +1,14 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
 using System.Collections.Generic;
 using Explorus.Controller;
 
@@ -8,7 +16,7 @@ namespace Explorus
 {
     public class Slimus : GameObject
     {
-        private int slimeVelocity = 6;
+        private int slimeVelocity = 1;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
