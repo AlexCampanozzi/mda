@@ -54,9 +54,10 @@
     <Compile Include="CompoundGameObjectTests.cs" />
     <Compile Include="GameEngineTests.cs" />
     <Compile Include="Header.cs" />
+    <Compile Include="MapTests.cs" />
     <Compile Include="ObjectTest.cs" />
-    <Compile Include="SlimusTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SlimusTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
