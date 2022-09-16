@@ -18,6 +18,7 @@ namespace Explorus
 
     public class GameView
     {
+        private Keys currentInput = Keys.None;
         private double fps;
         private GameForm oGameForm;
 
@@ -47,8 +48,14 @@ namespace Explorus
             iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
 
             iEndImage = Image.FromFile("./Resources/EndOfLevel.png");
+            oGameForm.SubscribeToInput(this);
         }
 
+        public void inputSubscription(Keys newInput)
+        {
+            currentInput = newInput;
+            oGameForm.resetCurrentInput();
+        }
         private void FormClosed(object sender, FormClosedEventArgs e)
         {
             formOpen = false;
@@ -148,9 +155,9 @@ namespace Explorus
 
         public Keys getCurrentInput()
         {
-            Keys currentInput = oGameForm.getCurrentInput();
-            oGameForm.resetCurrentInput();
-            return currentInput;
+            Keys output = currentInput;
+            currentInput = Keys.None;
+            return output;
         }
 
         public static Image resizeImage(Image imgToResize, Size size)

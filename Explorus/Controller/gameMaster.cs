@@ -33,13 +33,13 @@ namespace Explorus.Controller
         private GameMaster()
         {
 
-        foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
-        {
-            if (currentObject.GetType() == typeof(Gem))
+            foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
             {
-                numberOfGem++;
-            }
-        }    
+                if (currentObject.GetType() == typeof(Gem))
+                {
+                    numberOfGem++;
+                }
+            }    
 
         }
 

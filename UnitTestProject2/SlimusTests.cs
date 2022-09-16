@@ -12,6 +12,7 @@ using Explorus;
 using System.Drawing;
 using System.Windows.Forms;
 using Explorus.Model;
+using Explorus.Controller;
 
 namespace ExplorusTests
 
@@ -21,6 +22,7 @@ namespace ExplorusTests
     {
         private Slimus player = new Slimus(new Point(480, 768));
         private Map map = Map.GetInstance();
+        private GameMaster gameMaster = GameMaster.GetInstance();
 
         [TestMethod]
         public void CreateSlimusPosition()
@@ -40,6 +42,7 @@ namespace ExplorusTests
         [TestMethod]
         public void MoveSlimusNowhere()
         {
+            player.SetCurrentInput(Keys.None);
             player.processInput();
             Assert.AreEqual(0, player.SlimeDirX);
             Assert.AreEqual(0, player.SlimeDirY);
@@ -82,27 +85,17 @@ namespace ExplorusTests
         }
 
         [TestMethod]
-        public void GetSetSlimusImage()
+        public void UpdateSlimus()
         {
-            player.SetCurrentInput(Keys.Down);
-            player.processInput();
-            Image imgDown = player.GetImage();
-            player.SetCurrentInput(Keys.Up);
-            player.processInput();
-            Image imgUp = player.GetImage();
-            player.SetCurrentInput(Keys.Left);
-            player.processInput();
-            Image imgLeft = player.GetImage();
             player.SetCurrentInput(Keys.Right);
             player.processInput();
-            Image imgRight = player.GetImage();
+            player.update();
 
-            Assert.AreNotEqual(imgRight.ToString(), imgLeft.ToString());
-            Assert.AreNotEqual(imgRight.ToString(), imgUp.ToString());
-            Assert.AreNotEqual(imgRight.ToString(), imgDown.ToString());
-            Assert.AreNotEqual(imgLeft.ToString(), imgUp.ToString());
-            Assert.AreNotEqual(imgLeft.ToString(), imgDown.ToString());
-            Assert.AreNotEqual(imgUp.ToString(), imgDown.ToString());
+            for (int i = 0; i < 10; i++)
+            {
+                player.update();
+            }
+            Assert.AreEqual(player.GetPosition(), new Point(106, 768));
         }
     }
 }

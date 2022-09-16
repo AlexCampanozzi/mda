@@ -125,7 +125,6 @@ namespace Explorus.Model
                         compoundGameObjectList[i].removeItselfFromGame();
                         oMap.removeObjectFromMap(gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY);
                         gameMaster.useKey();
-                        //nextGrid = objectTypes.Empty;
                         break;
                     }
                 }
