@@ -16,7 +16,7 @@ namespace Explorus.Model
 {
     public class Slimus : GameObject
     {
-        private int slimeVelocity = 1;
+        private int slimeVelocity = 2;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
@@ -107,6 +107,16 @@ namespace Explorus.Model
             image = states[last_movement + current_state];
         }
 
+        private bool checkCollision(Point pos2, int radius2)
+        {
+            double dist = Math.Sqrt((position.X - pos2.X)* (position.X - pos2.X) + (position.Y - pos2.Y)* (position.Y - pos2.Y));
+            if (dist <= (radius+radius2) )
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
         public override void update()
         {  
             objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
@@ -151,16 +161,16 @@ namespace Explorus.Model
 
             for (int i = 0; i < compoundGameObjectList.Count; i++)
             {
-                if ((compoundGameObjectList[i].GetType() == typeof(Gem)) && (compoundGameObjectList[i].GetPosition() == position))
+                if (compoundGameObjectList[i].GetType() == typeof(Gem) && checkCollision(compoundGameObjectList[i].GetPosition(), compoundGameObjectList[i].getRadius()))
                 {
                     gameMaster.GemCollected();
                     compoundGameObjectList[i].removeItselfFromGame();
-                    break;
                 }
-                if ((compoundGameObjectList[i].GetType() == typeof(Slime)) && (compoundGameObjectList[i].GetPosition() == position))
+                if (compoundGameObjectList[i].GetType() == typeof(Slime) && checkCollision(compoundGameObjectList[i].GetPosition(), compoundGameObjectList[i].getRadius()))
                 {
-                    compoundGameObjectList[i].removeItselfFromGame();
                     gameMaster.rescueSlime();
+                    compoundGameObjectList[i].removeItselfFromGame();
+                    break;
                 }
 
             }

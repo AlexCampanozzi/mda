@@ -16,7 +16,7 @@ namespace Explorus.Model
     public enum objectTypes
     {
         Wall,
-        Key,
+        //Key,
         Player,
         Door,
         Empty,
@@ -76,7 +76,6 @@ namespace Explorus.Model
         {
             return radius;
         }
-
 
         public void setRadius(int rad)
         {
