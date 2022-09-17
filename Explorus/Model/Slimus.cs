@@ -45,6 +45,7 @@ namespace Explorus.Model
             image = states[1];
             goalPosition = pos;
             slimus_movement = new Movement(slimeVelocity, pos);
+            radius = 39;
         }
 
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
@@ -150,13 +151,13 @@ namespace Explorus.Model
 
             for (int i = 0; i < compoundGameObjectList.Count; i++)
             {
-                if ((compoundGameObjectList[i].GetType() == typeof(Gem)) && (compoundGameObjectList[i].GetGridPosition() == gridPosition))
+                if ((compoundGameObjectList[i].GetType() == typeof(Gem)) && (compoundGameObjectList[i].GetPosition() == position))
                 {
                     gameMaster.GemCollected();
                     compoundGameObjectList[i].removeItselfFromGame();
                     break;
                 }
-                if ((compoundGameObjectList[i].GetType() == typeof(Slime)) && (compoundGameObjectList[i].GetGridPosition() == gridPosition))
+                if ((compoundGameObjectList[i].GetType() == typeof(Slime)) && (compoundGameObjectList[i].GetPosition() == position))
                 {
                     compoundGameObjectList[i].removeItselfFromGame();
                     gameMaster.rescueSlime();

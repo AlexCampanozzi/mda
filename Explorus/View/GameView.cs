@@ -138,7 +138,9 @@ namespace Explorus
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
                 {
                     Image img = compoundGameObjectList[i].GetImage();
-                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)(compoundGameObjectList[i].GetPosition().X * minScale) + xOffset, (int)(compoundGameObjectList[i].GetPosition().Y * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                    int size_offset = 0;
+                    if(compoundGameObjectList[i].getRadius() <= 24) { size_offset = 24; }
+                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
                 e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));             
             }
