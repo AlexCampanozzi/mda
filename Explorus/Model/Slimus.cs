@@ -22,6 +22,7 @@ namespace Explorus.Model
         private int last_slimeDirX = 0;
         private int last_slimeDirY = 0;
         private int last_movement = 0;
+        private Movement slimus_movement;
         private Image image;
         private Point goalPosition;
         private static readonly Dictionary<int, Image> states = new Dictionary<int, Image>()
@@ -43,6 +44,7 @@ namespace Explorus.Model
         {
             image = states[1];
             goalPosition = pos;
+            slimus_movement = new Movement(slimeVelocity, pos);
         }
 
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
@@ -132,61 +134,18 @@ namespace Explorus.Model
 
             if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
             {
-                
-                // mouvements intermédiaire pour voir slimus glisser
-                if (goalPosition == newPosition)
+                if (goalPosition == position)
                 {
-                    goalPosition.X = (goalPosition.X + slimeDirX * 96);
-                    goalPosition.Y = (goalPosition.Y + slimeDirY * 96);
                     last_slimeDirX = slimeDirX;
                     last_slimeDirY = slimeDirY;
+                    goalPosition.X += SlimeDirX * 96;
+                    goalPosition.Y += SlimeDirY * 96;
                 }
 
-                if(last_slimeDirX != 0 || last_slimeDirY != 0)
-                {
-                    SetImage();
-                }
-
-                newPosition.X = (newPosition.X + last_slimeDirX * slimeVelocity);
-                newPosition.Y = (newPosition.Y + last_slimeDirY * slimeVelocity);
-
-
-                SetPosition(newPosition);
-                position = newPosition;
-
-                if(last_slimeDirX == 1)
-                {
-                    if(position.X >= ((gridPosition.X + last_slimeDirX) * 96.0))
-                    {
-                        gridPosition.X = gridPosition.X + last_slimeDirX;
-                        position.X = gridPosition.X * 96;
-                    }
-                }
-                else if(last_slimeDirX == -1)
-                {
-                    if (position.X <= ((gridPosition.X + last_slimeDirX) * 96.0))
-                    {
-                        gridPosition.X = gridPosition.X + last_slimeDirX;
-                        position.X = gridPosition.X * 96;
-                    }
-                }
-                else if(last_slimeDirY == 1)
-                {
-                    if (position.Y >= ((gridPosition.Y + last_slimeDirY) * 96.0))
-                    {
-                        gridPosition.Y = gridPosition.Y + last_slimeDirY;
-                        position.Y = gridPosition.Y * 96;
-                    }
-                }
-                else if (last_slimeDirY == -1)
-                {
-                    if (position.Y <= ((gridPosition.Y + last_slimeDirY) * 96.0))
-                    {
-                        gridPosition.Y = gridPosition.Y + last_slimeDirY;
-                        position.Y = gridPosition.Y * 96;
-                    }
-                }
-
+                (position, gridPosition) = slimus_movement.update(position, gridPosition, last_slimeDirX, last_slimeDirY);
+                //SetPosition(position);
+                //gridPosition = gridPos;
+                SetImage();
             }
 
             for (int i = 0; i < compoundGameObjectList.Count; i++)

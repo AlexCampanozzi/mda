@@ -62,6 +62,7 @@
     <Compile Include="Model\Gem.cs" />
     <Compile Include="Model\Header.cs" />
     <Compile Include="Model\Map.cs" />
+    <Compile Include="Model\Movement.cs" />
     <Compile Include="Model\ResourceBar.cs" />
     <Compile Include="Model\Slime.cs" />
     <Compile Include="Model\Slimus.cs" />
