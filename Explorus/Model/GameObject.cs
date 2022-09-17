@@ -16,7 +16,7 @@ namespace Explorus.Model
     public enum objectTypes
     {
         Wall,
-        Key,
+        //Key,
         Player,
         Door,
         Empty,
@@ -29,6 +29,7 @@ namespace Explorus.Model
         protected Point position;   
         protected Point gridPosition;
         private Keys currentInput = Keys.None;
+        protected int radius;
 
 
         public  GameObject(Point pos, Image img)
@@ -70,6 +71,15 @@ namespace Explorus.Model
         public virtual void SetImage(Image img)
         {
             image = img;
+        }
+        public int getRadius()
+        {
+            return radius;
+        }
+
+        public void setRadius(int rad)
+        {
+            radius = rad;
         }
         public Keys GetCurrentInput()
         {

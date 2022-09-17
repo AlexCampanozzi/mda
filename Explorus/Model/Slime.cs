@@ -14,7 +14,7 @@ namespace Explorus.Model
     {
         public Slime(Point pos) : base(pos, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(528, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
         {
-
+            radius = 24;
         }
     }
 }
