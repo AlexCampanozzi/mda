@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Explorus.Controller;
-
+using Explorus.Threads;
 
 namespace Explorus
 {
@@ -38,6 +38,10 @@ namespace Explorus
             oView = new GameView();
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
+
+            Thread physicsThread = new Thread(new PhysicsThread().Run);
+            physicsThread.Start();
+
             oView.Show();
         }
 
