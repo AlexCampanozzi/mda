@@ -100,6 +100,8 @@ namespace Explorus
         private void GameRenderer(object sender, PaintEventArgs e)
         {
             Graphics graphic = e.Graphics;
+
+            
             if (isOver)
             {
                 graphic.Clear(Color.Black);
