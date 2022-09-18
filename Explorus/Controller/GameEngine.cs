@@ -15,17 +15,18 @@ using Explorus.Threads;
 
 namespace Explorus
 {
+    /*
     public enum GameState
     {
         Resumed,
         Paused,
         End,
-    }
+    }*/
 
     public class GameEngine
     {
         private GameView oView;
-        private GameState currentGameState;
+        private State state;
         private Keys currentInput;
 
         public GameEngine()
@@ -43,11 +44,17 @@ namespace Explorus
             physicsThread.Start();
 
             oView.Show();
+            this.state = new PlayState(this);
         }
 
         public void Stop()
         {
             oView.Close();
+        }
+
+        public void ChangeState(State state)
+        {
+            this.state = state;
         }
 
         private void GameLoop()
@@ -65,28 +72,11 @@ namespace Explorus
 
 
                 lag += elapsed;
-                
-                if (currentGameState != GameState.End)
-                {
-                    processInput();
-                }
-                else
-                {
-                    Thread.Sleep(4000);
-                    Application.Exit();
-                }
 
-                if (currentGameState == GameState.Resumed)
-                {
-                    if(lag >= MS_PER_UPDATE)
-                    {
-                        while (lag >= MS_PER_UPDATE)
-                        {
-                            update();
-                            lag -= MS_PER_UPDATE;
-                        }
-                    }
-                }
+                state.stateUpdate();
+
+                lag = state.Lag(lag, MS_PER_UPDATE);
+
                 oView.Render();
 
                 Thread.Sleep(1);
@@ -99,7 +89,7 @@ namespace Explorus
             return milliseconds;
         }
 
-        private void processInput()
+        public void processInput() //public not a fan
         {
             currentInput = oView.getCurrentInput();
 
@@ -107,13 +97,15 @@ namespace Explorus
             {
                 case Keys.R:
                     Console.WriteLine("Resume");
-                    currentGameState = GameState.Resumed;
+                    ChangeState(new PlayState(this));
+                    //currentGameState = GameState.Resumed;
                     oView.setIsPaused(false);
                     break;
 
                 case Keys.P:
                     Console.WriteLine("Pause");
-                    currentGameState = GameState.Paused;
+                    ChangeState(new PauseState(this));
+                    //currentGameState = GameState.Paused;
                     oView.setIsPaused(true);
                     break;
 
@@ -124,13 +116,13 @@ namespace Explorus
             oView.getMap().GetCompoundGameObject().processInput();
 
         }
-        private void update()
+        public void update() //public not a fan
         {
             GameMaster gameMaster = GameMaster.GetInstance();
 
             if (gameMaster.isLevelOver()) 
-            { 
-                currentGameState = GameState.End;
+            {
+                ChangeState(new StopState(this));
                 oView.setIsOver(true);
             }
 
@@ -155,10 +147,11 @@ namespace Explorus
             currentInput = key;
         }
 
-        public GameState GetCurrentGameState()
+        public State getState()
         {
-            return currentGameState;
+            return this.state;
         }
+
 
     }
 }
