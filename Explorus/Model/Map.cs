@@ -107,10 +107,10 @@ namespace Explorus.Model
                                 compoundGameObject.add(new Wall(new Point(x* 96, y * 96), loader), x, y);
                                 break;
                             case objectTypes.Gem:
-                                compoundGameObject.add(new Gem(new Point(x * 96 + 24, y * 96 + 24), loader), x, y);
+                                compoundGameObject.add(new Gem(new Point(x * 96, y * 96), loader), x, y);
                                 break;
                             case objectTypes.Slime:
-                                compoundGameObject.add(new Slime(new Point(x * 96 + 24, y * 96 + 24), loader), x, y);
+                                compoundGameObject.add(new Slime(new Point(x * 96, y * 96), loader), x, y);
                                 break;
                             case objectTypes.Door:
                                 compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader), x, y);
