@@ -13,15 +13,18 @@ namespace Explorus.Model
 {
     public class Door : Wall
     {
-        public Door(Point pos) : base(pos)
+        ImageLoader imageLoader;
+        public Door(Point pos, ImageLoader loader) : base(pos, loader)
         {
+            imageLoader = loader;
+
             SetOpacity();
         }
 
         
         private void SetOpacity()
         {
-            Image img = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 0, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
+            Image img = imageLoader.WallImage;
             Bitmap bitmap = new Bitmap(img.Width, img.Height);
             Graphics graphics = Graphics.FromImage(bitmap);
             ColorMatrix matrix = new ColorMatrix();

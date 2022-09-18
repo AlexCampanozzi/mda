@@ -87,7 +87,8 @@ namespace Explorus.Model
 
         private List<GameObject> createObjectsFromMapFactory(objectTypes[,] typeMap)
         {
-            List<GameObject> oMap = new List<GameObject>();           
+            List<GameObject> oMap = new List<GameObject>();    
+            ImageLoader loader = new ImageLoader();
 
             compoundGameObject = new CompoundGameObject();
 
@@ -100,19 +101,19 @@ namespace Explorus.Model
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96)), x, y);
+                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96), loader), x, y);
                                 break;
                             case objectTypes.Wall:
-                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96)), x, y);
+                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96), loader), x, y);
                                 break;
                             case objectTypes.Gem:
-                                compoundGameObject.add(new Gem(new Point(x * 96 + 24, y * 96 + 24)), x, y);
+                                compoundGameObject.add(new Gem(new Point(x * 96 + 24, y * 96 + 24), loader), x, y);
                                 break;
                             case objectTypes.Slime:
-                                compoundGameObject.add(new Slime(new Point(x * 96 + 24, y * 96 + 24)), x, y);
+                                compoundGameObject.add(new Slime(new Point(x * 96 + 24, y * 96 + 24), loader), x, y);
                                 break;
                             case objectTypes.Door:
-                                compoundGameObject.add(new Door(new Point(x * 96, y * 96)), x, y);
+                                compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader), x, y);
                                 break;
                             default:
                                 continue;
