@@ -45,9 +45,9 @@ namespace Explorus
 
             iPausedImage = Image.FromFile("./Resources/pause.png");
             // TODO: use the interface size instead
-            iPausedImage = resizeImage(iPausedImage, new Size(500, 500));
+            iPausedImage = resizeImage(iPausedImage, oGameForm.Size);
 
-            iEndImage = Image.FromFile("./Resources/EndOfLevel.png");
+            iEndImage = resizeImage(Image.FromFile("./Resources/EndOfLevel.png"), oGameForm.Size);
             oGameForm.SubscribeToInput(this);
         }
 
