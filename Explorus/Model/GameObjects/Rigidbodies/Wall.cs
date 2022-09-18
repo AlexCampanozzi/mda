@@ -10,11 +10,11 @@ using System.Drawing;
 
 namespace Explorus.Model
 {
-    public class Slime : Collectable
-    {
-        public Slime(Point pos, ImageLoader loader) : base(pos, loader.SlimeImage)
+    public class Wall:GameObject
+    { 
+        public Wall(Point pos, ImageLoader loader) : base(pos, loader.WallImage)
         {
-            radius = 24;
+            collider = new SquareCollider(48, 48);
         }
     }
 }

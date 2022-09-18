@@ -14,7 +14,7 @@ using Explorus.Controller;
 
 namespace Explorus.Model
 {
-    public class Slimus : GameObject
+    public class Slimus : RigidBody
     {
         private int slimeVelocity = 2;
         private int slimeDirX = 0;
@@ -45,7 +45,7 @@ namespace Explorus.Model
             image = states[1];
             goalPosition = pos;
             slimus_movement = new Movement(slimeVelocity, pos);
-            radius = 39;
+            collider = new CircleCollider(39);
         }
 
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
@@ -106,11 +106,12 @@ namespace Explorus.Model
         private bool checkCollision(Point pos2, int radius2)
         {
             double dist = Math.Sqrt((position.X - pos2.X)* (position.X - pos2.X) + (position.Y - pos2.Y)* (position.Y - pos2.Y));
-            if (dist <= (radius+radius2) )
-            {
-                return true;
-            }
-            else { return false; }
+            //if (dist <= (radius+radius2) )
+            //{
+            //    return true;
+            //}
+            //else { return false; }
+            return false;
         }
 
         public override void update()
@@ -157,7 +158,7 @@ namespace Explorus.Model
 
             for (int i = 0; i < compoundGameObjectList.Count; i++)
             {
-                if (compoundGameObjectList[i].GetType() == typeof(Gem) && checkCollision(compoundGameObjectList[i].GetPosition(), compoundGameObjectList[i].getRadius()))
+                /*if (compoundGameObjectList[i].GetType() == typeof(Gem) && checkCollision(compoundGameObjectList[i].GetPosition(), compoundGameObjectList[i].getRadius()))
                 {
                     gameMaster.GemCollected();
                     compoundGameObjectList[i].removeItselfFromGame();
@@ -168,7 +169,7 @@ namespace Explorus.Model
                     compoundGameObjectList[i].removeItselfFromGame();
                     break;
                 }
-
+                */
             }
         }
     }

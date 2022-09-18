@@ -15,7 +15,7 @@ namespace Explorus.Model
     {
         public Gem(Point pos, ImageLoader loader) : base(pos, loader.GemImage)
         {
-            radius = 21;
+            collider = new CircleCollider(21);
         }
     }
 

@@ -25,17 +25,22 @@ namespace Explorus.Model
     }
     public class GameObject
     {
+        protected Collider collider;
         Image image;
         protected Point position;   
         protected Point gridPosition;
         private Keys currentInput = Keys.None;
-        protected int radius;
 
 
         public  GameObject(Point pos, Image img)
         {
             position = pos;
             image = img;
+        }
+
+        public Collider GetCollider()
+        {
+            return collider;
         }
 
         public Point GetPosition()
@@ -71,15 +76,6 @@ namespace Explorus.Model
         public virtual void SetImage(Image img)
         {
             image = img;
-        }
-        public int getRadius()
-        {
-            return radius;
-        }
-
-        public void setRadius(int rad)
-        {
-            radius = rad;
         }
         public Keys GetCurrentInput()
         {

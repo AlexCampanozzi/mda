@@ -55,20 +55,25 @@
     <Compile Include="GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\CompoundGameObject.cs" />
-    <Compile Include="Model\Collectable.cs" />
-    <Compile Include="Model\Door.cs" />
-    <Compile Include="Model\GameObject.cs" />
-    <Compile Include="Model\Gem.cs" />
+    <Compile Include="Model\Colliders\CircleCollider.cs" />
+    <Compile Include="Model\Colliders\Collider.cs" />
+    <Compile Include="Model\GameObjects\CompoundGameObject.cs" />
+    <Compile Include="Model\GameObjects\Collectables\Collectable.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\Direction.cs" />
+    <Compile Include="Model\GameObjects\Door.cs" />
+    <Compile Include="Model\GameObjects\GameObject.cs" />
+    <Compile Include="Model\GameObjects\Collectables\Gem.cs" />
     <Compile Include="Model\Header.cs" />
     <Compile Include="Model\ImageLoader.cs" />
     <Compile Include="Model\Map.cs" />
-    <Compile Include="Model\Movement.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\Movement.cs" />
     <Compile Include="Model\ResourceBar.cs" />
-    <Compile Include="Model\Slime.cs" />
-    <Compile Include="Model\Slimus.cs" />
-    <Compile Include="Model\ToxicSlime.cs" />
-    <Compile Include="Model\Wall.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\RigidBody.cs" />
+    <Compile Include="Model\GameObjects\Collectables\Slime.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\Slimus.cs" />
+    <Compile Include="Model\Colliders\SquareCollider.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\ToxicSlime.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\Wall.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threads\PhysicsThread.cs" />

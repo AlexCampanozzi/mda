@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Explorus.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,13 @@ namespace Explorus.Threads
 {
     internal class PhysicsThread
     {
+        public void moveObject(RigidBody obj, Direction dir)
+        {
+            
+        }
+        
+        
+
         private void checkSlimus()
         {
 
