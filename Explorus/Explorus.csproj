@@ -67,6 +67,7 @@
     <Compile Include="Model\ResourceBar.cs" />
     <Compile Include="Model\Slime.cs" />
     <Compile Include="Model\Slimus.cs" />
+    <Compile Include="Model\ToxicSlime.cs" />
     <Compile Include="Model\Wall.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +95,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Audio\sound01.wav" />
+    <Content Include="Resources\Audio\sound02.wav" />
+    <Content Include="Resources\Audio\sound03.wav" />
+    <Content Include="Resources\Audio\sound04.wav" />
+    <Content Include="Resources\Audio\sound05.wav" />
+    <Content Include="Resources\Audio\sound06.wav" />
+    <Content Include="Resources\Audio\sound07.wav" />
+    <Content Include="Resources\Audio\sound08.wav" />
+    <Content Include="Resources\Audio\sound09.wav" />
+    <Content Include="Resources\Audio\sound10.wav" />
+    <Content Include="Resources\Audio\sound11.wav" />
+    <Content Include="Resources\Audio\sound12.wav" />
+    <Content Include="Resources\Audio\sound13.wav" />
+    <Content Include="Resources\Audio\sound14.wav" />
+    <Content Include="Resources\Audio\sound15.wav" />
+    <Content Include="Resources\Audio\sound16.wav" />
+    <Content Include="Resources\Audio\sound17.wav" />
+    <Content Include="Resources\Audio\sound18.wav" />
+    <Content Include="Resources\Audio\sound19.WAV" />
+    <Content Include="Resources\Audio\sound20.WAV" />
+    <Content Include="Resources\Audio\_README.txt" />
     <Content Include="Resources\EndOfLevel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

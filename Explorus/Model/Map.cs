@@ -75,11 +75,11 @@ namespace Explorus.Model
                 case "ffff0000"://red
                     return objectTypes.Door;
                 case "ffffff00"://yellow
-                    return objectTypes.Gem;
+                    return objectTypes.Slime;
                 case "ff0000ff"://blue
                     return objectTypes.Player;
                 case "ff00ff00"://green
-                    return objectTypes.Slime;
+                    return objectTypes.ToxicSlime;
                 default:
                     return objectTypes.Empty;
             }
@@ -114,6 +114,9 @@ namespace Explorus.Model
                                 break;
                             case objectTypes.Door:
                                 compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader), x, y);
+                                break;
+                            case objectTypes.ToxicSlime:
+                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader), x, y);
                                 break;
                             default:
                                 continue;

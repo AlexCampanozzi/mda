@@ -16,7 +16,7 @@ namespace Explorus.Model
     public enum objectTypes
     {
         Wall,
-        //Key,
+        ToxicSlime,
         Player,
         Door,
         Empty,

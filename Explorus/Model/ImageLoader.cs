@@ -8,7 +8,7 @@ namespace Explorus.Model
         Image gemImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
         Image slimeImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(528, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
         Image slimusImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
-
+        Image toxicSlimeImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
 
         private static ImageLoader instance = null;
         private static readonly object padlock = new object();
@@ -33,5 +33,7 @@ namespace Explorus.Model
         public Image SlimeImage { get => slimeImage;}
 
         public Image SlimusImage { get => slimusImage;}
+
+        public Image ToxicSlimeImage { get => toxicSlimeImage;}
     }
 }

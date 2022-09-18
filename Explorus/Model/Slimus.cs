@@ -56,7 +56,6 @@ namespace Explorus.Model
             switch (GetCurrentInput())
             {
                 case Keys.Left:
-                    Console.WriteLine("left");
                     slimeDirX = -1;
                     slimeDirY = 0;
                     if(last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -64,7 +63,6 @@ namespace Explorus.Model
                     break;
 
                 case Keys.Right:
-                    Console.WriteLine("right");
                     slimeDirX = 1;
                     slimeDirY = 0;
                     if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -72,7 +70,6 @@ namespace Explorus.Model
                     break;
 
                 case Keys.Up:
-                    Console.WriteLine("up");
                     slimeDirX = 0;
                     slimeDirY = -1;
                     if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -80,7 +77,6 @@ namespace Explorus.Model
                     break;
 
                 case Keys.Down:
-                    Console.WriteLine("down");
                     slimeDirX = 0;
                     slimeDirY = 1;
                     if (last_slimeDirX == 0 && last_slimeDirY == 0)

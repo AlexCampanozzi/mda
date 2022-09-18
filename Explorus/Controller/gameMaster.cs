@@ -35,7 +35,7 @@ namespace Explorus.Controller
 
             foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
             {
-                if (currentObject.GetType() == typeof(Gem))
+                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
                 {
                     numberOfGem++;
                 }
