@@ -14,7 +14,7 @@ namespace Explorus.Model
     {
         public Slime(Point pos, ImageLoader loader) : base(pos, loader.SlimeImage)
         {
-            collider = new CircleCollider(24);
+            collider = new CircleCollider(this, 24);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Explorus.Model
     { 
         public Wall(Point pos, ImageLoader loader) : base(pos, loader.WallImage)
         {
-            collider = new SquareCollider(48, 48);
+            collider = new SquareCollider(this, 48, 48);
         }
     }
 }
