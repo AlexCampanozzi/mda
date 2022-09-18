@@ -40,7 +40,7 @@ namespace Explorus.Model
             {32, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
             {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
         };
-        public Slimus(Point pos) : base(pos, states[1])
+        public Slimus(Point pos, ImageLoader loader) : base(pos, loader.SlimusImage)
         {
             image = states[1];
             goalPosition = pos;

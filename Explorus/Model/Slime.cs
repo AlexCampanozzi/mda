@@ -12,7 +12,7 @@ namespace Explorus.Model
 {
     public class Slime : Collectable
     {
-        public Slime(Point pos) : base(pos, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(528, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
+        public Slime(Point pos, ImageLoader loader) : base(pos, loader.SlimeImage)
         {
             radius = 24;
         }
