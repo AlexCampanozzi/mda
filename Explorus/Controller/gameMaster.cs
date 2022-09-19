@@ -20,7 +20,6 @@ namespace Explorus.Controller
         private static GameMaster instance = null;
         private static readonly object padlock = new object();
 
-        private Map oMap = Map.GetInstance();
         private int numberOfGem = 0;
 
         private bool keyStatus = false;

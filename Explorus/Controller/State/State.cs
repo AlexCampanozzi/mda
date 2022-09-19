@@ -19,6 +19,5 @@ namespace Explorus.Controller
 
         public abstract void stateUpdate();
         public abstract double Lag(double lag, int MS_PER_UPDATE);
-        public abstract void draw(Graphics graphic, PaintEventArgs e, Image image);
     }
 }

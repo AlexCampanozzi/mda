@@ -28,11 +28,5 @@ namespace Explorus.Controller
         {
             return lag;
         }
-
-        public override void draw(Graphics graphic, PaintEventArgs e, Image image)
-        {
-            graphic.Clear(Color.Black);
-            e.Graphics.DrawImage(image, new Point(0, 0));
-        }
     }
 }

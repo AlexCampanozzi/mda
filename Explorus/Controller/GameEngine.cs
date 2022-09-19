@@ -7,24 +7,19 @@
  */
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Explorus.Controller;
+using Explorus.Model;
 using Explorus.Threads;
 
 namespace Explorus
 {
-    /*
-    public enum GameState
+    public sealed class GameEngine
     {
-        Resumed,
-        Paused,
-        End,
-    }*/
+        private static GameEngine instance = null;
+        private static readonly object padlock = new object();
 
-    public class GameEngine
-    {
         private GameView oView;
         private State state;
         private Keys currentInput;
@@ -34,8 +29,24 @@ namespace Explorus
             
         }
 
+        public static GameEngine GetInstance()
+        {
+            if (instance == null)
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GameEngine();
+                    }
+                }
+            }
+            return instance;
+        }
+
         public void Start()
         {
+            this.state = new PlayState(this);
             oView = new GameView();
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
@@ -44,7 +55,6 @@ namespace Explorus
             physicsThread.Start();
 
             oView.Show();
-            this.state = new PlayState(this);
         }
 
         public void Stop()
@@ -98,15 +108,11 @@ namespace Explorus
                 case Keys.R:
                     Console.WriteLine("Resume");
                     ChangeState(new PlayState(this));
-                    //currentGameState = GameState.Resumed;
-                    oView.setIsPaused(false);
                     break;
 
                 case Keys.P:
                     Console.WriteLine("Pause");
                     ChangeState(new PauseState(this));
-                    //currentGameState = GameState.Paused;
-                    oView.setIsPaused(true);
                     break;
 
                 default:
@@ -123,7 +129,6 @@ namespace Explorus
             if (gameMaster.isLevelOver()) 
             {
                 ChangeState(new StopState(this));
-                oView.setIsOver(true);
             }
 
             // process movement
@@ -147,11 +152,9 @@ namespace Explorus
             currentInput = key;
         }
 
-        public State getState()
+        public State GetState()
         {
             return this.state;
         }
-
-
     }
 }
