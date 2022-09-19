@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Explorus.Controller;
+using Explorus.Model;
 using Explorus.Threads;
 
 namespace Explorus
@@ -73,9 +74,12 @@ namespace Explorus
 
                 lag += elapsed;
 
-                state.stateUpdate();
+                if(state != null)
+                {
+                    state.stateUpdate();
+                    lag = state.Lag(lag, MS_PER_UPDATE);
+                }
 
-                lag = state.Lag(lag, MS_PER_UPDATE);
 
                 oView.Render();
 
@@ -134,6 +138,8 @@ namespace Explorus
             gameMaster.update();
             oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
             oView.getHeader().setGem(gameMaster.getGemStatus());
+            oView.getHeader().setLife(gameMaster.getLifeStatus());
+            oView.getHeader().setBubble(gameMaster.getBubbleStatus());
 
         }
 

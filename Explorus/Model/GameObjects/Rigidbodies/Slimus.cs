@@ -83,6 +83,11 @@ namespace Explorus.Model
                         last_movement = 0;
                     break;
 
+                case Keys.Space:
+                    GameMaster gameMaster = GameMaster.GetInstance();
+                    gameMaster.useBubble();
+                    break;
+
                 default: // None or other
                     slimeDirX = 0;
                     slimeDirY = 0;
