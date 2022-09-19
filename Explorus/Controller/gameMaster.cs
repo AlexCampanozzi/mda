@@ -114,12 +114,7 @@ namespace Explorus.Controller
 
         public void useBubble()
         {
-            if(bubbleStatus>0) bubbleStatus--;
-        }
-
-        public void generateBubble()
-        {
-            bubbleStatus++;
+            if(bubbleStatus == 6) bubbleStatus -= 6;
         }
 
         public int getBubbleStatus()
@@ -132,7 +127,7 @@ namespace Explorus.Controller
                     if(timer.ElapsedMilliseconds >= 500)
                     {
                         timer.Stop();
-                        generateBubble();
+                        bubbleStatus++;
                         timer.Reset();
                     }
                 }
