@@ -7,35 +7,37 @@ using System.Threading;
 
 namespace Explorus.Threads
 {
+    public struct PlayMovement
+    {
+        public RigidBody obj;
+        public Direction dir;
+        public int speed;
+    }
     internal class PhysicsThread
     {
-        public void moveObject(RigidBody obj, Direction dir)
+        List<PlayMovement> movementBuffer;
+        public void addMove(PlayMovement movement)
         {
-            
+            movementBuffer.Add(movement);
         }
         
         
-
-        private void checkSlimus()
-        {
-
-        }
-
-        private void checkToxic()
-        {
-
-        }
-
-        private void checkBubbles()
-        {
-
-        }
         public void Run()
         {
             while (true)
             {
+                if(movementBuffer.Count > 0)
+                {
+                    moveObject(movementBuffer.First());
+                    movementBuffer.RemoveAt(0);
+                }
 
             }
+        }
+
+        private void moveObject(PlayMovement movement)
+        {
+            movement.obj.TryMove(dir, speed);
         }
     }
 }
