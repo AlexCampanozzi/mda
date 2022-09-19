@@ -1,38 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Drawing;
-using System.Windows.Input;
 using System.Windows.Forms;
-using System.Drawing.Text;
-using System.Security.Cryptography.X509Certificates;
 using Explorus.Controller;
-
-enum gameState
-{
-    Resumed,
-    Paused,
-}
-
+using Explorus.Threads;
 
 namespace Explorus
 {
+    /*
+    public enum GameState
+    {
+        Resumed,
+        Paused,
+        End,
+    }*/
+
     public class GameEngine
     {
         private GameView oView;
-        private gameState currentGameState;
+        private State state;
         private Keys currentInput;
-        
 
         public GameEngine()
+        {
+            
+        }
+
+        public void Start()
         {
             oView = new GameView();
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
+
+            Thread physicsThread = new Thread(new PhysicsThread().Run);
+            physicsThread.Start();
+
             oView.Show();
+            this.state = new PlayState(this);
+        }
+
+        public void Stop()
+        {
+            oView.Close();
+        }
+
+        public void ChangeState(State state)
+        {
+            this.state = state;
         }
 
         private void GameLoop()
@@ -40,8 +62,7 @@ namespace Explorus
             long previousTime = getTime();
             double lag = 0.0;
             int MS_PER_UPDATE = 10;
-
-            while (true)
+            while (oView.notClosed())
             {
                 long currentTime = getTime();
                 long elapsed = currentTime - previousTime;
@@ -52,18 +73,12 @@ namespace Explorus
 
                 lag += elapsed;
 
-                processInput();
-                if (currentGameState == gameState.Resumed)
-                {
-                    while (lag >= MS_PER_UPDATE)
-                    {
-                        update();
-                        lag -= MS_PER_UPDATE;
-                    }
-                }
-                oView.Render();
+                state.stateUpdate();
+
+                lag = state.Lag(lag, MS_PER_UPDATE);
 
                 oView.Render();
+
                 Thread.Sleep(1);
             }
         }
@@ -74,7 +89,7 @@ namespace Explorus
             return milliseconds;
         }
 
-        private void processInput()
+        public void processInput() //public not a fan
         {
             currentInput = oView.getCurrentInput();
 
@@ -82,44 +97,61 @@ namespace Explorus
             {
                 case Keys.R:
                     Console.WriteLine("Resume");
-                    currentGameState = gameState.Resumed;
-                    oView.isPaused = false;
+                    ChangeState(new PlayState(this));
+                    //currentGameState = GameState.Resumed;
+                    oView.setIsPaused(false);
                     break;
 
                 case Keys.P:
                     Console.WriteLine("Pause");
-                    currentGameState = gameState.Paused;
-                    oView.isPaused = true;
+                    ChangeState(new PauseState(this));
+                    //currentGameState = GameState.Paused;
+                    oView.setIsPaused(true);
                     break;
 
                 default:
                     break;
             }
 
-            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
-            {
-                oView.map.GetObjectList()[i].processInput();
-            }
+            oView.getMap().GetCompoundGameObject().processInput();
 
-            }
-        private void update()
+        }
+        public void update() //public not a fan
         {
             GameMaster gameMaster = GameMaster.GetInstance();
 
-            Map oMap = Map.GetInstance();
-
-            // process movement
-            for (int i = 0; i < oView.map.GetObjectList().Count(); i++)
+            if (gameMaster.isLevelOver()) 
             {
-                    oView.map.GetObjectList()[i].SetCurrentInput(currentInput); //list of game objects
-                    oView.map.GetObjectList()[i].update();
-
+                ChangeState(new StopState(this));
+                oView.setIsOver(true);
             }
 
-            gameMaster.update();
+            // process movement
 
+            oView.getMap().GetCompoundGameObject().update(currentInput);
+            
+
+            gameMaster.update();
+            oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
+            oView.getHeader().setGem(gameMaster.getGemStatus());
 
         }
+
+        public Keys GetCurrentInput()
+        {
+            return this.currentInput;
+        }
+
+        public void SetCurrentInput(Keys key)
+        {
+            currentInput = key;
+        }
+
+        public State getState()
+        {
+            return this.state;
+        }
+
 
     }
 }

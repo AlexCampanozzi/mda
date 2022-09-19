@@ -1,8 +1,17 @@
-﻿using System;
+﻿/*
+ * Explorus-B
+ * Étienne Desbiens dese2913
+ * Emily Nguyen ngub3302
+ * Victoria Pitz-Clairoux pitv4001
+ * Alex Chorel-Campanozzi choa3403
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Explorus.Model;
 
 namespace Explorus.Controller
 {
@@ -12,17 +21,26 @@ namespace Explorus.Controller
         private static readonly object padlock = new object();
 
         private Map oMap = Map.GetInstance();
-        private int numberOfKey = 0;
+        private int numberOfGem = 0;
+
+        private bool keyStatus = false;
+        private int gemCollected = 0;
+
+        private bool EndOfLevel;
+
+        private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
 
         private GameMaster()
         {
-            for (int i = 0; i < oMap.GetObjectList().Count; i++)
+
+            foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
             {
-                if (oMap.GetObjectList()[i].GetType() == typeof(Key))
+                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
                 {
-                    numberOfKey++;
+                    numberOfGem++;
                 }
-            }
+            }    
+
         }
 
         public static GameMaster GetInstance()
@@ -42,29 +60,40 @@ namespace Explorus.Controller
 
         public void update()
         {
-            
-            for (int i = 0; i < oMap.GetObjectList().Count; i++)
+            if (gemCollected == numberOfGem)
             {
-                if (oMap.GetObjectList()[i].GetType() == typeof(Slimus))
-                {
-                    if (((Slimus) oMap.GetObjectList()[i]).gemCollected == numberOfKey)
-                    {
-                        openDoor();
-                    }
-                }
+                keyStatus = true;
             }
-
-
         }
 
-        private void openDoor()
+        public bool GetKeyStatus()
         {
-
+            return keyStatus;
         }
 
-        private void triggerLevelComplete()
+        public void useKey()
         {
+            keyStatus = false;
+        }
 
+        public void GemCollected()
+        {
+            gemCollected++;
+        }
+
+        public int getGemStatus()
+        {
+            return gemCollected * 100 / numberOfGem;
+        }
+
+        public void rescueSlime()
+        {
+            EndOfLevel = true;
+        }
+
+        public bool isLevelOver()
+        {
+            return EndOfLevel;
         }
     }
 }

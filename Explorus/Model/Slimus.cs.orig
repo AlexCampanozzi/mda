@@ -7,14 +7,6 @@ namespace Explorus
 {
     public class Slimus : GameObject
     {
-<<<<<<< HEAD
-        private int slimeVelocity = 1;
-        private int slimeDirX = 0;
-        private int slimeDirY = 0;
-        public int gemCollected = 0;
-
-        public Slimus(Point pos) : base(pos, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat))
-=======
         private int slimeVelocity = 3;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
@@ -26,8 +18,8 @@ namespace Explorus
         private Image image;
         private Point goalPosition;
         private static readonly Dictionary<int, Image> states = new Dictionary<int, Image>()
->>>>>>> animation
         {
+<<<<<<< HEAD
             {1, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
             {2, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(96, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
             {3, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(192, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
@@ -41,11 +33,16 @@ namespace Explorus
             {32, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
             {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
         };
-
+        public int gemCollected = 0;
         public Slimus(Point pos) : base(pos, states[1])
         {
             image = states[1];
             goalPosition = pos;
+=======
+            position = pos;
+            gridPosition.X = pos.X / 96;
+            gridPosition.Y = pos.Y / 96;
+>>>>>>> unit_test
         }
 
         public Slimus(int x, int y) : base(x, y, states[1])
@@ -124,6 +121,8 @@ namespace Explorus
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
 <<<<<<< HEAD
+            
+=======
 
 
             if (nextGrid != objectTypes.Player)
@@ -134,12 +133,11 @@ namespace Explorus
 
             if (nextGrid == objectTypes.Wall)
             {
+                Console.WriteLine("collision");
                 collision = true;
             }
 
-=======
-            
->>>>>>> animation
+>>>>>>> unit_test
             Point newPosition = GetPosition();
             
             if (nextGrid != objectTypes.Wall) //Collision
@@ -200,7 +198,6 @@ namespace Explorus
                 }
 
             }
-            SetGridPosition(gridPosition); //maybe useless since public 
 
             Map oMap = Map.GetInstance();
             // process gems logics
@@ -210,7 +207,6 @@ namespace Explorus
                 {
                     gemCollected += 1;
                     oMap.GetObjectList()[i].removeItselfFromGame();
-                    Console.WriteLine(gemCollected);
                     break;
                 }
             }

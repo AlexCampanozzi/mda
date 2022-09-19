@@ -13,6 +13,7 @@ namespace Explorus
     public partial class GameForm : Form
     {
         public Keys currentInput;
+        private List<GameView> subscribers = new List<GameView>();
         public GameForm()
         {
             InitializeComponent();
@@ -26,12 +27,18 @@ namespace Explorus
         private void readKeyboardInput(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             currentInput = e.KeyCode;
+            for(int i = 0; i < subscribers.Count; i++)
+            {
+                subscribers[i].inputSubscription(currentInput);
+            }
         }
 
-
-        public Keys getCurrentInput()
+        public void SubscribeToInput(GameView newSub)
         {
-            return currentInput;
+            if(!subscribers.Contains(newSub))
+            {
+                subscribers.Add(newSub);
+            }
         }
 
         public void resetCurrentInput()
