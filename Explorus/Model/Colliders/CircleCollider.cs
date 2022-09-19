@@ -10,7 +10,7 @@ namespace Explorus.Model
     {
         int radius;
 
-        public CircleCollider(int r)
+        public CircleCollider(GameObject parent, int r) : base(parent)
         {
             radius = r;
         }

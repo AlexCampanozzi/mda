@@ -9,7 +9,6 @@ namespace Explorus.Model
 {
     public class RigidBody : GameObject
     {
-        Collider collider;
         public RigidBody(Point pos, Image img) : base(pos, img)
         {
 

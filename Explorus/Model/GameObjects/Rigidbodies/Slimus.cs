@@ -45,7 +45,7 @@ namespace Explorus.Model
             image = states[1];
             goalPosition = pos;
             slimus_movement = new Movement(slimeVelocity, pos);
-            collider = new CircleCollider(39);
+            collider = new CircleCollider(this, 39);
         }
 
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
