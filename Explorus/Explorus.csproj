@@ -64,6 +64,7 @@
     <Compile Include="Model\Colliders\Collider.cs" />
     <Compile Include="Model\GameObjects\CompoundGameObject.cs" />
     <Compile Include="Model\GameObjects\Collectables\Collectable.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\Bubble.cs" />
     <Compile Include="Model\GameObjects\Rigidbodies\Direction.cs" />
     <Compile Include="Model\GameObjects\Door.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
@@ -78,7 +79,7 @@
     <Compile Include="Model\GameObjects\Rigidbodies\Slimus.cs" />
     <Compile Include="Model\Colliders\SquareCollider.cs" />
     <Compile Include="Model\GameObjects\Rigidbodies\ToxicSlime.cs" />
-    <Compile Include="Model\GameObjects\Rigidbodies\Wall.cs" />
+    <Compile Include="Model\GameObjects\Wall.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threads\PhysicsThread.cs" />
