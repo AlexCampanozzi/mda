@@ -34,7 +34,7 @@ namespace Explorus.Model
             return new Size(sizeX, sizeY);
         }
 
-        public bool ColliderTouching(SquareCollider otherCollider)
+        public bool isColliderTouching(SquareCollider otherCollider)
         {
             Rectangle myBox = new Rectangle(parent.GetPosition(), getSize());
             Rectangle theirBox= new Rectangle(otherCollider.parent.GetPosition(), otherCollider.getSize());
@@ -45,7 +45,7 @@ namespace Explorus.Model
             return false;
         }
 
-        public bool ColliderTouching(CircleCollider otherCollider)
+        public bool isColliderTouching(CircleCollider otherCollider)
         {
             // TODO : Calculer quand les colliders s'intersectent
             
