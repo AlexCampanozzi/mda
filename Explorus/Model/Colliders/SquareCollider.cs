@@ -13,10 +13,10 @@ namespace Explorus.Model
         int sizeX;
         int sizeY;
 
-        public SquareCollider(GameObject parent, int X, int Y):base(parent)
+        public SquareCollider(GameObject parent, int Xsize, int Ysize):base(parent)
         {
-            sizeX = X;
-            sizeY = Y;
+            sizeX = Xsize;
+            sizeY = Ysize;
         }
 
         public int getX()
@@ -47,8 +47,22 @@ namespace Explorus.Model
 
         public bool isColliderTouching(CircleCollider otherCollider)
         {
-            // TODO : Calculer quand les colliders s'intersectent
-            
+            int distX = Math.Abs(parent.GetPosition().X - otherCollider.parent.GetPosition().X);
+            int distY = Math.Abs(parent.GetPosition().Y - otherCollider.parent.GetPosition().Y);
+
+            if (distX > getX() + otherCollider.getRadius())
+                return false;
+            if (distY > getY() + otherCollider.getRadius())
+                return false;
+
+            if (distX <= getY() / 2)
+                return true;
+            if (distX <= getX() / 2)
+                return true;
+
+            if (Math.Exp(distX - getX() / 2) + Math.Exp(distY - getY() / 2) <= Math.Exp(otherCollider.getRadius()))
+                return true;
+
             return false;
         }
     }

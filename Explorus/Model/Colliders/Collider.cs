@@ -9,7 +9,7 @@ namespace Explorus.Model
 {
     public class Collider
     {
-        protected GameObject parent;
+        public GameObject parent;
         public Collider(GameObject parentObject)
         {
             parent = parentObject;
