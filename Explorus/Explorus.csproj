@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\ResumeState.cs" />
-    <Compile Include="Controller\StopState.cs" />
-    <Compile Include="Controller\PauseState.cs" />
-    <Compile Include="Controller\PlayState.cs" />
-    <Compile Include="Controller\State.cs" />
+    <Compile Include="Controller\State\PauseState.cs" />
+    <Compile Include="Controller\State\PlayState.cs" />
+    <Compile Include="Controller\State\ResumeState.cs" />
+    <Compile Include="Controller\State\State.cs" />
+    <Compile Include="Controller\State\StopState.cs" />
     <Compile Include="Controller\gameMaster.cs" />
     <Compile Include="Controller\GameEngine.cs" />
     <Compile Include="Controller\IGameEngine.cs" />
