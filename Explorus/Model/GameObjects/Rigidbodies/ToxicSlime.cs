@@ -133,7 +133,7 @@ namespace Explorus.Model
                 this.invertDir();
 
             }
-            else if (otherCollider.parent.GetType() == typeof(Wall))
+            else if (otherCollider.parent.GetType() == typeof(Door))
             {
                 physics.removeFromGame(otherCollider.parent);
             }

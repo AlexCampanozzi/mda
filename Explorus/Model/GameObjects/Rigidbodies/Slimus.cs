@@ -154,6 +154,7 @@ namespace Explorus.Model
             {
                 alphaTimer.Stop();
                 alphaTimer.Reset();
+                transparent = false;
             }
 
             if (transparent) image = animator.halfOpacity(image);
@@ -204,9 +205,11 @@ namespace Explorus.Model
                     direction = new Direction(0, 0);
                     readyForInput = true;
                 }
-                SetImage();
+                
             }
             else readyForInput = true;
+
+            SetImage();
             /*if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
@@ -251,9 +254,14 @@ namespace Explorus.Model
                 gameMaster.GemCollected();
                 physics.removeFromGame(otherCollider.parent);
             }
-            else if (otherCollider.parent.GetType() == typeof(Wall))
+            else if (otherCollider.parent.GetType() == typeof(Door))
             {
                 physics.removeFromGame(otherCollider.parent);
+            }
+            else if (otherCollider.parent.GetType() == typeof(Slime))
+            {
+                physics.removeFromGame(otherCollider.parent);
+                gameMaster.rescueSlime();
             }
         }
 
