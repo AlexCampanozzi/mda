@@ -72,10 +72,13 @@ namespace Explorus
 
 
                 lag += elapsed;
+                if(state != null)
+                {
+                    state.stateUpdate();
 
-                state.stateUpdate();
+                    lag = state.Lag(lag, MS_PER_UPDATE);
 
-                lag = state.Lag(lag, MS_PER_UPDATE);
+                }
 
                 oView.Render();
 

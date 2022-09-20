@@ -64,10 +64,13 @@
     <Compile Include="Model\Colliders\Collider.cs" />
     <Compile Include="Model\GameObjects\CompoundGameObject.cs" />
     <Compile Include="Model\GameObjects\Collectables\Collectable.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\Animator.cs" />
     <Compile Include="Model\GameObjects\Rigidbodies\Direction.cs" />
     <Compile Include="Model\GameObjects\Door.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
     <Compile Include="Model\GameObjects\Collectables\Gem.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\directionAnimator.cs" />
+    <Compile Include="Model\GameObjects\Rigidbodies\simpleAnimator.cs" />
     <Compile Include="Model\Header.cs" />
     <Compile Include="Model\ImageLoader.cs" />
     <Compile Include="Model\Map.cs" />

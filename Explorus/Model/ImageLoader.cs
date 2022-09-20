@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Explorus.Model
 {
@@ -35,5 +36,6 @@ namespace Explorus.Model
         public Image SlimusImage { get => slimusImage;}
 
         public Image ToxicSlimeImage { get => toxicSlimeImage;}
+
     }
 }

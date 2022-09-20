@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 using System.Collections.Generic;
 using Explorus.Controller;
+using Explorus.Model.GameObjects.Rigidbodies;
 
 namespace Explorus.Model
 {
@@ -25,6 +26,8 @@ namespace Explorus.Model
         private Movement slimus_movement;
         private Image image;
         private Point goalPosition;
+        private Animator animator;
+
         private static readonly Dictionary<int, Image> states = new Dictionary<int, Image>()
         {
             {1, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
@@ -42,10 +45,12 @@ namespace Explorus.Model
         };
         public Slimus(Point pos, ImageLoader loader) : base(pos, loader.SlimusImage)
         {
-            image = states[1];
+            //image = states[1];
             goalPosition = pos;
             slimus_movement = new Movement(slimeVelocity, pos);
             collider = new CircleCollider(this, 39);
+            int[] order = { 2, 3, 2, 1 };
+            animator = new directionAnimator(states, order);
         }
 
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
@@ -97,10 +102,8 @@ namespace Explorus.Model
 
         private void SetImage()
         {
-            int[] state_order = { 2, 3, 2, 1 };
-            int temp = (int)Math.Floor((position.X % 96.0 + position.Y % 96.0) / 24.0);
-            int current_state = state_order[temp];
-            image = states[last_movement + current_state];
+            int progress = (int)( position.X % 96.0 + position.Y % 96.0);
+            image = animator.Animate(progress, last_slimeDirX, last_slimeDirY);
         }
 
         private bool checkCollision(Point pos2, int radius2)
