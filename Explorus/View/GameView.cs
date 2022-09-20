@@ -100,7 +100,7 @@ namespace Explorus
         private void GameRenderer(object sender, PaintEventArgs e)
         {
             Graphics graphic = e.Graphics;
-
+            map = Map.GetInstance();
             
             if (isOver)
             {
@@ -141,7 +141,7 @@ namespace Explorus
                 {
                     Image img = compoundGameObjectList[i].GetImage();
                     int size_offset = 0;
-                    if(compoundGameObjectList[i].GetImage().Size.Height <= 24) { size_offset = 24; }
+                    if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { size_offset = 24; }
                     e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
                 e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));             

@@ -146,5 +146,16 @@ namespace Explorus.Model
         {
             return compoundGameObject;
         }
+
+        public void resetMap()
+        {
+            Map map = GetInstance();
+            instance = null;
+            int len = compoundGameObject.getComponentGameObjetList().Count;
+            for (int i=0; i<len ;i++)
+            {
+                compoundGameObject.getComponentGameObjetList()[len-i-1].removeItselfFromGame();
+            }
+        }
     }
 }

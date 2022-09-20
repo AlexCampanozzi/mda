@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Explorus.Model;
 
@@ -27,6 +28,10 @@ namespace Explorus.Controller
         private int gemCollected = 0;
 
         private bool EndOfLevel;
+        private bool EndOfGame;
+
+        private int numLevel = 3;
+        private int currentLevel = 1;
 
         private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
 
@@ -83,17 +88,58 @@ namespace Explorus.Controller
 
         public int getGemStatus()
         {
-            return gemCollected * 100 / numberOfGem;
+            if (numberOfGem > 0) return gemCollected * 100 / numberOfGem;
+            else return 0;
         }
 
         public void rescueSlime()
         {
-            EndOfLevel = true;
+            if (!EndOfLevel && keyStatus)
+            {
+                EndOfLevel = true;
+                if (currentLevel < numLevel) nextLevel();
+                else EndOfGame = true;
+            }
         }
 
+        public void nextLevel()
+        {
+            numberOfGem = 0;
+            gemCollected = 0;
+            keyStatus = false;
+
+            // recreate map
+            Map oldmap = Map.GetInstance();
+            oldmap.resetMap();
+            Thread.Sleep(1000);
+
+            Map map = Map.GetInstance();
+            //compoundGameObject = map.GetCompoundGameObject();
+
+            foreach (GameObject currentObject in map.GetObjectList())
+            {
+                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
+                {
+                    numberOfGem++;
+                }
+            }
+
+            currentLevel++;
+            if (numberOfGem>0) EndOfLevel = false;
+        }
+
+        public int getCurrentLevel()
+        {
+            return currentLevel;
+        }
         public bool isLevelOver()
         {
             return EndOfLevel;
+        }
+
+        public bool isGameOver()
+        {
+            return EndOfGame;
         }
     }
 }
