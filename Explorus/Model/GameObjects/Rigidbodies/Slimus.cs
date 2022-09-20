@@ -19,20 +19,19 @@ namespace Explorus.Model
 {
     public class Slimus : RigidBody
     {
-        private int slimeVelocity = 8;
+        private int slimeVelocity = 1;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
-        private int last_slimeDirY = 0; //a mettre le defeault à 1 pour quil shoot en haut avant de bouger
+        private int last_slimeDirY = -1; //a mettre le defeault à 1 pour quil shoot en haut avant de bouger
         private int last_movement = 0;
         private Movement slimus_movement;
-        private Image image;
         private Point goalPosition;
         private Dictionary<int, Image> states;
         private Animator animator;
         private ImageLoader slimeloader;
 
-        private Direction direction = new Direction(0, 0);
+        private Direction direction = new Direction(0, -1);
 
         private bool readyForInput = true;
 
@@ -57,62 +56,70 @@ namespace Explorus.Model
 
         public override void processInput()
         {
+            Keys input = GetCurrentInput();
             if (readyForInput)
             {
-                switch (GetCurrentInput())
+                if(input == Keys.None)
                 {
-                    case Keys.Left:
-                        direction = new Direction(-1, 0);
-                        last_slimeDirX = -1;
-                        last_slimeDirY = 0;
-                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                            last_movement = 30;
-                        break;
+                    direction = new Direction(0, 0);
+                }
+                else
+                {
+                    switch (input)
+                    {
+                        case Keys.Left:
+                            direction = new Direction(-1, 0);
+                            last_slimeDirX = -1;
+                            last_slimeDirY = 0;
+                            if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                                last_movement = 30;
+                            break;
 
-                    case Keys.Right:
-                        direction = new Direction(1, 0);
-                        last_slimeDirX = 1;
-                        last_slimeDirY = 0;
-                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                            last_movement = 10;
-                        break;
+                        case Keys.Right:
+                            direction = new Direction(1, 0);
+                            last_slimeDirX = 1;
+                            last_slimeDirY = 0;
+                            if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                                last_movement = 10;
+                            break;
 
-                    case Keys.Up:
-                        direction = new Direction(0, -1);
-                        last_slimeDirX = 0;
-                        last_slimeDirY = -1;
-                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                            last_movement = 20;
-                        break;
+                        case Keys.Up:
+                            direction = new Direction(0, -1);
+                            last_slimeDirX = 0;
+                            last_slimeDirY = -1;
+                            if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                                last_movement = 20;
+                            break;
 
-                    case Keys.Down:
-                        direction = new Direction(0, 1);
-                        last_slimeDirX = 0;
-                        last_slimeDirY = 1;
-                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                            last_movement = 0;
-                        break;
+                        case Keys.Down:
+                            direction = new Direction(0, 1);
+                            last_slimeDirX = 0;
+                            last_slimeDirY = 1;
+                            if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                                last_movement = 0;
+                            break;
 
-                    case Keys.Space:
-                        compoundGameObject = Map.Instance.GetCompoundGameObject();
-                        GameMaster gameMaster = GameMaster.GetInstance();
-                        Console.WriteLine(gameMaster.getBubbleStatus());
-                        if (gameMaster.getBubbleStatus() == 6)
-                        {
-                            gameMaster.useBubble();
-                            Console.WriteLine("spawn bubble");
-                            compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
-                        }
-                        break;
-
-                    default:
-                        direction = new Direction(0, 0);
-                        break;
-
+                        default:
+                            direction = new Direction(0, 0);
+                            break;
+                    }
                 }
                 if (direction.X != 0 || direction.Y != 0)
                 {
                     readyForInput = false;
+                }
+
+                if(input == Keys.Space)
+                {
+                    compoundGameObject = Map.Instance.GetCompoundGameObject();
+                    GameMaster gameMaster = GameMaster.GetInstance();
+                    Console.WriteLine(gameMaster.getBubbleStatus());
+                    if (gameMaster.getBubbleStatus() >= 100)
+                    {
+                        gameMaster.useBubble();
+                        Console.WriteLine("spawn bubble");
+                        compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
+                    }
                 }
             }
         }

@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Explorus.Controller;
 using Explorus.Model.GameObjects.Rigidbodies;
-using System.Drawing;
+//using System.Drawing;
 using Explorus.Threads;
 
 namespace Explorus.Model
@@ -20,7 +20,6 @@ namespace Explorus.Model
     public class ToxicSlime : RigidBody
     {
         private Animator animator;
-        private Image image;
 
         private int last_slimeDirX = 0;
         private int last_slimeDirY = 0;
@@ -31,7 +30,7 @@ namespace Explorus.Model
 
         private Direction direction = new Direction(0, 1);
 
-        private int slimeVelocity = 8;
+        private int slimeVelocity = 1;
 
 
         //Map map = Map.GetInstance();

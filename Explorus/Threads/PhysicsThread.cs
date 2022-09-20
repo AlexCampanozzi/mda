@@ -20,6 +20,7 @@ namespace Explorus.Threads
         private static readonly object padlock = new object();
 
         List<PlayMovement> movementBuffer = new List<PlayMovement>();
+        List<GameObject> removeBuffer = new List<GameObject>();
         private PhysicsThread()
         {
         }
@@ -53,6 +54,13 @@ namespace Explorus.Threads
                 {
                     MoveObject(movementBuffer.First());
                     movementBuffer.RemoveAt(0);
+                }
+
+                if(removeBuffer.Count > 0)
+                {
+                    //GameObject obj = removeBuffer[0];
+                    removeBuffer.First().removeItselfFromGame();
+                    removeBuffer.RemoveAt(0);
                 }
 
             }
@@ -89,7 +97,7 @@ namespace Explorus.Threads
                             {
                                 wall = true;
                             }
-                            else collisions.Add(objCollider);
+                            collisions.Add(objCollider);
                         }
                     }
                 }
@@ -108,6 +116,11 @@ namespace Explorus.Threads
             {
                 if (movementBuffer[count-i-1].obj == rmv_obj) movementBuffer.RemoveAt(count-i-1);
             }
+        }
+
+        public void removeFromGame(GameObject obj)
+        {
+            removeBuffer.Add(obj);
         }
     }
 }
