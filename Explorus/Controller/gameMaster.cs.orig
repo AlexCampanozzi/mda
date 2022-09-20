@@ -32,11 +32,14 @@ namespace Explorus.Controller
         private int bubbleStatus = 6;
 
         private bool EndOfLevel;
+<<<<<<< HEAD
         Stopwatch timer = new Stopwatch();
+=======
         private bool EndOfGame;
 
         private int numLevel = 3;
         private int currentLevel = 1;
+>>>>>>> origin/levels
 
         private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
 
@@ -142,13 +145,8 @@ namespace Explorus.Controller
             return EndOfLevel;
         }
 
-        public bool isGameOver()
-        {
-            return EndOfGame;
-        }
-
+<<<<<<< HEAD
         public void lostLife()
-        {
         {
             lifeStatus--;
             if (lifeStatus == 0) EndOfLevel = true;
@@ -179,6 +177,11 @@ namespace Explorus.Controller
                 }
             }
             return bubbleStatus * 100 / 6;
+=======
+        public bool isGameOver()
+        {
+            return EndOfGame;
+>>>>>>> origin/levels
         }
     }
 }

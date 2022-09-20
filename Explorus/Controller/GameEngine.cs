@@ -123,20 +123,23 @@ namespace Explorus
         {
             GameMaster gameMaster = GameMaster.GetInstance();
 
-            if (gameMaster.isLevelOver()) 
+            if (gameMaster.isGameOver()) 
             {
                 ChangeState(new StopState(this));
                 oView.setIsOver(true);
             }
+            if (gameMaster.isLevelOver()) oView.setIsOver(true);
+            else
+            {
+                // process movement
 
-            // process movement
+                oView.getMap().GetCompoundGameObject().update(currentInput);
 
-            oView.getMap().GetCompoundGameObject().update(currentInput);
-            
 
-            gameMaster.update();
-            oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
-            oView.getHeader().setGem(gameMaster.getGemStatus());
+                gameMaster.update();
+
+                oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
+                oView.getHeader().setGem(gameMaster.getGemStatus());
             oView.getHeader().setLife(gameMaster.getLifeStatus());
             oView.getHeader().setBubble(gameMaster.getBubbleStatus());
 

@@ -76,19 +76,15 @@ namespace Explorus
                 if(state != null)
                 {
                     state.stateUpdate();
+                    lag = state.Lag(lag, MS_PER_UPDATE);
 
 <<<<<<< HEAD
-                if(state != null)
-                {
-                    state.stateUpdate();
-                    lag = state.Lag(lag, MS_PER_UPDATE);
                 }
-
 =======
-                    lag = state.Lag(lag, MS_PER_UPDATE);
+                    state.stateUpdate();
 
-                }
->>>>>>> origin/animation
+                    lag = state.Lag(lag, MS_PER_UPDATE);
+>>>>>>> origin/levels
 
                 oView.Render();
 
@@ -133,22 +129,33 @@ namespace Explorus
         {
             GameMaster gameMaster = GameMaster.GetInstance();
 
-            if (gameMaster.isLevelOver()) 
+            if (gameMaster.isGameOver()) 
             {
                 ChangeState(new StopState(this));
                 oView.setIsOver(true);
             }
+            if (gameMaster.isLevelOver()) oView.setIsOver(true);
+            else
+            {
+                // process movement
 
-            // process movement
+                oView.getMap().GetCompoundGameObject().update(currentInput);
 
-            oView.getMap().GetCompoundGameObject().update(currentInput);
-            
 
+<<<<<<< HEAD
             gameMaster.update();
             oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
             oView.getHeader().setGem(gameMaster.getGemStatus());
             oView.getHeader().setLife(gameMaster.getLifeStatus());
             oView.getHeader().setBubble(gameMaster.getBubbleStatus());
+=======
+                gameMaster.update();
+
+                oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
+                oView.getHeader().setGem(gameMaster.getGemStatus());
+            }
+
+>>>>>>> origin/levels
 
         }
 
