@@ -64,8 +64,11 @@
     <Compile Include="Model\Colliders\Collider.cs" />
     <Compile Include="Model\GameObjects\CompoundGameObject.cs" />
     <Compile Include="Model\GameObjects\Collectables\Collectable.cs" />
+<<<<<<< HEAD
     <Compile Include="Model\GameObjects\Rigidbodies\Bubble.cs" />
+=======
     <Compile Include="Model\GameObjects\Rigidbodies\Animator.cs" />
+>>>>>>> origin/animation
     <Compile Include="Model\GameObjects\Rigidbodies\Direction.cs" />
     <Compile Include="Model\GameObjects\Door.cs" />
     <Compile Include="Model\GameObjects\GameObject.cs" />
