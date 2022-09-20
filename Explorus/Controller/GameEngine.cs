@@ -112,13 +112,18 @@ namespace Explorus
             switch (currentInput)
             {
                 case Keys.R:
-                    Console.WriteLine("Resume");
-                    ChangeState(new ResumeState(this));
+                    if(this.state.Name() == "Pause")
+                    {
+                        ChangeState(new ResumeState(this));
+                    }
                     break;
 
                 case Keys.P:
-                    Console.WriteLine("Pause");
                     ChangeState(new PauseState(this));
+                    break;
+
+                case Keys.Q:
+                    ChangeState(new StopState(this));
                     break;
 
                 default:

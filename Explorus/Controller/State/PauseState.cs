@@ -14,6 +14,7 @@ namespace Explorus.Controller
         {
             this.engine = engine;
             Console.WriteLine("pause state");
+            GameView.GetInstance().getGameForm().Text = "Pause";
         }
 
         public override void stateUpdate()
@@ -24,6 +25,11 @@ namespace Explorus.Controller
         public override double Lag(double lag, int MS_PER_UPDATE)
         {
             return lag;
+        }
+
+        public override string Name()
+        {
+            return "Pause";
         }
     }
 }

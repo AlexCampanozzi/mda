@@ -29,5 +29,9 @@ namespace Explorus.Controller
         {
             return lag;
         }
+        public override string Name()
+        {
+            return "Resume";
+        }
     }
 }

@@ -28,6 +28,22 @@ namespace Explorus.Model
             {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
         };
 
+        private static readonly Dictionary<int, Image> toxicSlimeImages = new Dictionary<int, Image>()
+        {
+            {1, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {2, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(96, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {3, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(192, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {11, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(288, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {12, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {13, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {21, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {22, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(96, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {23, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(192, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {31, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(288, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {32, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+        };
+
         private static ImageLoader instance = null;
         private static readonly object padlock = new object();
 
@@ -53,7 +69,7 @@ namespace Explorus.Model
         public Image ToxicSlimeImage { get => toxicSlimeImage; }
         public Image BubbleImage { get => bubbleImage; }
         public Dictionary<int, Image> SlimusImages { get => slimusImages;}
-   
-        
+        public Dictionary<int, Image> ToxicSlimeImages { get => toxicSlimeImages; }
+
     }
 }

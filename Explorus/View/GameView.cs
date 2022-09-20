@@ -27,14 +27,14 @@ namespace Explorus
         private double fps;
         private GameForm oGameForm;
 
-        private Image iPausedImage;
-        private Image iResumeImage;
-        private Image iEndImage;
+        private Image pauseImage;
+        private Image resumeImage;
+        private Image gameOverImage;
 
         private Map map;
         private Header header;
 
-        private bool formOpen;
+        private bool formOpen = true;
         private FormWindowState windowState;
         private bool wasMinimized = false;
         private bool hadLostFocus = false;
@@ -44,21 +44,20 @@ namespace Explorus
             oGameForm = new GameForm();
             oGameForm.MinimumSize = new Size(600, 600);
             oGameForm.Paint += GameRenderer;
-            formOpen = true;
+
             oGameForm.FormClosed += new FormClosedEventHandler(Form_Closed);
             oGameForm.Resize += new EventHandler(Form_Resize);
             oGameForm.LostFocus += new EventHandler(Form_LostFocus);
             oGameForm.GotFocus += new EventHandler(Form_GainFocus);
+
             map = Map.Instance;
             header = Header.GetInstance();
             windowState = oGameForm.WindowState;
 
-            iPausedImage = Image.FromFile("./Resources/pause.png");
-            iResumeImage = Image.FromFile("./Resources/resuming.png");
-            // TODO: use the interface size instead
-            iPausedImage = resizeImage(iPausedImage, oGameForm.Size);
+            pauseImage = Image.FromFile("./Resources/pause.png");
+            resumeImage = Image.FromFile("./Resources/resuming.png");
+            gameOverImage = Image.FromFile("./Resources/gameover.png");
 
-            iEndImage = resizeImage(Image.FromFile("./Resources/EndOfLevel.png"), oGameForm.Size);
             oGameForm.SubscribeToInput(this);
         }
 
@@ -161,74 +160,75 @@ namespace Explorus
         private void GameRenderer(object sender, PaintEventArgs e)
         {
 
-            State gameState = GameEngine.GetInstance().GetState();
+            string gameState = GameEngine.GetInstance().GetState().Name();
+            oGameForm.Text = gameState;
 
+            //pour rendre le jeu transparent
             ColorMatrix matrix = new ColorMatrix();
             matrix.Matrix33 = 0.5f;
             ImageAttributes imgAtt = new ImageAttributes();
             imgAtt.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-            if (gameState.GetType().Name == "StopState")
-            {
-                //e.Graphics.Clear(Color.Black);
-                e.Graphics.DrawImage(iEndImage, new Point(0, 0));
-            }
 
+            e.Graphics.Clear(Color.Black);
+            int xSize = map.GetTypeMap().GetLength(0) * 96;
+            int ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
+
+            float xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
+            float yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
+
+            float minScale = Math.Min(xScaling, yScaling);
+            int xOffset = 0;
+            int yOffset = 0;
+
+            if (xScaling > yScaling)
+            {
+                xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize)) / 2;
+            }
             else
             {
-                e.Graphics.Clear(Color.Black);
-                int xSize = map.GetTypeMap().GetLength(0) * 96;
-                int ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
+                yOffset = (oGameForm.Size.Height - (int)(xScaling * (float)ySize)) / 2;
+            }
 
-                float xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
-                float yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
+            List<GameObject> compoundGameObjectList = map.GetCompoundGameObject().getComponentGameObjetList();
+            for (int i = 0; i < compoundGameObjectList.Count; i++)
+            {
+                Image img = compoundGameObjectList[i].GetImage();
+                int size_offset = 0;
+                if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { 
+                    size_offset = 24; }
 
-                float minScale = Math.Min(xScaling, yScaling);
-                int xOffset = 0;
-                int yOffset = 0;
-
-                if (xScaling > yScaling)
+                if(gameState != "Play")
                 {
-                    xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize)) / 2;
+                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
                 }
                 else
                 {
-                    yOffset = (oGameForm.Size.Height - (int)(xScaling * (float)ySize)) / 2;
+                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
                 }
-
-                List<GameObject> compoundGameObjectList = map.GetCompoundGameObject().getComponentGameObjetList();
-                for (int i = 0; i < compoundGameObjectList.Count; i++)
-                {
-                    Image img = compoundGameObjectList[i].GetImage();
-                    int size_offset = 0;
-                    if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { 
-                        size_offset = 24; }
-
-                    if(gameState.GetType().Name == "PauseState" || gameState.GetType().Name == "ResumeState")
-                    {
-                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
-                    }
-                    else
-                    {
-                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
-                    }
-                }
-                
-                e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
-                
-                if (gameState.GetType().Name == "PauseState")
-                {
-                    iPausedImage = resizeImage(iPausedImage, new Size(oGameForm.Size.Width/2, oGameForm.Size.Height/3));
-                    e.Graphics.DrawImage(iPausedImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4)); //je laisse étienne gérer
-                }
-
-                if (gameState.GetType().Name == "ResumeState")
-                {
-                    iResumeImage = resizeImage(iResumeImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
-                    e.Graphics.DrawImage(iResumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4)); //je laisse étienne gérer
-                }
-
             }
+                
+            e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
+                
+            if (gameState == "Pause")
+            {
+                pauseImage = resizeImage(pauseImage, new Size(oGameForm.Size.Width/2, oGameForm.Size.Height/3));
+                e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+            }
+
+            if (gameState == "Resume")
+            {
+                resumeImage = resizeImage(resumeImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+                e.Graphics.DrawImage(resumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+            }
+
+            if (gameState == "Stop")
+            {
+                resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+                e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+            }
+
+
         }
         public double getFPS()
         {
@@ -260,6 +260,10 @@ namespace Explorus
         public Header getHeader()
         {
             return header;
+        }
+        public GameForm getGameForm()
+        {
+            return oGameForm;
         }
     }
 }

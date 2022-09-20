@@ -24,21 +24,7 @@ namespace Explorus.Model
         private int last_slimeDirX = 0;
         private int last_slimeDirY = 0;
 
-        private static readonly Dictionary<int, Image> states = new Dictionary<int, Image>()
-        {
-            {1, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {2, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(96, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {3, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(192, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {11, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(288, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {12, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {13, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 288, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {21, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {22, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(96, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {23, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(192, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {31, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(288, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {32, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-            {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
-        };
+        private Dictionary<int, Image> states;
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -46,6 +32,7 @@ namespace Explorus.Model
             int[] order = { 2, 3, 2, 1 };
             collider = new CircleCollider(this, 39);
             animator = new directionAnimator(states, order);
+            states = loader.ToxicSlimeImages;
 
         }
         private void SetImage()
