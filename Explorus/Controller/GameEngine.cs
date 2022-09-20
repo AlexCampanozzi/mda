@@ -136,7 +136,7 @@ namespace Explorus
             {
                 ChangeState(new StopState(this));
             }
-            if (gameMaster.isLevelOver()) oView.setIsOver(true);
+            //if (gameMaster.isLevelOver()) oView.setIsOver(true);
             else
             {
                 // process movement

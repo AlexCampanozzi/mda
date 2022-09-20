@@ -49,7 +49,7 @@ namespace Explorus
             oGameForm.Resize += new EventHandler(Form_Resize);
             oGameForm.LostFocus += new EventHandler(Form_LostFocus);
             oGameForm.GotFocus += new EventHandler(Form_GainFocus);
-            map = Map.GetInstance();
+            map = Map.Instance;
             header = Header.GetInstance();
             windowState = oGameForm.WindowState;
 
