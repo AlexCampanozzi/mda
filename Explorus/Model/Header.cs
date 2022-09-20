@@ -14,7 +14,7 @@ namespace Explorus.Model
     public sealed class Header
     {
         private ResourceBar lifeBar;
-        private ResourceBar slimeBar;
+        private ResourceBar bubbleBar;
         private ResourceBar gemBar;
 
         private Image keyImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(528, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
@@ -28,7 +28,7 @@ namespace Explorus.Model
         public Header()
         {
             lifeBar = new ResourceBar(100, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(144, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat), new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(288, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
-            slimeBar = new ResourceBar(100, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(240, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat), new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(336, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
+            bubbleBar = new ResourceBar(100, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(240, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat), new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(336, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
             gemBar = new ResourceBar(0, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(336, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat), new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
         }
 
@@ -52,9 +52,9 @@ namespace Explorus.Model
             lifeBar.SetValue(life);
         }
 
-        public void setSlime(int slime)
+        public void setBubble(int slime)
         {
-            slimeBar.SetValue(slime);
+            bubbleBar.SetValue(slime);
         }
 
         public void setGem(int gem)
@@ -69,7 +69,7 @@ namespace Explorus.Model
             {
                 g.DrawImage(logo, 0, 0);
                 g.DrawImage(lifeBar.GetBarImage(), 240, 0);
-                g.DrawImage(slimeBar.GetBarImage(), 528, 0);
+                g.DrawImage(bubbleBar.GetBarImage(), 528, 0);
                 g.DrawImage(gemBar.GetBarImage(), 816, 0);
                 if(key)
                 {

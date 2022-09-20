@@ -8,8 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Explorus.Model;
 
@@ -26,7 +28,11 @@ namespace Explorus.Controller
         private bool keyStatus = false;
         private int gemCollected = 0;
 
+        private int lifeStatus = 6;
+        private int bubbleStatus = 6;
+
         private bool EndOfLevel;
+        Stopwatch timer = new Stopwatch();
 
         private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
 
@@ -39,7 +45,7 @@ namespace Explorus.Controller
                 {
                     numberOfGem++;
                 }
-            }    
+            }
 
         }
 
@@ -94,6 +100,39 @@ namespace Explorus.Controller
         public bool isLevelOver()
         {
             return EndOfLevel;
+        }
+
+        public void lostLife()
+        {
+            lifeStatus--;
+            if (lifeStatus == 0) EndOfLevel = true;
+        }
+        public int getLifeStatus()
+        {
+            return lifeStatus * 100 / 6;
+        }
+
+        public void useBubble()
+        {
+            if(bubbleStatus == 6) bubbleStatus -= 6;
+        }
+
+        public int getBubbleStatus()
+        {
+            if (bubbleStatus < 6)
+            {
+                if (!timer.IsRunning) timer.Start();
+                else
+                {
+                    if(timer.ElapsedMilliseconds >= 500)
+                    {
+                        timer.Stop();
+                        bubbleStatus++;
+                        timer.Reset();
+                    }
+                }
+            }
+            return bubbleStatus * 100 / 6;
         }
     }
 }
