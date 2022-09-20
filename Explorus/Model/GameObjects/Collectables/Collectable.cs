@@ -12,7 +12,7 @@ namespace Explorus.Model
 {
     public class Collectable : GameObject
     {
-        public Collectable(Point pos, Image img) : base(pos, img)
+        public Collectable(Point pos, Image img, int ID) : base(pos, img, ID)
         {
 
         }

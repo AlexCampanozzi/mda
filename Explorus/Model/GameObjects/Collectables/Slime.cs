@@ -12,7 +12,7 @@ namespace Explorus.Model
 {
     public class Slime : Collectable
     {
-        public Slime(Point pos, ImageLoader loader) : base(pos, loader.SlimeImage)
+        public Slime(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimeImage, ID)
         {
             collider = new CircleCollider(this, 24);
         }

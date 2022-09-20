@@ -34,35 +34,38 @@ namespace Explorus.Model
             return new Size(sizeX, sizeY);
         }
 
-        public bool isColliderTouching(SquareCollider otherCollider)
+        public override bool isColliderTouching(Collider otherCollider)
         {
-            Rectangle myBox = new Rectangle(parent.GetPosition(), getSize());
-            Rectangle theirBox= new Rectangle(otherCollider.parent.GetPosition(), otherCollider.getSize());
+            if(otherCollider is SquareCollider)
+            {
+                Rectangle myBox = new Rectangle(parent.GetPosition(), getSize());
+                Rectangle theirBox = new Rectangle(otherCollider.parent.GetPosition(), ((SquareCollider)otherCollider).getSize());
 
-            if (myBox.IntersectsWith(theirBox))
-                return true;
+                if (myBox.IntersectsWith(theirBox))
+                    return true;
 
-            return false;
-        }
-
-        public bool isColliderTouching(CircleCollider otherCollider)
-        {
-            int distX = Math.Abs(parent.GetPosition().X - otherCollider.parent.GetPosition().X);
-            int distY = Math.Abs(parent.GetPosition().Y - otherCollider.parent.GetPosition().Y);
-
-            if (distX > getX() + otherCollider.getRadius())
                 return false;
-            if (distY > getY() + otherCollider.getRadius())
+            }
+            else if(otherCollider is CircleCollider)
+            {
+                int distX = Math.Abs(parent.GetPosition().X - otherCollider.parent.GetPosition().X);
+                int distY = Math.Abs(parent.GetPosition().Y - otherCollider.parent.GetPosition().Y);
+
+                if (distX > getX() + ((CircleCollider)otherCollider).getRadius())
+                    return false;
+                if (distY > getY() + ((CircleCollider)otherCollider).getRadius())
+                    return false;
+
+                if (distX <= getY() / 2)
+                    return true;
+                if (distX <= getX() / 2)
+                    return true;
+
+                if (Math.Pow(distX - getX() / 2, 2) + Math.Pow(distY - getY() / 2, 2) <= Math.Pow(((CircleCollider)otherCollider).getRadius(), 2))
+                    return true;
+
                 return false;
-
-            if (distX <= getY() / 2)
-                return true;
-            if (distX <= getX() / 2)
-                return true;
-
-            if (Math.Exp(distX - getX() / 2) + Math.Exp(distY - getY() / 2) <= Math.Exp(otherCollider.getRadius()))
-                return true;
-
+            }
             return false;
         }
     }

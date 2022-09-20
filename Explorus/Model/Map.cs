@@ -17,21 +17,32 @@ namespace Explorus.Model
 {
     public sealed class Map 
     {
-        private static Map instance = null;
+        private static readonly Map instance = new Map();
         private static readonly object padlock = new object();
 
         private List<GameObject> objectList;
         private CompoundGameObject compoundGameObject;
         private objectTypes[,] typeMap = null;
 
+        private int lastID = -1;
+
+        static Map()
+        {
+
+        }
+        
         private Map()
         {
             objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map_valid.png")));
         }
 
-        public static Map GetInstance()
+        public static Map Instance
         {
-            if(instance == null)
+            get
+            {
+                return instance;
+            }
+            /*if(instance == null)
             {
                 lock (padlock)
                 {
@@ -39,11 +50,17 @@ namespace Explorus.Model
                     {
                         instance = new Map();
                     }
+
+                    return instance;
                 }
-            }
-            return instance;
+            }*/
         }
 
+        public int getID()
+        {
+            return lastID += 1;
+        }
+        
         private objectTypes[,] mapParser(Bitmap mapImage)
         {
             GraphicsUnit pixelRef = GraphicsUnit.Pixel;
@@ -101,22 +118,22 @@ namespace Explorus.Model
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Wall:
-                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Gem:
-                                compoundGameObject.add(new Gem(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Gem(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Slime:
-                                compoundGameObject.add(new Slime(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Slime(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Door:
-                                compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.ToxicSlime:
-                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             default:
                                 continue;

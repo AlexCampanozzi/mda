@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Explorus.Threads;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -9,13 +11,25 @@ namespace Explorus.Model
 {
     public class RigidBody : GameObject
     {
-        public RigidBody(Point pos, Image img) : base(pos, img)
+        private PhysicsThread physics = PhysicsThread.GetInstance();
+
+        private Map map = Map.Instance;
+        public RigidBody(Point pos, Image img, int ID) : base(pos, img, ID)
         {
 
         }
-        public virtual bool TryMove(Direction dir)
+        public virtual void Move(Direction dir, int speed)
         {
-            return false;
+            if(dir != null)
+            {
+                position.X += dir.X * speed;
+                position.Y += dir.Y * speed;
+            }
+        }
+
+        public Map getMap()
+        {
+            return map;
         }
 
         public virtual void OnCollisionEnter(Collider otherCollider)

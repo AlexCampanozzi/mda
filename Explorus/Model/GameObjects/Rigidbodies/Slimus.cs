@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 using System.Collections.Generic;
 using Explorus.Controller;
+using Explorus.Threads;
 
 namespace Explorus.Model
 {
@@ -27,7 +28,9 @@ namespace Explorus.Model
         private Point goalPosition;
         private Dictionary<int, Image> states;
 
-        public Slimus(Point pos, ImageLoader loader) : base(pos, loader.SlimusImage)
+        private PhysicsThread physics = PhysicsThread.GetInstance();
+
+        public Slimus(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimusImage, ID)
         {
             states = loader.SlimusImages;
             image = loader.SlimusImage;
@@ -41,9 +44,11 @@ namespace Explorus.Model
 
         public override void processInput()
         {
+            Direction direction = new Direction(0,0);
             switch (GetCurrentInput())
             {
                 case Keys.Left:
+                    direction = new Direction(-1, 0);
                     slimeDirX = -1;
                     slimeDirY = 0;
                     if(last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -51,6 +56,7 @@ namespace Explorus.Model
                     break;
 
                 case Keys.Right:
+                    direction = new Direction(1, 0);
                     slimeDirX = 1;
                     slimeDirY = 0;
                     if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -58,6 +64,7 @@ namespace Explorus.Model
                     break;
 
                 case Keys.Up:
+                    direction = new Direction(0, -1);
                     slimeDirX = 0;
                     slimeDirY = -1;
                     if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -65,6 +72,7 @@ namespace Explorus.Model
                     break;
 
                 case Keys.Down:
+                    direction = new Direction(0, 1);
                     slimeDirX = 0;
                     slimeDirY = 1;
                     if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -75,6 +83,11 @@ namespace Explorus.Model
                     slimeDirX = 0;
                     slimeDirY = 0;
                     break;
+
+            }
+            if(direction != null)
+            {
+                physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
             }
         }
 
@@ -86,7 +99,7 @@ namespace Explorus.Model
         private void SetImage()
         {
             int[] state_order = { 2, 3, 2, 1 };
-            int temp = (int)Math.Floor((position.X % 96.0 + position.Y % 96.0) / 24.0);
+            int temp = Math.Min((int)Math.Floor((position.X % 96.0 + position.Y % 96.0) / 24.0), 3);
             int current_state = state_order[temp];
             image = states[last_movement + current_state];
         }
@@ -104,15 +117,15 @@ namespace Explorus.Model
 
         public override void update()
         {  
-            objectTypes[,] gridMap = Map.GetInstance().GetTypeMap();
+            objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
             
             Point newPosition = GetPosition();
 
             GameMaster gameMaster = GameMaster.GetInstance();
-            Map oMap = Map.GetInstance();
-            List<GameObject> compoundGameObjectList = Map.GetInstance().GetCompoundGameObject().getComponentGameObjetList();
+            Map oMap = Map.Instance;
+            List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
             if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
@@ -159,6 +172,10 @@ namespace Explorus.Model
                 }
                 */
             }
+        }
+        public override void OnCollisionEnter(Collider otherCollider)
+        {
+            otherCollider.parent.removeItselfFromGame();
         }
     }
 }

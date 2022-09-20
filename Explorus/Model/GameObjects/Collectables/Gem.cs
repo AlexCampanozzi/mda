@@ -13,7 +13,7 @@ namespace Explorus.Model
 {
     public class Gem : Collectable
     {
-        public Gem(Point pos, ImageLoader loader) : base(pos, loader.GemImage)
+        public Gem(Point pos, ImageLoader loader, int ID) : base(pos, loader.GemImage, ID)
         {
             collider = new CircleCollider(this, 21);
         }

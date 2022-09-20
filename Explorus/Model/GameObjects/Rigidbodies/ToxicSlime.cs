@@ -32,9 +32,10 @@ namespace Explorus.Model
             {33, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
         };
 
-        public ToxicSlime(Point pos, ImageLoader loader) : base(pos, loader.ToxicSlimeImage)
+        //Map map = Map.GetInstance();
+        public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
         {
-
+            collider = new CircleCollider(this, 39);
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Explorus.Controller;
+using Explorus.Model;
 using Explorus.Threads;
 
 namespace Explorus
@@ -29,6 +30,8 @@ namespace Explorus
         private State state;
         private Keys currentInput;
 
+        private PhysicsThread physics;
+
         public GameEngine()
         {
             
@@ -37,13 +40,16 @@ namespace Explorus
         public void Start()
         {
             oView = new GameView();
+
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
 
-            Thread physicsThread = new Thread(new PhysicsThread().Run);
+            physics = PhysicsThread.GetInstance();
+            Thread physicsThread = new Thread(physics.Run);
             physicsThread.Start();
 
             oView.Show();
+
             this.state = new PlayState(this);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Explorus.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,7 +16,29 @@ namespace Explorus.Threads
     }
     internal class PhysicsThread
     {
-        List<PlayMovement> movementBuffer;
+        private static PhysicsThread instance = null;
+        private static readonly object padlock = new object();
+
+        List<PlayMovement> movementBuffer = new List<PlayMovement>();
+        private PhysicsThread()
+        {
+        }
+
+        public static PhysicsThread GetInstance()
+        {
+            if (instance == null)
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PhysicsThread();
+                    }
+                }
+            }
+            return instance;
+        }
+
         public void addMove(PlayMovement movement)
         {
             movementBuffer.Add(movement);
@@ -28,16 +51,48 @@ namespace Explorus.Threads
             {
                 if(movementBuffer.Count > 0)
                 {
-                    moveObject(movementBuffer.First());
+                    MoveObject(movementBuffer.First());
                     movementBuffer.RemoveAt(0);
                 }
 
             }
         }
 
-        private void moveObject(PlayMovement movement)
+        private void MoveObject(PlayMovement movement)
         {
-            movement.obj.TryMove(dir, speed);
+            if(movement.obj != null)
+            {
+                movement.obj.Move(movement.dir, movement.speed);
+                checkCollision(movement);
+            }
+        }
+
+        private void checkCollision(PlayMovement movement)
+        {
+            List<Collider> colliders = new List<Collider>();
+            Collider col = movement.obj.GetCollider();
+            Map map = Map.Instance;
+            List<Collider> collisions = new List<Collider>();
+
+            foreach (GameObject obj in map.GetObjectList())
+            {
+                if(obj.GetID() != movement.obj.GetID())
+                {
+                    Collider objCollider = obj.GetCollider();
+                    if (objCollider != null)
+                    {
+                        if (objCollider.isColliderTouching(col))
+                        {
+                            collisions.Add(objCollider);
+                        }
+                    }
+                }
+            }
+            foreach (Collider collision in collisions)
+            {
+                movement.obj.OnCollisionEnter(collision);
+            }
+
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Explorus.Model
         {
             parent = parentObject;
         }
-        virtual public bool ColliderTouching(Collider otherCollider)
+        virtual public bool isColliderTouching(Collider otherCollider)
         {
             return false; 
         }
