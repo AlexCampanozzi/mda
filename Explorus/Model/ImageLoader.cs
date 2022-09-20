@@ -10,8 +10,14 @@ namespace Explorus.Model
         Image slimeImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(528, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
         Image slimusImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 192, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
         Image toxicSlimeImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 384, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
-        Image bubbleImage = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(288 + 48, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
-       
+
+        private static readonly Dictionary<int, Image> bubbleImages = new Dictionary<int, Image>()
+        {
+            {0, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(336, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {1, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(384, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
+            {2, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(432, 0, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat)}
+        };
+
         private static readonly Dictionary<int, Image> slimusImages = new Dictionary<int, Image>()
         {
             {1, new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(0, 96, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat)},
@@ -67,7 +73,7 @@ namespace Explorus.Model
         public Image SlimeImage { get => slimeImage; }
         public Image SlimusImage { get => slimusImage; }
         public Image ToxicSlimeImage { get => toxicSlimeImage; }
-        public Image BubbleImage { get => bubbleImage; }
+        public Dictionary<int, Image> BubbleImages { get => bubbleImages; }
         public Dictionary<int, Image> SlimusImages { get => slimusImages;}
         public Dictionary<int, Image> ToxicSlimeImages { get => toxicSlimeImages; }
 

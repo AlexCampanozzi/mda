@@ -27,7 +27,7 @@ namespace Explorus.Model
     public class GameObject
     {
         protected Collider collider;
-        Image image;
+        protected Image image;
         protected Point position;   
         protected Point gridPosition;
         private Keys currentInput = Keys.None;
