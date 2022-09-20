@@ -21,7 +21,7 @@ namespace Explorus.Model.GameObjects.Rigidbodies
         public override Image Animate(int progress, int DirX, int DirY)
         { 
             int temp = (int)Math.Floor(progress / (100.0 / state_order.Length));
-            int current_state = state_order[temp];
+            int current_state = state_order[Math.Min(state_order.Length-1,temp)];
             int direction = 0;
             if (DirX == 1 && DirY == 0) direction = 10;
             else if (DirX == 0 && DirY == -1) direction = 20;
