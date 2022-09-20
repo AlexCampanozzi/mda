@@ -62,18 +62,19 @@ namespace Explorus.Threads
         {
             if(movement.obj != null)
             {
-                movement.obj.Move(movement.dir, movement.speed);
-                checkCollision(movement);
+                if(!checkCollision(movement)) movement.obj.Move(movement.dir, movement.speed);
+                
             }
         }
 
-        private void checkCollision(PlayMovement movement)
+        private bool checkCollision(PlayMovement movement)
         {
             List<Collider> colliders = new List<Collider>();
             Collider col = movement.obj.GetCollider();
             Map map = Map.Instance;
             List<Collider> collisions = new List<Collider>();
-
+            objectTypes[,] gridMap = Map.Instance.GetTypeMap();
+            bool wall = false;
             foreach (GameObject obj in map.GetObjectList())
             {
                 if(obj.GetID() != movement.obj.GetID())
@@ -83,7 +84,12 @@ namespace Explorus.Threads
                     {
                         if (objCollider.isColliderTouching(col))
                         {
-                            collisions.Add(objCollider);
+                            objectTypes collisionType = gridMap[obj.GetGridPosition().X,obj.GetGridPosition().Y];
+                            if(collisionType == objectTypes.Wall || collisionType == objectTypes.Door)
+                            {
+                                wall = true;
+                            }
+                            else collisions.Add(objCollider);
                         }
                     }
                 }
@@ -92,7 +98,16 @@ namespace Explorus.Threads
             {
                 movement.obj.OnCollisionEnter(collision);
             }
+            return wall;
+        }
 
+        public void clearBuffer(RigidBody rmv_obj)
+        {
+            int count = movementBuffer.Count;
+            for (int i=0; i<count;i++)
+            {
+                if (movementBuffer[count-i-1].obj == rmv_obj) movementBuffer.RemoveAt(count-i-1);
+            }
         }
     }
 }

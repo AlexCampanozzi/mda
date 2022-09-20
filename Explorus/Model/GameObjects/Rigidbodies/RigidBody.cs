@@ -13,6 +13,8 @@ namespace Explorus.Model
     {
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
+        private static readonly object padlock = new object();
+
         private Map map = Map.Instance;
         public RigidBody(Point pos, Image img, int ID) : base(pos, img, ID)
         {
@@ -22,9 +24,12 @@ namespace Explorus.Model
         {
             if(dir != null)
             {
-                position.X += dir.X * speed; //Ajouter mutex sur la position
-                position.Y += dir.Y * speed;
-            }
+                lock (padlock)
+                {
+                    position.X += dir.X * speed; //Ajouter mutex sur la position
+                    position.Y += dir.Y * speed;
+                }
+            }   
         }
 
         public Map getMap()

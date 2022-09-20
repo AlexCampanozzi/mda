@@ -31,7 +31,7 @@ namespace Explorus.Model
 
         private Direction direction = new Direction(0, 1);
 
-        private int slimeVelocity = 1;
+        private int slimeVelocity = 8;
 
 
         //Map map = Map.GetInstance();
@@ -76,10 +76,15 @@ namespace Explorus.Model
                         gridPosition.Y += direction.Y;
                     }
                     else
+                    {
+                        physics.clearBuffer(this);
                         physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+
+                    }
                 }
                 else
                 {
+                    physics.clearBuffer(this);
                     newRndDir();
                 }
                 SetImage();

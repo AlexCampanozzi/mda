@@ -19,7 +19,7 @@ namespace Explorus.Model
 {
     public class Slimus : RigidBody
     {
-        private int slimeVelocity = 2;
+        private int slimeVelocity = 8;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
@@ -96,10 +96,10 @@ namespace Explorus.Model
                     case Keys.Space:
                         compoundGameObject = Map.Instance.GetCompoundGameObject();
                         GameMaster gameMaster = GameMaster.GetInstance();
-                        gameMaster.useBubble();
                         Console.WriteLine(gameMaster.getBubbleStatus());
-                        if (gameMaster.getBubbleStatus() == 0)
+                        if (gameMaster.getBubbleStatus() == 6)
                         {
+                            gameMaster.useBubble();
                             Console.WriteLine("spawn bubble");
                             compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
                         }
@@ -134,42 +134,48 @@ namespace Explorus.Model
 
             objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];
             
-            Point newPosition = GetPosition();
+            //Point newPosition = GetPosition();
 
             GameMaster gameMaster = GameMaster.GetInstance();
-            Map oMap = Map.Instance;
-            List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
+            //Map oMap = Map.Instance;
+            //List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
-            if(direction.X != 0 || direction.Y != 0)
+            if (direction.X != 0 || direction.Y != 0)
             {
                 if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
                 {
-                    if(direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
                     {
-                        readyForInput = true;
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
 
                         direction = new Direction(0, 0);
+                        readyForInput = true;
                     }
-                    else if(direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
                     {
-                        readyForInput = true;
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
 
                         direction = new Direction(0, 0);
+                        readyForInput = true;
                     }
                     else
+                    {
+                        physics.clearBuffer(this);
                         physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+                        //readyForInput = false;
+                    }
                 }
                 else
                 {
+                    physics.clearBuffer(this);
                     direction = new Direction(0, 0);
                     readyForInput = true;
                 }
                 SetImage();
             }
+            else readyForInput = true;
             /*if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
@@ -205,6 +211,12 @@ namespace Explorus.Model
         public override void OnCollisionEnter(Collider otherCollider)
         {
             //otherCollider.parent.removeItselfFromGame();
+            foreach(GameObject obj in Map.Instance.GetObjectList())
+            {
+                if(obj.GetID() == otherCollider.parent.GetID())
+                {
+                }
+            }
         }
 
         public int getSlimeVelocity() { return slimeVelocity; }
