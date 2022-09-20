@@ -107,7 +107,7 @@ namespace Explorus
             {
                 case Keys.R:
                     Console.WriteLine("Resume");
-                    ChangeState(new PlayState(this));
+                    ChangeState(new ResumeState(this));
                     break;
 
                 case Keys.P:

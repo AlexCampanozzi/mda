@@ -28,13 +28,16 @@ namespace Explorus
         private GameForm oGameForm;
 
         private Image iPausedImage;
+        private Image iResumeImage;
         private Image iEndImage;
 
         private Map map;
         private Header header;
 
         private bool formOpen;
-        private FormWindowState WindowState;
+        private FormWindowState windowState;
+        private bool wasMinimized = false;
+        private bool hadLostFocus = false;
 
         public GameView()
         {
@@ -42,12 +45,16 @@ namespace Explorus
             oGameForm.MinimumSize = new Size(600, 600);
             oGameForm.Paint += GameRenderer;
             formOpen = true;
-            oGameForm.FormClosed += new FormClosedEventHandler(FormClosed);
+            oGameForm.FormClosed += new FormClosedEventHandler(Form_Closed);
             oGameForm.Resize += new EventHandler(Form_Resize);
+            oGameForm.LostFocus += new EventHandler(Form_LostFocus);
+            oGameForm.GotFocus += new EventHandler(Form_GainFocus);
             map = Map.GetInstance();
             header = Header.GetInstance();
+            windowState = oGameForm.WindowState;
 
             iPausedImage = Image.FromFile("./Resources/pause.png");
+            iResumeImage = Image.FromFile("./Resources/resuming.png");
             // TODO: use the interface size instead
             iPausedImage = resizeImage(iPausedImage, oGameForm.Size);
 
@@ -75,7 +82,7 @@ namespace Explorus
             currentInput = newInput;
             oGameForm.resetCurrentInput();
         }
-        private void FormClosed(object sender, FormClosedEventArgs e)
+        private void Form_Closed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(1);
             formOpen = false;
@@ -98,7 +105,7 @@ namespace Explorus
         {
             try
             {
-                if (GameEngine.GetInstance().GetState().GetType().Name != "StopState")
+                if (oGameForm.Visible)
                     oGameForm.BeginInvoke((MethodInvoker)delegate
                     {
                         oGameForm.Refresh();
@@ -112,16 +119,37 @@ namespace Explorus
 
         private void Form_Resize(object sender, EventArgs e)
         {
-            formOpen = false;
+            windowState = oGameForm.WindowState;
 
-            if (this.WindowState == FormWindowState.Minimized)
+            if (this.windowState == FormWindowState.Minimized)
             {
+                wasMinimized = true;
+                Console.WriteLine("minimize");
                 GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
             }
 
-            if (this.WindowState == FormWindowState.Maximized)
+            if (this.windowState == FormWindowState.Normal)
             {
+                wasMinimized = false;
                 GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+            }
+        }
+
+        private void Form_LostFocus(object sender, System.EventArgs e)
+        {
+            hadLostFocus = true;
+            Console.WriteLine("game lost focus");
+            GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+        }
+
+        private void Form_GainFocus(object sender, System.EventArgs e)
+        {
+            if (hadLostFocus)
+            {
+                hadLostFocus = false;
+                Console.WriteLine("game regained focus");
+                GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+
             }
         }
 
@@ -176,7 +204,7 @@ namespace Explorus
                     if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { 
                         size_offset = 24; }
 
-                    if(gameState.GetType().Name == "PauseState")
+                    if(gameState.GetType().Name == "PauseState" || gameState.GetType().Name == "ResumeState")
                     {
                         e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
                     }
@@ -190,8 +218,14 @@ namespace Explorus
                 
                 if (gameState.GetType().Name == "PauseState")
                 {
-                    iPausedImage = resizeImage(iPausedImage, new Size(oGameForm.Size.Width/3, oGameForm.Size.Height/3));
+                    iPausedImage = resizeImage(iPausedImage, new Size(oGameForm.Size.Width/2, oGameForm.Size.Height/3));
                     e.Graphics.DrawImage(iPausedImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4)); //je laisse étienne gérer
+                }
+
+                if (gameState.GetType().Name == "ResumeState")
+                {
+                    iResumeImage = resizeImage(iResumeImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+                    e.Graphics.DrawImage(iResumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4)); //je laisse étienne gérer
                 }
 
             }
