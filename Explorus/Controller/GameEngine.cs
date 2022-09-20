@@ -142,7 +142,7 @@ namespace Explorus
         }
         public void update() //public not a fan
         {
-            GameMaster gameMaster = GameMaster.GetInstance();
+            GameMaster gameMaster = GameMaster.Instance;
 
             if (gameMaster.isGameOver())
             {

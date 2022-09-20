@@ -161,7 +161,7 @@ namespace Explorus
         {
 
             string gameState = GameEngine.GetInstance().GetState().Name();
-            oGameForm.Text = "Niveau " + GameMaster.GetInstance().getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
+            oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
             ;
 
             //pour rendre le jeu transparent

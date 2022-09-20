@@ -62,13 +62,13 @@ namespace Explorus.Model
 
             Point newPosition = GetPosition();
 
-            GameMaster gameMaster = GameMaster.GetInstance();
+            GameMaster gameMaster = GameMaster.Instance;
             Map oMap = Map.Instance;
             List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
             if (direction.X != 0 || direction.Y != 0)
             {
-                if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
+                if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
                 {
                     if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
                     {
@@ -132,6 +132,10 @@ namespace Explorus.Model
                 ((ToxicSlime)otherCollider.parent).invertDir();
                 this.invertDir();
 
+            }
+            else if (otherCollider.parent.GetType() == typeof(Wall))
+            {
+                physics.removeFromGame(otherCollider.parent);
             }
             /*else if(otherCollider.parent.GetType() == typeof(Bubble))
             {

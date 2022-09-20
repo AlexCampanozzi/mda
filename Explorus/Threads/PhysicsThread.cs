@@ -94,7 +94,7 @@ namespace Explorus.Threads
                         if (objCollider.isColliderTouching(col))
                         {
                             objectTypes collisionType = gridMap[obj.GetGridPosition().X,obj.GetGridPosition().Y];
-                            if(collisionType == objectTypes.Wall || collisionType == objectTypes.Door)
+                            if(collisionType == objectTypes.Wall || (collisionType == objectTypes.Door && !GameMaster.Instance.GetKeyStatus()))
                             {
                                 wall = true;
                             }

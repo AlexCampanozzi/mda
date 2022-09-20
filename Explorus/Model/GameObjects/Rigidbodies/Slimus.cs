@@ -112,7 +112,7 @@ namespace Explorus.Model
                 if(input == Keys.Space)
                 {
                     compoundGameObject = Map.Instance.GetCompoundGameObject();
-                    GameMaster gameMaster = GameMaster.GetInstance();
+                    GameMaster gameMaster = GameMaster.Instance;
                     Console.WriteLine(gameMaster.getBubbleStatus());
                     if (gameMaster.getBubbleStatus() >= 100)
                     {
@@ -143,7 +143,7 @@ namespace Explorus.Model
             
             //Point newPosition = GetPosition();
 
-            GameMaster gameMaster = GameMaster.GetInstance();
+            GameMaster gameMaster = GameMaster.Instance;
             //Map oMap = Map.Instance;
             //List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
@@ -220,8 +220,12 @@ namespace Explorus.Model
             //otherCollider.parent.removeItselfFromGame();
             if (otherCollider.parent.GetType() == typeof(Gem))
             {
-                GameMaster gameMaster = GameMaster.GetInstance();
+                GameMaster gameMaster = GameMaster.Instance;
                 gameMaster.GemCollected();
+                physics.removeFromGame(otherCollider.parent);
+            }
+            else if(otherCollider.parent.GetType() == typeof(Wall))
+            {
                 physics.removeFromGame(otherCollider.parent);
             }
         }
