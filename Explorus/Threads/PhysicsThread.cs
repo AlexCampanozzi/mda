@@ -1,4 +1,5 @@
-﻿using Explorus.Model;
+﻿using Explorus.Controller;
+using Explorus.Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -42,6 +43,7 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
+            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             movementBuffer.Add(movement);
         }
         
@@ -62,7 +64,6 @@ namespace Explorus.Threads
                     removeBuffer.First().removeItselfFromGame();
                     removeBuffer.RemoveAt(0);
                 }
-
             }
         }
 
@@ -120,7 +121,10 @@ namespace Explorus.Threads
 
         public void removeFromGame(GameObject obj)
         {
-            removeBuffer.Add(obj);
+            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            {
+                removeBuffer.Add(obj);
+            }
         }
     }
 }
