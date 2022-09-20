@@ -51,7 +51,7 @@ namespace Explorus.Model
         private void SetImage()
         {
             int progress = (int)(position.X % 96.0 + position.Y % 96.0);
-            image = animator.Animate(progress, last_slimeDirX, last_slimeDirY);
+            image = animator.Animate(progress, direction.X, direction.Y);
         }
 
         public override void update()
