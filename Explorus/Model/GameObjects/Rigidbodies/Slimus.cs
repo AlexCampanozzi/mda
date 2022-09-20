@@ -27,6 +27,7 @@ namespace Explorus.Model
         private Image image;
         private Point goalPosition;
         private Dictionary<int, Image> states;
+        private Animator animator;
 
         public Slimus(Point pos, ImageLoader loader) : base(pos, loader.SlimusImage)
         {
