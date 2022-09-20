@@ -149,7 +149,7 @@ namespace Explorus.Controller
         public void lostLife()
         {
             lifeStatus--;
-            if (lifeStatus == 0) EndOfLevel = true;
+            if (lifeStatus == 0) EndOfGame = true;
         }
         public int getLifeStatus()
         {
