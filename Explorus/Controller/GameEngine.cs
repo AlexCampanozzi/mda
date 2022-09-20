@@ -26,6 +26,8 @@ namespace Explorus
 
         private PhysicsThread physics;
 
+        private Thread physicsThread;
+
         public GameEngine()
         {
 
@@ -55,7 +57,7 @@ namespace Explorus
             thread.Start();
 
             physics = PhysicsThread.GetInstance();
-            Thread physicsThread = new Thread(physics.Run);
+            physicsThread = new Thread(physics.Run);
             physicsThread.Start();
 
             oView.Show();
@@ -97,6 +99,11 @@ namespace Explorus
 
                 Thread.Sleep(1);
             }
+        }
+
+        public Thread getPhysicsThread()
+        {
+            return physicsThread;
         }
 
         private long getTime()

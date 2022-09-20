@@ -32,6 +32,12 @@ namespace Explorus.Model
 
         private int slimeVelocity = 1;
 
+        private int life = 2;
+
+        private ImageLoader iloader;
+
+        CompoundGameObject compoundGameObject;
+
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -40,7 +46,7 @@ namespace Explorus.Model
             collider = new CircleCollider(this, 39);
             states = loader.ToxicSlimeImages;
             animator = new directionAnimator(states, order);
-
+            iloader = loader;
         }
         private void SetImage()
         {
@@ -126,6 +132,21 @@ namespace Explorus.Model
                 ((ToxicSlime)otherCollider.parent).invertDir();
                 this.invertDir();
 
+            }
+            /*else if(otherCollider.parent.GetType() == typeof(Bubble))
+            {
+                loseLife();
+            }*/
+        }
+
+        public void loseLife()
+        {
+            life--;
+            if (life <= 0)
+            {
+                physics.removeFromGame(this);
+                compoundGameObject = Map.Instance.GetCompoundGameObject();
+                compoundGameObject.add(new Gem(this.position, iloader, Map.Instance.getID()), gridPosition.X, gridPosition.Y);
             }
         }
     }
