@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using Explorus.Controller;
 using Explorus.Model.GameObjects.Rigidbodies;
 using Explorus.Threads;
+using System.Threading;
 
 namespace Explorus.Model
 {
@@ -148,6 +149,7 @@ namespace Explorus.Model
                     direction = new Direction(0, 0);
                     readyForInput = true;
                 }
+                SetImage();
             }
             /*if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
@@ -163,7 +165,7 @@ namespace Explorus.Model
                 }
             }*/
 
-            if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
+            /*if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
             {
                 if (goalPosition == position)
                 {
@@ -177,27 +179,13 @@ namespace Explorus.Model
                 //SetPosition(position);
                 //gridPosition = gridPos;
                 SetImage();
-            }
+            }*/
 
-            for (int i = 0; i < compoundGameObjectList.Count; i++)
-            {
-                /*if (compoundGameObjectList[i].GetType() == typeof(Gem) && checkCollision(compoundGameObjectList[i].GetPosition(), compoundGameObjectList[i].getRadius()))
-                {
-                    gameMaster.GemCollected();
-                    compoundGameObjectList[i].removeItselfFromGame();
-                }
-                if (compoundGameObjectList[i].GetType() == typeof(Slime) && checkCollision(compoundGameObjectList[i].GetPosition(), compoundGameObjectList[i].getRadius()))
-                {
-                    gameMaster.rescueSlime();
-                    compoundGameObjectList[i].removeItselfFromGame();
-                    break;
-                }
-                */
-            }
+        
         }
         public override void OnCollisionEnter(Collider otherCollider)
         {
-            otherCollider.parent.removeItselfFromGame();
+            //otherCollider.parent.removeItselfFromGame();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Explorus.Model
         {
             if(dir != null)
             {
-                position.X += dir.X * speed;
+                position.X += dir.X * speed; //Ajouter mutex sur la position
                 position.Y += dir.Y * speed;
             }
         }
