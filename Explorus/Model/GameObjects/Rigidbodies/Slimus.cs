@@ -80,11 +80,13 @@ namespace Explorus.Model
                             last_movement = 0;
                         break;
 
-                case Keys.Space:
-                    GameMaster gameMaster = GameMaster.GetInstance();
-                    gameMaster.useBubble();
-                    break;
+                    case Keys.Space:
+                        GameMaster gameMaster = GameMaster.GetInstance();
+                        gameMaster.useBubble();
+                        break;
 
+                    default:
+                        direction = new Direction(0, 0);
                         break;
 
                 }
@@ -103,7 +105,7 @@ namespace Explorus.Model
         private void SetImage()
         {
             int progress = (int)( position.X % 96.0 + position.Y % 96.0);
-            image = animator.Animate(progress, last_slimeDirX, last_slimeDirY);
+            image = animator.Animate(progress, direction.X, direction.Y);
         }
 
         public override void update()

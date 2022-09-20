@@ -114,11 +114,11 @@ namespace Explorus.Controller
             keyStatus = false;
 
             // recreate map
-            Map oldmap = Map.GetInstance();
+            Map oldmap = Map.Instance;
             oldmap.resetMap();
             Thread.Sleep(1000);
 
-            Map map = Map.GetInstance();
+            Map map = Map.Instance;
             //compoundGameObject = map.GetCompoundGameObject();
 
             foreach (GameObject currentObject in map.GetObjectList())

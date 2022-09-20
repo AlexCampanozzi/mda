@@ -100,7 +100,7 @@ namespace Explorus
         private void GameRenderer(object sender, PaintEventArgs e)
         {
             Graphics graphic = e.Graphics;
-            map = Map.GetInstance();
+            map = Map.Instance;
             
             if (isOver)
             {
