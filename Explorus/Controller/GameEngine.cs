@@ -32,7 +32,7 @@ namespace Explorus
 
         public GameEngine()
         {
-            
+
         }
 
         public void Start()
@@ -73,7 +73,7 @@ namespace Explorus
 
 
                 lag += elapsed;
-                if(state != null)
+                if (state != null)
                 {
                     state.stateUpdate();
                     lag = state.Lag(lag, MS_PER_UPDATE);
@@ -123,7 +123,7 @@ namespace Explorus
         {
             GameMaster gameMaster = GameMaster.GetInstance();
 
-            if (gameMaster.isGameOver()) 
+            if (gameMaster.isGameOver())
             {
                 ChangeState(new StopState(this));
                 oView.setIsOver(true);
@@ -140,11 +140,11 @@ namespace Explorus
 
                 oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
                 oView.getHeader().setGem(gameMaster.getGemStatus());
-            oView.getHeader().setLife(gameMaster.getLifeStatus());
-            oView.getHeader().setBubble(gameMaster.getBubbleStatus());
+                oView.getHeader().setLife(gameMaster.getLifeStatus());
+                oView.getHeader().setBubble(gameMaster.getBubbleStatus());
 
+            }
         }
-
         public Keys GetCurrentInput()
         {
             return this.currentInput;

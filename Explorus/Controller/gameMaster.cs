@@ -130,7 +130,7 @@ namespace Explorus.Controller
             }
 
             currentLevel++;
-            if (numberOfGem>0) EndOfLevel = false;
+            if (numberOfGem > 0) EndOfLevel = false;
         }
 
         public int getCurrentLevel()
@@ -149,7 +149,6 @@ namespace Explorus.Controller
 
         public void lostLife()
         {
-        {
             lifeStatus--;
             if (lifeStatus == 0) EndOfLevel = true;
         }
@@ -160,7 +159,7 @@ namespace Explorus.Controller
 
         public void useBubble()
         {
-            if(bubbleStatus == 6) bubbleStatus -= 6;
+            if (bubbleStatus == 6) bubbleStatus -= 6;
         }
 
         public int getBubbleStatus()
@@ -170,7 +169,7 @@ namespace Explorus.Controller
                 if (!timer.IsRunning) timer.Start();
                 else
                 {
-                    if(timer.ElapsedMilliseconds >= 500)
+                    if (timer.ElapsedMilliseconds >= 500)
                     {
                         timer.Stop();
                         bubbleStatus++;
