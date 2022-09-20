@@ -38,7 +38,6 @@ namespace Explorus
         private FormWindowState windowState;
         private bool wasMinimized = false;
         private bool hadLostFocus = false;
-        private int currentLevel = 1;
 
         public GameView()
         {
@@ -162,7 +161,7 @@ namespace Explorus
         {
 
             string gameState = GameEngine.GetInstance().GetState().Name();
-            oGameForm.Text = "Niveau " + currentLevel.ToString() + " ۰•● ❤ ●•۰ " + gameState;
+            oGameForm.Text = "Niveau " + GameMaster.GetInstance().getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
             ;
 
             //pour rendre le jeu transparent
