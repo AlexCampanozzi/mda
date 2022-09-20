@@ -17,6 +17,7 @@ namespace Explorus.Model
         {
             collider = new CircleCollider(this, 21);
         }
+
     }
 
 }

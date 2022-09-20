@@ -218,11 +218,11 @@ namespace Explorus.Model
         public override void OnCollisionEnter(Collider otherCollider)
         {
             //otherCollider.parent.removeItselfFromGame();
-            foreach(GameObject obj in Map.Instance.GetObjectList())
+            if (otherCollider.parent.GetType() == typeof(Gem))
             {
-                if(obj.GetID() == otherCollider.parent.GetID())
-                {
-                }
+                GameMaster gameMaster = GameMaster.GetInstance();
+                gameMaster.GemCollected();
+                physics.removeFromGame(otherCollider.parent);
             }
         }
 

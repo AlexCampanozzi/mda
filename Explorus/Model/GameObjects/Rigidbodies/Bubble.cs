@@ -72,7 +72,8 @@ namespace Explorus.Model
             if ((otherCollider.parent.GetType() == typeof(Wall) || (otherCollider.parent.GetType() == typeof(ToxicSlime)) && popped == 0))
             {
                 popped = 1;
-                ((ToxicSlime)otherCollider.parent).loseLife();
+                if(otherCollider.parent.GetType() == typeof(ToxicSlime))
+                    ((ToxicSlime)otherCollider.parent).loseLife();
                 collider = null;
             }
 
