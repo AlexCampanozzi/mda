@@ -244,21 +244,7 @@ namespace Explorus.Model
             GameMaster gameMaster = GameMaster.Instance;
             if(otherCollider.parent.GetType() == typeof(ToxicSlime))
             {
-                if (!timer.IsRunning && !invincible)
-                {
-                    gameMaster.lostLife();
-                    timer.Start();
-                    invincible = true;
-                }
-                else
-                {
-                    if (timer.ElapsedMilliseconds >= 3000)
-                    {
-                        timer.Stop();
-                        timer.Reset();
-                        invincible = false;
-                    }
-                }
+                loseLife();
             }
             else if (otherCollider.parent.GetType() == typeof(Gem))
             {
@@ -274,6 +260,26 @@ namespace Explorus.Model
         public int getSlimeVelocity() { return slimeVelocity; }
         public int getLastSlimeDirX() { return last_slimeDirX; }
         public int getLastSlimeDirY() { return last_slimeDirY; }
+
+        public void loseLife()
+        {
+            GameMaster gameMaster = GameMaster.Instance;
+            if (!timer.IsRunning && !invincible)
+            {
+                gameMaster.lostLife();
+                timer.Start();
+                invincible = true;
+            }
+            else
+            {
+                if (timer.ElapsedMilliseconds >= 3000)
+                {
+                    timer.Stop();
+                    timer.Reset();
+                    invincible = false;
+                }
+            }
+        }
 
     }
 }

@@ -137,6 +137,10 @@ namespace Explorus.Model
             {
                 physics.removeFromGame(otherCollider.parent);
             }
+            else if (otherCollider.parent.GetType() == typeof(Slimus))
+            {
+                ((Slimus)otherCollider.parent).loseLife();
+            }
             /*else if(otherCollider.parent.GetType() == typeof(Bubble))
             {
                 loseLife();
