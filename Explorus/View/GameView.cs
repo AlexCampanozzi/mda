@@ -14,8 +14,6 @@ using System.Threading;
 using Explorus.Model;
 using Explorus.Controller;
 using System.Drawing.Imaging;
-using System.IO.Ports;
-using System.Drawing.Drawing2D;
 
 namespace Explorus
 {
@@ -36,6 +34,7 @@ namespace Explorus
         private Header header;
 
         private bool formOpen;
+        private FormWindowState WindowState;
 
         public GameView()
         {
@@ -44,6 +43,7 @@ namespace Explorus
             oGameForm.Paint += GameRenderer;
             formOpen = true;
             oGameForm.FormClosed += new FormClosedEventHandler(FormClosed);
+            oGameForm.Resize += new EventHandler(Form_Resize);
             map = Map.GetInstance();
             header = Header.GetInstance();
 
@@ -98,7 +98,7 @@ namespace Explorus
         {
             try
             {
-                if (oGameForm.Visible)
+                if (GameEngine.GetInstance().GetState().GetType().Name != "StopState")
                     oGameForm.BeginInvoke((MethodInvoker)delegate
                     {
                         oGameForm.Refresh();
@@ -110,20 +110,23 @@ namespace Explorus
             }
         }
 
-        public void Close()
+        private void Form_Resize(object sender, EventArgs e)
         {
-            Console.WriteLine("its inside close function");
+            formOpen = false;
 
-            if (oGameForm.Visible)
-                oGameForm.BeginInvoke((MethodInvoker)delegate {
-                    oGameForm.Close();
-                    Console.WriteLine("its doing the close");
-                });
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+            }
+
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+            }
         }
 
-        public void Form_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        public void Close()
         {
-            Console.WriteLine("closing function");
             Application.Exit();
         }
 
@@ -142,13 +145,7 @@ namespace Explorus
                 //e.Graphics.Clear(Color.Black);
                 e.Graphics.DrawImage(iEndImage, new Point(0, 0));
             }
-            /*if (gameState.GetType().Name == "PauseState")
-            {
-                //e.Graphics.Clear(Color.Black);
-                Bitmap bitmap = new Bitmap(iPausedImage);
-                e.Graphics.DrawImage(bitmap, new Point(0, 0));
 
-            }*/
             else
             {
                 e.Graphics.Clear(Color.Black);

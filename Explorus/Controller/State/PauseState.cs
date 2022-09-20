@@ -13,6 +13,7 @@ namespace Explorus.Controller
         public PauseState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
+            Console.WriteLine("pause state");
         }
 
         public override void stateUpdate()
