@@ -8,7 +8,7 @@ namespace Explorus.Controller
 {
     public class IGameEngine
     {
-        GameEngine ge = new GameEngine();
+        GameEngine ge = GameEngine.GetInstance();
 
         //Facade for the user to start and stop the game
 

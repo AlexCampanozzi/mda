@@ -32,9 +32,5 @@ namespace Explorus.Controller
             }
             return lag;
         }
-        public override void draw(Graphics graphic, PaintEventArgs e, Image image)
-        {
-
-        }
     }
 }

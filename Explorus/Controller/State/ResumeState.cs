@@ -14,6 +14,7 @@ namespace Explorus.Controller
         public ResumeState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
+            Console.WriteLine("resume state");
         }
 
         public override void stateUpdate()
@@ -27,12 +28,6 @@ namespace Explorus.Controller
         public override double Lag(double lag, int MS_PER_UPDATE)
         {
             return lag;
-        }
-
-        public override void draw(Graphics graphic, PaintEventArgs e, Image image)
-        {
-            graphic.Clear(Color.Black);
-            e.Graphics.DrawImage(image, new Point(0, 0));
         }
     }
 }

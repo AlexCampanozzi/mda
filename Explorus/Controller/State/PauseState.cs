@@ -13,6 +13,7 @@ namespace Explorus.Controller
         public PauseState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
+            Console.WriteLine("pause state");
         }
 
         public override void stateUpdate()
@@ -24,12 +25,5 @@ namespace Explorus.Controller
         {
             return lag;
         }
-
-        public override void draw(Graphics graphic, PaintEventArgs e, Image image)
-        {
-            graphic.Clear(Color.Black);
-            e.Graphics.DrawImage(image, new Point(0, 0));
-        }
-
     }
 }
