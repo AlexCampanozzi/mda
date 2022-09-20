@@ -23,19 +23,22 @@ namespace Explorus.Model
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
-        private int last_slimeDirY = 0;
+        private int last_slimeDirY = 0; //a mettre le defeault à 1 pour quil shoot en haut avant de bouger
         private int last_movement = 0;
         private Movement slimus_movement;
         private Image image;
         private Point goalPosition;
         private Dictionary<int, Image> states;
         private Animator animator;
+        private ImageLoader slimeloader;
 
         private Direction direction = new Direction(0, 0);
 
         private bool readyForInput = true;
 
         private PhysicsThread physics = PhysicsThread.GetInstance();
+
+        private CompoundGameObject compoundGameObject;
 
         public Slimus(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimusImage, ID)
         {
@@ -46,6 +49,7 @@ namespace Explorus.Model
             collider = new CircleCollider(this, 39);
             int[] order = { 2, 3, 2, 1 };
             animator = new directionAnimator(states, order);
+            slimeloader = loader;
         }
 
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
@@ -59,31 +63,46 @@ namespace Explorus.Model
                 {
                     case Keys.Left:
                         direction = new Direction(-1, 0);
+                        last_slimeDirX = -1;
+                        last_slimeDirY = 0;
                         if (last_slimeDirX == 0 && last_slimeDirY == 0)
                             last_movement = 30;
                         break;
 
                     case Keys.Right:
                         direction = new Direction(1, 0);
+                        last_slimeDirX = 1;
+                        last_slimeDirY = 0;
                         if (last_slimeDirX == 0 && last_slimeDirY == 0)
                             last_movement = 10;
                         break;
 
                     case Keys.Up:
                         direction = new Direction(0, -1);
+                        last_slimeDirX = 0;
+                        last_slimeDirY = -1;
                         if (last_slimeDirX == 0 && last_slimeDirY == 0)
                             last_movement = 20;
                         break;
 
                     case Keys.Down:
                         direction = new Direction(0, 1);
+                        last_slimeDirX = 0;
+                        last_slimeDirY = 1;
                         if (last_slimeDirX == 0 && last_slimeDirY == 0)
                             last_movement = 0;
                         break;
 
                     case Keys.Space:
+                        compoundGameObject = Map.Instance.GetCompoundGameObject();
                         GameMaster gameMaster = GameMaster.GetInstance();
                         gameMaster.useBubble();
+                        Console.WriteLine(gameMaster.getBubbleStatus());
+                        if (gameMaster.getBubbleStatus() == 0)
+                        {
+                            Console.WriteLine("spawn bubble");
+                            compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
+                        }
                         break;
 
                     default:
@@ -187,5 +206,10 @@ namespace Explorus.Model
         {
             //otherCollider.parent.removeItselfFromGame();
         }
+
+        public int getSlimeVelocity() { return slimeVelocity; }
+        public int getLastSlimeDirX() { return last_slimeDirX; }
+        public int getLastSlimeDirY() { return last_slimeDirY; }
+
     }
 }

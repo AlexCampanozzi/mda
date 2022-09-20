@@ -22,6 +22,7 @@ namespace Explorus.Model
         Empty,
         Gem,
         Slime,
+        Bubble,
     }
     public class GameObject
     {

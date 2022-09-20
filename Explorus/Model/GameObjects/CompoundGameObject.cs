@@ -45,9 +45,9 @@ namespace Explorus.Model
 
         public void processInput()
         {
-            foreach(GameObject currentObject in componentList)
+            for(int i = 0; i < componentList.Count; i++)
             {
-                currentObject.processInput();
+                componentList[i].processInput();
             }
         }
 
