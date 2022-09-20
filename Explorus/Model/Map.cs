@@ -33,6 +33,11 @@ namespace Explorus.Model
         
         private Map()
         {
+            load();   
+        }
+
+        private void load()
+        {
             objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map.png")));
         }
 
@@ -166,13 +171,15 @@ namespace Explorus.Model
 
         public void resetMap()
         {
-            /*Map map = GetInstance();
-            instance = null;
+            Map map = Instance;
+            //instance = null;
             int len = compoundGameObject.getComponentGameObjetList().Count;
             for (int i=0; i<len ;i++)
             {
                 compoundGameObject.getComponentGameObjetList()[len-i-1].removeItselfFromGame();
-            }*/
+            }
+
+            load();
         }
     }
 }

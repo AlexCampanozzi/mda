@@ -69,7 +69,7 @@ namespace Explorus.Model
 
         public override void OnCollisionEnter(Collider otherCollider)
         {
-            if ((otherCollider.parent.GetType() == typeof(Wall) || (otherCollider.parent.GetType() == typeof(ToxicSlime)) && popped == 0))
+            if ((otherCollider.parent.GetType() == typeof(Wall) || (otherCollider.parent.GetType() == typeof(ToxicSlime) || otherCollider.parent.GetType() == typeof(Door)) && popped == 0))
             {
                 popped = 1;
                 if(otherCollider.parent.GetType() == typeof(ToxicSlime))
