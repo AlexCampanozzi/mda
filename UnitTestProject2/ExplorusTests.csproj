@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CompoundGameObjectTests.cs" />
     <Compile Include="GameEngineTests.cs" />
+    <Compile Include="ThreadTests.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="MapTests.cs" />
     <Compile Include="ObjectTest.cs" />

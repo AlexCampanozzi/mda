@@ -1,4 +1,5 @@
 ﻿/*
+/*
  * Explorus-B
  * Étienne Desbiens dese2913
  * Emily Nguyen ngub3302
@@ -13,7 +14,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Explorus.Model;
 using System.Drawing;
-
+/*
 namespace ExplorusTests
 
 {
@@ -58,4 +59,4 @@ namespace ExplorusTests
             Assert.AreNotEqual(((Bitmap)header.getHeaderImage()).GetPixel(400, 10), Color.FromArgb(255, 114, 0, 0));
         }
     }
-}
+}*/

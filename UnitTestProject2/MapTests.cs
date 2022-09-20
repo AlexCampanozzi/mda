@@ -12,7 +12,7 @@ using Explorus;
 using System.Drawing;
 using System.Windows.Forms;
 using Explorus.Model;
-
+/*
 namespace ExplorusTests
 
 {
@@ -87,4 +87,4 @@ namespace ExplorusTests
             Assert.AreEqual(objectTypes.Empty, typeMap[3,2]);
         }
     }
-}
+}*/

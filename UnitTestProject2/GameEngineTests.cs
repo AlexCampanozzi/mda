@@ -12,7 +12,7 @@ using Explorus;
 using System.Drawing;
 using System.Windows.Forms;
 using Explorus.Model;
-
+/*
 namespace ExplorusTests
 
 {
@@ -21,4 +21,4 @@ namespace ExplorusTests
     {
 
     }
-}
+}*/

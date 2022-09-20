@@ -15,8 +15,8 @@ namespace Explorus.Threads
         public Direction dir;
         public int speed;
     }
-    internal class PhysicsThread
-    {
+     public sealed class PhysicsThread
+     {
         private static PhysicsThread instance = null;
         private static readonly object padlock = new object();
 
@@ -125,6 +125,11 @@ namespace Explorus.Threads
             {
                 removeBuffer.Add(obj);
             }
+        }
+
+        public List<PlayMovement> getBuffer()
+        {
+            return movementBuffer;
         }
     }
 }
