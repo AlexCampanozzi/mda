@@ -28,6 +28,10 @@ namespace Explorus.Model
         private Point goalPosition;
         private Dictionary<int, Image> states;
 
+        private Direction direction = new Direction(0, 0);
+
+        private bool readyForInput = true;
+
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
         public Slimus(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimusImage, ID)
@@ -44,50 +48,43 @@ namespace Explorus.Model
 
         public override void processInput()
         {
-            Direction direction = new Direction(0,0);
-            switch (GetCurrentInput())
+            if (readyForInput)
             {
-                case Keys.Left:
-                    direction = new Direction(-1, 0);
-                    slimeDirX = -1;
-                    slimeDirY = 0;
-                    if(last_slimeDirX == 0 && last_slimeDirY == 0)
-                        last_movement = 30;
-                    break;
+                switch (GetCurrentInput())
+                {
+                    case Keys.Left:
+                        direction = new Direction(-1, 0);
+                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                            last_movement = 30;
+                        break;
 
-                case Keys.Right:
-                    direction = new Direction(1, 0);
-                    slimeDirX = 1;
-                    slimeDirY = 0;
-                    if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                        last_movement = 10;
-                    break;
+                    case Keys.Right:
+                        direction = new Direction(1, 0);
+                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                            last_movement = 10;
+                        break;
 
-                case Keys.Up:
-                    direction = new Direction(0, -1);
-                    slimeDirX = 0;
-                    slimeDirY = -1;
-                    if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                        last_movement = 20;
-                    break;
+                    case Keys.Up:
+                        direction = new Direction(0, -1);
+                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                            last_movement = 20;
+                        break;
 
-                case Keys.Down:
-                    direction = new Direction(0, 1);
-                    slimeDirX = 0;
-                    slimeDirY = 1;
-                    if (last_slimeDirX == 0 && last_slimeDirY == 0)
-                        last_movement = 0;
-                    break;
+                    case Keys.Down:
+                        direction = new Direction(0, 1);
+                        if (last_slimeDirX == 0 && last_slimeDirY == 0)
+                            last_movement = 0;
+                        break;
 
-                default: // None or other
-                    slimeDirX = 0;
-                    slimeDirY = 0;
-                    break;
+                    default:
+                        direction = new Direction(0, 0);
+                        break;
 
-            }
-            if(direction != null)
-            {
-                physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+                }
+                if (direction.X != 0 || direction.Y != 0)
+                {
+                    readyForInput = false;
+                }
             }
         }
 
@@ -104,22 +101,11 @@ namespace Explorus.Model
             image = states[last_movement + current_state];
         }
 
-        private bool checkCollision(Point pos2, int radius2)
-        {
-            double dist = Math.Sqrt((position.X - pos2.X)* (position.X - pos2.X) + (position.Y - pos2.Y)* (position.Y - pos2.Y));
-            //if (dist <= (radius+radius2) )
-            //{
-            //    return true;
-            //}
-            //else { return false; }
-            return false;
-        }
-
         public override void update()
         {  
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
-            objectTypes nextGrid = gridMap[gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY];
+            objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];
             
             Point newPosition = GetPosition();
 
@@ -127,7 +113,36 @@ namespace Explorus.Model
             Map oMap = Map.Instance;
             List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
-            if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
+            if(direction.X != 0 || direction.Y != 0)
+            {
+                if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
+                {
+                    if(direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                    {
+                        readyForInput = true;
+                        gridPosition.X += direction.X;
+                        gridPosition.Y += direction.Y;
+
+                        direction = new Direction(0, 0);
+                    }
+                    else if(direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                    {
+                        readyForInput = true;
+                        gridPosition.X += direction.X;
+                        gridPosition.Y += direction.Y;
+
+                        direction = new Direction(0, 0);
+                    }
+                    else
+                        physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+                }
+                else
+                {
+                    direction = new Direction(0, 0);
+                    readyForInput = true;
+                }
+            }
+            /*if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
                 {
@@ -139,7 +154,7 @@ namespace Explorus.Model
                         break;
                     }
                 }
-            }
+            }*/
 
             if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
             {
