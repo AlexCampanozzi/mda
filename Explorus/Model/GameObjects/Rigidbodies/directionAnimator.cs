@@ -10,6 +10,7 @@ namespace Explorus.Model.GameObjects.Rigidbodies
     internal class directionAnimator : Animator
     {
         private Dictionary<int, Image> stateImg;
+        private Image previousImage;
         private int[] state_order;
         public directionAnimator(Dictionary<int, Image> states, int[] order)
         {
@@ -26,7 +27,9 @@ namespace Explorus.Model.GameObjects.Rigidbodies
             else if (DirX == 0 && DirY == -1) direction = 20;
             else if (DirX == -1 && DirY == 0) direction = 30;
             else  direction = 10;
-
+            if (DirX == 0 && DirY == 0 && previousImage != null)
+                return previousImage;
+            previousImage = stateImg[direction + current_state];
             return stateImg[direction + current_state];
         }
     }
