@@ -22,11 +22,11 @@ namespace Explorus.Model.GameObjects.Rigidbodies
         { 
             int temp = (int)Math.Floor(progress / (100.0 / state_order.Length));
             int current_state = state_order[temp];
-            int direction;
+            int direction = 0;
             if (DirX == 1 && DirY == 0) direction = 10;
             else if (DirX == 0 && DirY == -1) direction = 20;
             else if (DirX == -1 && DirY == 0) direction = 30;
-            else  direction = 10;
+            else if (DirX == 0 && DirY == 1) direction = 0;
             if (DirX == 0 && DirY == 0 && previousImage != null)
                 return previousImage;
             previousImage = stateImg[direction + current_state];
