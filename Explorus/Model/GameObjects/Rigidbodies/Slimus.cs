@@ -14,6 +14,8 @@ using Explorus.Controller;
 using Explorus.Model.GameObjects.Rigidbodies;
 using Explorus.Threads;
 using System.Threading;
+using System.Diagnostics;
+using System.Security;
 
 namespace Explorus.Model
 {
@@ -34,6 +36,11 @@ namespace Explorus.Model
         private Direction direction = new Direction(0, -1);
 
         private bool readyForInput = true;
+
+        Stopwatch timer = new Stopwatch();
+        Stopwatch alphaTimer = new Stopwatch();
+        private bool invincible = false;
+        private bool transparent = false;
 
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
@@ -133,6 +140,23 @@ namespace Explorus.Model
         {
             int progress = (int)( position.X % 96.0 + position.Y % 96.0);
             image = animator.Animate(progress, direction.X, direction.Y);
+            if (invincible)
+            {
+                if (!alphaTimer.IsRunning) alphaTimer.Start();
+                else if (alphaTimer.ElapsedMilliseconds >= 300)
+                {
+                    if (!transparent) transparent = true;
+                    else transparent = false;
+                    alphaTimer.Restart();
+                }
+            }
+            else if (alphaTimer.IsRunning)
+            {
+                alphaTimer.Stop();
+                alphaTimer.Reset();
+            }
+
+            if (transparent) image = animator.halfOpacity(image);
         }
 
         public override void update()
@@ -217,14 +241,31 @@ namespace Explorus.Model
         }
         public override void OnCollisionEnter(Collider otherCollider)
         {
-            //otherCollider.parent.removeItselfFromGame();
-            if (otherCollider.parent.GetType() == typeof(Gem))
+            GameMaster gameMaster = GameMaster.Instance;
+            if(otherCollider.parent.GetType() == typeof(ToxicSlime))
             {
-                GameMaster gameMaster = GameMaster.Instance;
+                if (!timer.IsRunning && !invincible)
+                {
+                    gameMaster.lostLife();
+                    timer.Start();
+                    invincible = true;
+                }
+                else
+                {
+                    if (timer.ElapsedMilliseconds >= 3000)
+                    {
+                        timer.Stop();
+                        timer.Reset();
+                        invincible = false;
+                    }
+                }
+            }
+            else if (otherCollider.parent.GetType() == typeof(Gem))
+            {
                 gameMaster.GemCollected();
                 physics.removeFromGame(otherCollider.parent);
             }
-            else if(otherCollider.parent.GetType() == typeof(Wall))
+            else if (otherCollider.parent.GetType() == typeof(Wall))
             {
                 physics.removeFromGame(otherCollider.parent);
             }

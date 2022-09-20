@@ -20,8 +20,8 @@ namespace Explorus.Threads
         private static PhysicsThread instance = null;
         private static readonly object padlock = new object();
 
-        List<PlayMovement> movementBuffer = new List<PlayMovement>();
-        List<GameObject> removeBuffer = new List<GameObject>();
+        List<PlayMovement> movementBuffer = new List<PlayMovement>() { };
+        List<GameObject> removeBuffer = new List<GameObject>() { };
         private PhysicsThread()
         {
         }
