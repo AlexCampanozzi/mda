@@ -19,7 +19,7 @@ namespace Explorus.Controller
 {
     public sealed class GameMaster
     {
-        private static GameMaster instance = null;
+        private static readonly GameMaster instance = new GameMaster();
         private static readonly object padlock = new object();
 
         private int numberOfGem = 0;
@@ -41,7 +41,6 @@ namespace Explorus.Controller
 
         private GameMaster()
         {
-
             foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
             {
                 if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
@@ -49,12 +48,20 @@ namespace Explorus.Controller
                     numberOfGem++;
                 }
             }
+        }
+        static GameMaster()
+        {
 
         }
+        
 
-        public static GameMaster GetInstance()
+        public static GameMaster Instance
         {
-            if (instance == null)
+            get
+            {
+                return instance;
+            }
+            /*if (instance == null)
             {
                 lock (padlock)
                 {
@@ -64,7 +71,7 @@ namespace Explorus.Controller
                     }
                 }
             }
-            return instance;
+            return instance;*/
         }
 
         public void update()
@@ -149,7 +156,7 @@ namespace Explorus.Controller
         public void lostLife()
         {
             lifeStatus--;
-            if (lifeStatus == 0) EndOfLevel = true;
+            if (lifeStatus == 0) EndOfGame = true;
         }
         public int getLifeStatus()
         {

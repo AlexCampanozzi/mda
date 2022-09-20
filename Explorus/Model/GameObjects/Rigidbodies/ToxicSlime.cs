@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Explorus.Controller;
 using Explorus.Model.GameObjects.Rigidbodies;
-using System.Drawing;
+//using System.Drawing;
 using Explorus.Threads;
 
 namespace Explorus.Model
@@ -20,7 +20,6 @@ namespace Explorus.Model
     public class ToxicSlime : RigidBody
     {
         private Animator animator;
-        private Image image;
 
         private int last_slimeDirX = 0;
         private int last_slimeDirY = 0;
@@ -33,6 +32,12 @@ namespace Explorus.Model
 
         private int slimeVelocity = 1;
 
+        private int life = 2;
+
+        private ImageLoader iloader;
+
+        CompoundGameObject compoundGameObject;
+
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -41,12 +46,12 @@ namespace Explorus.Model
             collider = new CircleCollider(this, 39);
             states = loader.ToxicSlimeImages;
             animator = new directionAnimator(states, order);
-
+            iloader = loader;
         }
         private void SetImage()
         {
             int progress = (int)(position.X % 96.0 + position.Y % 96.0);
-            image = animator.Animate(progress, last_slimeDirX, last_slimeDirY);
+            image = animator.Animate(progress, direction.X, direction.Y);
         }
 
         public override void update()
@@ -57,13 +62,13 @@ namespace Explorus.Model
 
             Point newPosition = GetPosition();
 
-            GameMaster gameMaster = GameMaster.GetInstance();
+            GameMaster gameMaster = GameMaster.Instance;
             Map oMap = Map.Instance;
             List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
             if (direction.X != 0 || direction.Y != 0)
             {
-                if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
+                if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
                 {
                     if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
                     {
@@ -76,10 +81,15 @@ namespace Explorus.Model
                         gridPosition.Y += direction.Y;
                     }
                     else
+                    {
+                        physics.clearBuffer(this);
                         physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+
+                    }
                 }
                 else
                 {
+                    physics.clearBuffer(this);
                     newRndDir();
                 }
                 SetImage();
@@ -122,6 +132,29 @@ namespace Explorus.Model
                 ((ToxicSlime)otherCollider.parent).invertDir();
                 this.invertDir();
 
+            }
+            else if (otherCollider.parent.GetType() == typeof(Wall))
+            {
+                physics.removeFromGame(otherCollider.parent);
+            }
+            else if (otherCollider.parent.GetType() == typeof(Slimus))
+            {
+                ((Slimus)otherCollider.parent).loseLife();
+            }
+            /*else if(otherCollider.parent.GetType() == typeof(Bubble))
+            {
+                loseLife();
+            }*/
+        }
+
+        public void loseLife()
+        {
+            life--;
+            if (life <= 0)
+            {
+                physics.removeFromGame(this);
+                compoundGameObject = Map.Instance.GetCompoundGameObject();
+                compoundGameObject.add(new Gem(this.position, iloader, Map.Instance.getID()), gridPosition.X, gridPosition.Y);
             }
         }
     }

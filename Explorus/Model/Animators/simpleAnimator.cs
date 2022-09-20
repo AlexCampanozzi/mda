@@ -19,8 +19,8 @@ namespace Explorus.Model.GameObjects.Rigidbodies
 
         public override Image Animate(int progress)
         {
-            int temp = (int)Math.Floor(progress / (100.0 / state_order.Length));
-            int current_state = state_order[temp];
+            int temp = Math.Min((int)Math.Ceiling(progress/ (100.0 / state_order.Length)), 3);
+            int current_state = state_order[temp - 1];
 
             return stateImg[current_state];
         }

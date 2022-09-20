@@ -26,6 +26,8 @@ namespace Explorus
 
         private PhysicsThread physics;
 
+        private Thread physicsThread;
+
         public GameEngine()
         {
 
@@ -55,7 +57,7 @@ namespace Explorus
             thread.Start();
 
             physics = PhysicsThread.GetInstance();
-            Thread physicsThread = new Thread(physics.Run);
+            physicsThread = new Thread(physics.Run);
             physicsThread.Start();
 
             oView.Show();
@@ -99,6 +101,11 @@ namespace Explorus
             }
         }
 
+        public Thread getPhysicsThread()
+        {
+            return physicsThread;
+        }
+
         private long getTime()
         {
             long milliseconds = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
@@ -135,7 +142,7 @@ namespace Explorus
         }
         public void update() //public not a fan
         {
-            GameMaster gameMaster = GameMaster.GetInstance();
+            GameMaster gameMaster = GameMaster.Instance;
 
             if (gameMaster.isGameOver())
             {
