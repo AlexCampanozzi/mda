@@ -22,7 +22,7 @@ namespace Explorus.Controller
         private static GameMaster instance = null;
         private static readonly object padlock = new object();
 
-        private Map oMap = Map.GetInstance();
+        private Map oMap = Map.Instance;
         private int numberOfGem = 0;
 
         private bool keyStatus = false;
@@ -38,7 +38,7 @@ namespace Explorus.Controller
         private int numLevel = 3;
         private int currentLevel = 1;
 
-        private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
+        private CompoundGameObject compoundGameObject = Map.Instance.GetCompoundGameObject();
 
         private GameMaster()
         {

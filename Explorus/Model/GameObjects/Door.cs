@@ -14,7 +14,7 @@ namespace Explorus.Model
     public class Door : Wall
     {
         ImageLoader imageLoader;
-        public Door(Point pos, ImageLoader loader) : base(pos, loader)
+        public Door(Point pos, ImageLoader loader, int ID) : base(pos, loader, ID)
         {
             imageLoader = loader;
 

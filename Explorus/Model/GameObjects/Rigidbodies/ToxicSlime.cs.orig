@@ -43,11 +43,15 @@ namespace Explorus.Model
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
         {
+<<<<<<< HEAD
             int[] order = { 2, 3, 2, 1 };
-            collider = new CircleCollider(this, 39);
             animator = new directionAnimator(states, order);
 
+=======
+            collider = new CircleCollider(this, 39);
+>>>>>>> physicsThread
         }
+
         private void SetImage()
         {
             int progress = (int)(position.X % 96.0 + position.Y % 96.0);

@@ -9,12 +9,12 @@ namespace Explorus.Model
 {
     public class Collider
     {
-        protected GameObject parent;
+        public GameObject parent;
         public Collider(GameObject parentObject)
         {
             parent = parentObject;
         }
-        virtual public bool ColliderTouching(Collider otherCollider)
+        virtual public bool isColliderTouching(Collider otherCollider)
         {
             return false; 
         }

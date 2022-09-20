@@ -40,7 +40,7 @@ namespace Explorus
             oGameForm.Paint += GameRenderer;
             formOpen = true;
             oGameForm.FormClosed += new FormClosedEventHandler(FormClosed);
-            map = Map.GetInstance(); //caller le singleton de map
+            map = Map.Instance; //caller le singleton de map
             header = Header.GetInstance();
 
             iPausedImage = Image.FromFile("./Resources/pause.png");

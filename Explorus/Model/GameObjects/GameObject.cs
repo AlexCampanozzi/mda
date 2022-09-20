@@ -31,11 +31,17 @@ namespace Explorus.Model
         protected Point gridPosition;
         private Keys currentInput = Keys.None;
 
-
-        public  GameObject(Point pos, Image img)
+        private int ID;
+        public  GameObject(Point pos, Image img, int iD)
         {
             position = pos;
             image = img;
+            ID = iD;
+        }
+
+        public int GetID()
+        {
+            return ID;
         }
 
         public Collider GetCollider()
@@ -99,7 +105,7 @@ namespace Explorus.Model
 
         public void removeItselfFromGame()
         {
-            CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
+            CompoundGameObject compoundGameObject = Map.Instance.GetCompoundGameObject();
             compoundGameObject.remove(this);
         }
 
