@@ -210,6 +210,7 @@ namespace Explorus.Model
             else readyForInput = true;
 
             SetImage();
+            checklife();
             /*if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
             {
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
@@ -287,6 +288,20 @@ namespace Explorus.Model
                     invincible = false;
                 }
             }
+        }
+
+        private void checklife()
+        {
+            if (timer.IsRunning && invincible)
+            {
+                if (timer.ElapsedMilliseconds >= 3000)
+                {
+                    timer.Stop();
+                    timer.Reset();
+                    invincible = false;
+                }
+            }
+            
         }
 
     }
