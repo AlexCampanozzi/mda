@@ -40,6 +40,13 @@ namespace ExplorusTests
         {
             engine.Stop();
         }
+        // render thread
+        [TestMethod]
+        public void renderThreadtest()
+        {
+            RenderThread render = RenderThread.GetInstance();
+            Assert.AreNotEqual(null, render);
+        }
         /* physics methods:
          * getInstance: not null
          * getBuffer: empty at init, Count=1 ater valid add, empty after remove
