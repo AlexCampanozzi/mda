@@ -70,33 +70,36 @@ namespace Explorus.Model
             Map oMap = Map.Instance;
             List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
-            if (direction.X != 0 || direction.Y != 0)
+            if (GameEngine.GetInstance().GetState().Name() == "Play")
             {
-                if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
+                if (direction.X != 0 || direction.Y != 0)
                 {
-                    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                    if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
                     {
-                        gridPosition.X += direction.X;
-                        gridPosition.Y += direction.Y;
-                    }
-                    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
-                    {
-                        gridPosition.X += direction.X;
-                        gridPosition.Y += direction.Y;
+                        if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                        {
+                            gridPosition.X += direction.X;
+                            gridPosition.Y += direction.Y;
+                        }
+                        else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                        {
+                            gridPosition.X += direction.X;
+                            gridPosition.Y += direction.Y;
+                        }
+                        else
+                        {
+                            physics.clearBuffer(this);
+                            physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+
+                        }
                     }
                     else
                     {
                         physics.clearBuffer(this);
-                        physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
-
+                        newRndDir();
                     }
+                    SetImage();
                 }
-                else
-                {
-                    physics.clearBuffer(this);
-                    newRndDir();
-                }
-                SetImage();
             }
         }
 
