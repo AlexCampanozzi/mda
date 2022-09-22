@@ -178,9 +178,9 @@ namespace ExplorusTests
             int x = 12;
             int y = 15;
 
-            RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
+            Slimus entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
             RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID());
-            RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), new Slimus(new Point(x * 96, y * 96), loader, oMap.getID()));
+            RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), entity);
 
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(1, (physics.getBuffer().Count));
@@ -225,9 +225,9 @@ namespace ExplorusTests
             int x = 12;
             int y = 15;
 
-            RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
+            Slimus entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
             RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID());
-            RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), new Slimus(new Point(x * 96, y * 96), loader, oMap.getID()));
+            RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), entity);
 
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(1, (physics.getBuffer().Count));

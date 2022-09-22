@@ -144,14 +144,17 @@ namespace Explorus.Threads
 
         public void clearBuffer(RigidBody rmv_obj)
         {
-            lock (movementBuffer)
+            if (rmv_obj != null)
             {
-                int count = movementBuffer.Count;
-                if (count > 0)
+                lock (movementBuffer)
                 {
-                    for (int i = 0; i < count; i++)
+                    int count = movementBuffer.Count;
+                    if (count > 0)
                     {
-                        if (movementBuffer[count - 1 - i].obj == rmv_obj) movementBuffer.RemoveAt(count - 1 - i);
+                        for (int i = 0; i < count; i++)
+                        {
+                            if (movementBuffer[count - 1 - i].obj == rmv_obj) movementBuffer.RemoveAt(count - 1 - i);
+                        }
                     }
                 }
             }
