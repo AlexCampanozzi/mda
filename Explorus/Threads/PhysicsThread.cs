@@ -1,4 +1,12 @@
-﻿using Explorus.Controller;
+﻿/* code fsp du physics thread
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+
+using Explorus.Controller;
 using Explorus.Model;
 using System;
 using System.Collections.Generic;
@@ -125,10 +133,13 @@ namespace Explorus.Threads
         {
             lock (movementBuffer)
             {
-                int count = movementBuffer.Count -1; 
-                for (int i=0; i<count;i++)
+                int count = movementBuffer.Count;
+                if (count > 0)
                 {
-                    if (movementBuffer[count - i].obj == rmv_obj) movementBuffer.RemoveAt(count - i);
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (movementBuffer[count - 1 - i].obj == rmv_obj) movementBuffer.RemoveAt(count - 1 - i);
+                    }
                 }
             }
         }
