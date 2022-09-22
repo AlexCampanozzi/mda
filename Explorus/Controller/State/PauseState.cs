@@ -14,7 +14,6 @@ namespace Explorus.Controller
         {
             this.engine = engine;
             Console.WriteLine("pause state");
-            engine.SetMenu(Option.Music);
         }
 
         public override void stateUpdate()

@@ -7,11 +7,13 @@
  */
 
 using System;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 using Explorus.Controller;
 using Explorus.Model;
 using Explorus.Threads;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Explorus
 {
@@ -24,7 +26,7 @@ namespace Explorus
         private State state;
         private Keys currentInput;
         private bool FPSOn = false;
-        private State menu;
+        private MenuState menu;
 
         private PhysicsThread physics;
         private AudioThread audio;
@@ -37,7 +39,6 @@ namespace Explorus
 
         public GameEngine()
         {
-
         }
 
         public static GameEngine GetInstance()
@@ -148,14 +149,12 @@ namespace Explorus
 
             switch (currentInput)
             {
-                case Keys.R:
-                    if(this.state.Name() == "Pause")
-                    {
-                        ChangeState(new ResumeState(this));
-                    }
+                case Keys.P:
+                    Console.WriteLine("current option is " + menu.GetMenuOption().ToString());
+                    ChangeState(new PauseState(this));
                     break;
 
-                case Keys.P:
+                case Keys.Escape:
                     ChangeState(new PauseState(this));
                     break;
 
@@ -169,6 +168,33 @@ namespace Explorus
 
                 default:
                     break;
+            }
+
+            if (this.state.Name() == "Pause")
+            {
+                switch (currentInput)
+                {
+                    case Keys.R:
+                        ChangeState(new ResumeState(this));
+                        break;
+                        
+                    case Keys.Up:
+                        menu.SetOption(Option.Music);
+                        break;
+
+                    case Keys.Down:
+                        menu.SetOption(Option.Sound);
+                        break;
+
+                    case Keys.Right:
+                        menu.ChangeVolume(1);
+                        break;
+
+                    case Keys.Left:
+                        menu.ChangeVolume(-1);
+                        break;
+                }
+
             }
 
             oView.getMap().GetCompoundGameObject().processInput();
@@ -213,5 +239,7 @@ namespace Explorus
         {
             return this.state;
         }
+
+
     }
 }

@@ -65,6 +65,6 @@ namespace ExplorusTests
                 cp.processInput();
             }
             Assert.AreEqual(player.GetPosition(), new Point(96, 768));
-        }*/
+        }
     }
 } */

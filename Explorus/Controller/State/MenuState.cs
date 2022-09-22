@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Explorus.Controller
 
@@ -26,18 +27,28 @@ namespace Explorus.Controller
         {
             this.engine = engine;
             Console.WriteLine("MenuState state");
+            menuOption = Option.Music;
         }
 
         public void ChangeVolume(int volume)
         {
-            int currentMenuVolume;
+
             if (menuOption == Option.Music)
             {
-                currentMenuVolume = musicVolume + volume;
+                if (musicVolume >= 0 || musicVolume <= 100)
+                {
+                    musicVolume = musicVolume + volume;
+                    Console.WriteLine(menuOption.ToString() + " volume is " + musicVolume);
+                }
             }
             else if (menuOption == Option.Sound)
             {
-                currentMenuVolume= soundVolume + volume;
+                if (soundVolume >= 0 || soundVolume <= 100)
+                {
+                    soundVolume = soundVolume + volume;
+                    Console.WriteLine(menuOption.ToString() + " volume is " + soundVolume);
+
+                }
             }
 
 
@@ -49,6 +60,11 @@ namespace Explorus.Controller
         {
             Console.WriteLine("current option is " + option.ToString());
             menuOption = option;
+        }
+
+        public Option GetMenuOption()
+        {
+            return menuOption;
         }
 
 
