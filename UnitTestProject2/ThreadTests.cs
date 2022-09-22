@@ -43,7 +43,7 @@ namespace ExplorusTests
          * add slimus-wall/toxic-wall/bubble-wall
          */
         [TestMethod]
-        public void instance()
+        public void threadInstance()
         {
             Assert.AreNotEqual(null, physics);
         }
@@ -164,13 +164,6 @@ namespace ExplorusTests
             //physics.addMove(new PlayMovement() { obj = entity3, dir = new Direction(1, 0), speed = 2 });
             //Assert.AreEqual(3, (physics.getBuffer().Count));
         }
-        [TestMethod]
-        public void clearBuffer()
-        {
-            int x = 12;
-            int y = 15;
-            physics.clearBuffer(new Slimus(new Point(x * 96, y * 96), loader, oMap.getID()));
-        }
 
         [TestMethod]
         public void clearTypesBuffer()
@@ -246,20 +239,15 @@ namespace ExplorusTests
             Assert.AreEqual(0, (physics.getBuffer().Count));
         }
 
-        //moveObject(private) : check position after valid movement with wall and others
-        //* checkCollision(private): add slimus-toxic/toxic-bubble/slimus-gem
-        //* add slimus-wall/toxic-wall/bubble-wall
-       
-
 
         [TestInitialize]
-        public void ClassInitialize()
+        public void TestInitialize()
         {
             engine.Start();
         }
 
         [TestCleanup]
-        public void ClassCleanup()
+        public void TestCleanup()
         {
             engine.Stop();
         }
