@@ -25,8 +25,10 @@ namespace Explorus
         private Keys currentInput;
 
         private PhysicsThread physics;
+        private AudioThread audio;
 
         private Thread physicsThread;
+        private Thread audioThread;
 
         public GameEngine()
         {
@@ -59,6 +61,10 @@ namespace Explorus
             physics = PhysicsThread.GetInstance();
             physicsThread = new Thread(physics.Run);
             physicsThread.Start();
+
+            audio = AudioThread.Instance;
+            audioThread = new Thread(audio.Run);
+            audioThread.Start();
 
             oView.Show();
         }

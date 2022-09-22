@@ -29,7 +29,9 @@ namespace Explorus.Model
 
         private int popped = 0;
 
-
+        private AudioThread audio = AudioThread.Instance;
+        System.Media.SoundPlayer soundHit = new System.Media.SoundPlayer("./Resources/Audio/sound11.wav");
+        System.Media.SoundPlayer soundHitWall = new System.Media.SoundPlayer("./Resources/Audio/sound13.wav");
         public Bubble(Point pos, ImageLoader loader, int ID, Slimus _slimus) : base(pos, loader.BubbleImages[0], ID)
         {
             collider = new CircleCollider(this, 24);
@@ -72,8 +74,15 @@ namespace Explorus.Model
             if ((otherCollider.parent.GetType() == typeof(Wall) || (otherCollider.parent.GetType() == typeof(ToxicSlime) || otherCollider.parent.GetType() == typeof(Door)) && popped == 0))
             {
                 popped = 1;
-                if(otherCollider.parent.GetType() == typeof(ToxicSlime))
+                if (otherCollider.parent.GetType() == typeof(ToxicSlime))
+                {
                     ((ToxicSlime)otherCollider.parent).loseLife();
+                    audio.addSound(soundHit);
+                }
+                else
+                {
+                    audio.addSound(soundHitWall);
+                }
                 collider = null;
             }
 

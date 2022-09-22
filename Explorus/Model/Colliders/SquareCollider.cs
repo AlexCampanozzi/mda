@@ -56,7 +56,7 @@ namespace Explorus.Model
                 if (distY > getY() + ((CircleCollider)otherCollider).getRadius())
                     return false;
 
-                if (distX <= getY() / 2)
+                if (distY <= getY() / 2)
                     return true;
                 if (distX <= getX() / 2)
                     return true;
