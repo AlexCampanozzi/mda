@@ -27,10 +27,12 @@ namespace Explorus
         private State menu;
 
         private PhysicsThread physics;
+        private AudioThread audio;
         private RenderThread render;
 
         private Thread physicsThread;
         private Thread renderThread;
+        private Thread audioThread;
 
 
         public GameEngine()
@@ -69,6 +71,10 @@ namespace Explorus
             render = RenderThread.GetInstance();
             renderThread = new Thread(render.Run);
             renderThread.Start();
+
+            audio = AudioThread.Instance;
+            audioThread = new Thread(audio.Run);
+            audioThread.Start();
 
             oView.Show();
         }

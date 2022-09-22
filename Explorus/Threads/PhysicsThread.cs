@@ -55,7 +55,14 @@ namespace Explorus.Threads
                 if(movementBuffer.Count > 0)
                 {
                     MoveObject(movementBuffer.First());
-                    movementBuffer.RemoveAt(0);
+                    try
+                    {
+                        movementBuffer.RemoveAt(0);
+                    }
+                    catch
+                    {
+
+                    }
                 }
 
                 if(removeBuffer.Count > 0)
@@ -115,7 +122,14 @@ namespace Explorus.Threads
             int count = movementBuffer.Count;
             for (int i=0; i<count;i++)
             {
-                if (movementBuffer[count-i-1].obj == rmv_obj) movementBuffer.RemoveAt(count-i-1);
+                try
+                {
+                    if (movementBuffer[count - i - 1].obj == rmv_obj) movementBuffer.RemoveAt(count - i - 1);
+                }
+                catch
+                {
+
+                }
             }
         }
 

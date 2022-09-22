@@ -43,8 +43,17 @@ namespace Explorus.Model
         private bool transparent = false;
 
         private PhysicsThread physics = PhysicsThread.GetInstance();
+        
 
         private CompoundGameObject compoundGameObject;
+
+        private AudioThread audio = AudioThread.Instance;
+        System.Media.SoundPlayer soundMove = new System.Media.SoundPlayer("./Resources/Audio/sound01.wav");
+        System.Media.SoundPlayer soundHit = new System.Media.SoundPlayer("./Resources/Audio/sound03.wav");
+        System.Media.SoundPlayer soundGem = new System.Media.SoundPlayer("./Resources/Audio/sound08.wav");
+        System.Media.SoundPlayer soundDoor = new System.Media.SoundPlayer("./Resources/Audio/sound09.wav");
+        System.Media.SoundPlayer soundWin = new System.Media.SoundPlayer("./Resources/Audio/sound10.wav");
+        System.Media.SoundPlayer soundShoot = new System.Media.SoundPlayer("./Resources/Audio/sound15.wav");
 
         public Slimus(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimusImage, ID)
         {
@@ -76,6 +85,7 @@ namespace Explorus.Model
                     {
                         case Keys.Left:
                             direction = new Direction(-1, 0);
+                            audio.addSound(soundMove);
                             last_slimeDirX = -1;
                             last_slimeDirY = 0;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -84,6 +94,7 @@ namespace Explorus.Model
 
                         case Keys.Right:
                             direction = new Direction(1, 0);
+                            audio.addSound(soundMove);
                             last_slimeDirX = 1;
                             last_slimeDirY = 0;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -92,6 +103,7 @@ namespace Explorus.Model
 
                         case Keys.Up:
                             direction = new Direction(0, -1);
+                            audio.addSound(soundMove);
                             last_slimeDirX = 0;
                             last_slimeDirY = -1;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -100,6 +112,7 @@ namespace Explorus.Model
 
                         case Keys.Down:
                             direction = new Direction(0, 1);
+                            audio.addSound(soundMove);
                             last_slimeDirX = 0;
                             last_slimeDirY = 1;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -126,6 +139,7 @@ namespace Explorus.Model
                         gameMaster.useBubble();
                         Console.WriteLine("spawn bubble");
                         compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
+                        audio.addSound(soundShoot);
                     }
                 }
             }
@@ -254,15 +268,18 @@ namespace Explorus.Model
             {
                 gameMaster.GemCollected();
                 physics.removeFromGame(otherCollider.parent);
+                audio.addSound(soundGem);
             }
             else if (otherCollider.parent.GetType() == typeof(Door))
             {
+                audio.addSound(soundDoor);
                 physics.removeFromGame(otherCollider.parent);
             }
             else if (otherCollider.parent.GetType() == typeof(Slime))
             {
                 physics.removeFromGame(otherCollider.parent);
                 gameMaster.rescueSlime();
+                audio.addSound(soundWin);
             }
         }
 
@@ -278,6 +295,8 @@ namespace Explorus.Model
                 gameMaster.lostLife();
                 timer.Start();
                 invincible = true;
+
+                audio.addSound(soundHit);
             }
             else
             {

@@ -38,6 +38,10 @@ namespace Explorus.Model
 
         CompoundGameObject compoundGameObject;
 
+        private AudioThread audio = AudioThread.Instance;
+        System.Media.SoundPlayer soundHit = new System.Media.SoundPlayer("./Resources/Audio/sound19.wav");
+        System.Media.SoundPlayer soundDead = new System.Media.SoundPlayer("./Resources/Audio/sound08.wav");
+        System.Media.SoundPlayer soundDirectionChange = new System.Media.SoundPlayer("./Resources/Audio/sound13.wav");
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -123,6 +127,7 @@ namespace Explorus.Model
         {
             direction.X = direction.X * -1;
             direction.Y = direction.Y * -1;
+            audio.addSound(soundDirectionChange);
         }
 
         public override void OnCollisionEnter(Collider otherCollider)
@@ -131,7 +136,7 @@ namespace Explorus.Model
             {
                 ((ToxicSlime)otherCollider.parent).invertDir();
                 this.invertDir();
-
+                audio.addSound(soundHit);
             }
             else if (otherCollider.parent.GetType() == typeof(Door))
             {
@@ -155,6 +160,8 @@ namespace Explorus.Model
                 physics.removeFromGame(this);
                 compoundGameObject = Map.Instance.GetCompoundGameObject();
                 compoundGameObject.add(new Gem(this.position, iloader, Map.Instance.getID()), gridPosition.X, gridPosition.Y);
+
+                audio.addSound(soundDead);
             }
         }
     }
