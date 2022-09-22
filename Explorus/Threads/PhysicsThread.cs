@@ -66,7 +66,7 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if(movement.dir != null && validDirection.Contains(movement.dir) && movement.obj != null && movement.obj.GetType() != typeof(RigidBody) && movement.speed <= 0)
+            if(movement.dir != null && validDirection.Contains(movement.dir) && movement.obj != null && movement.speed > 0)
             lock (movementBuffer)
             {
                 movementBuffer.Add(movement);
