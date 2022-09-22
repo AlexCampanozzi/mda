@@ -1,10 +1,21 @@
 ﻿/* code fsp du physics thread
- * 
- * 
- * 
- * 
- * 
- */
+* MOVEMENTBUFFER(N=2) = MOVEMENTBUFFER[0],
+*MOVEMENTBUFFER[i:0..N] = (when(i<N) addMove -> MOVEMENTBUFFER[i+1]
+*| when(i>0) moveObject  -> checkCollision -> MOVEMENTBUFFER[i-1]
+*| when(i>0) clearBuffer -> MOVEMENTBUFFER[i-1]
+*).
+*
+*REMOVEBUFFER(N=2) = REMOVEBUFFER[0],
+*REMOVEBUFFER[i:0..N] = (when(i<N) removeFromGame -> REMOVEBUFFER[i+1] 
+*| when(i>0) removeItselfFromGame -> REMOVEBUFFER[i-1]
+*).
+*
+*MAIN = (addMove -> MAIN | removeFromGame -> MAIN | clearBuffer -> MAIN).
+*PHYSICSTHREAD = (moveObject -> PHYSICSTHREAD | removeItselfFromGame -> PHYSICSTHREAD).
+*
+*||BUFFERS = (MAIN || MOVEMENTBUFFER || PHYSICSTHREAD 
+*|| MAIN || REMOVEBUFFER || PHYSICSTHREAD).  
+*/
 
 using Explorus.Controller;
 using Explorus.Model;
