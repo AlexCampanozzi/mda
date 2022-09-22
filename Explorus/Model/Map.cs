@@ -38,7 +38,7 @@ namespace Explorus.Model
 
         private void load()
         {
-            objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map.png")));
+            objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map_valid.png")));
         }
 
         public static Map Instance

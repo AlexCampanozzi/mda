@@ -23,10 +23,15 @@ namespace Explorus
         private GameView oView;
         private State state;
         private Keys currentInput;
+        private bool FPSOn = false;
+        private State menu;
 
         private PhysicsThread physics;
+        private RenderThread render;
 
         private Thread physicsThread;
+        private Thread renderThread;
+
 
         public GameEngine()
         {
@@ -51,7 +56,8 @@ namespace Explorus
         public void Start()
         {
             this.state = new PlayState(this);
-            oView = new GameView();
+            menu = new MenuState(this);
+            oView = GameView.Instance;
 
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
@@ -59,6 +65,10 @@ namespace Explorus
             physics = PhysicsThread.GetInstance();
             physicsThread = new Thread(physics.Run);
             physicsThread.Start();
+
+            render = RenderThread.GetInstance();
+            renderThread = new Thread(render.Run);
+            renderThread.Start();
 
             oView.Show();
         }
@@ -78,16 +88,30 @@ namespace Explorus
             long previousTime = getTime();
             double lag = 0.0;
             int MS_PER_UPDATE = 10;
+
             while (oView.notClosed())
             {
                 long currentTime = getTime();
                 long elapsed = currentTime - previousTime;
                 previousTime = currentTime;
                 double fps = 1.0 / (elapsed / 1000.0);
-                oView.setFPS(fps);
+                fps = Math.Floor(fps);
+                int readyForFPS = 0;
 
+                if (FPSOn && readyForFPS == 0)
+                {
+                    Console.WriteLine("ready fps");
+                    readyForFPS = 100;
+                    oView.setFPS(fps);
+                }
+                else
+                {
+                    oView.setFPS(0);
+                }
+                readyForFPS--;
 
                 lag += elapsed;
+
                 if (state != null)
                 {
                     state.stateUpdate();
@@ -95,7 +119,7 @@ namespace Explorus
 
                 }
 
-                oView.Render();
+                //oView.Render();
 
                 Thread.Sleep(1);
             }
@@ -131,6 +155,10 @@ namespace Explorus
 
                 case Keys.Q:
                     ChangeState(new StopState(this));
+                    break;
+
+                case Keys.F:
+                    FPSOn = !FPSOn;
                     break;
 
                 default:

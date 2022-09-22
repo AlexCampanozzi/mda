@@ -14,7 +14,7 @@ namespace Explorus.Controller
         {
             this.engine = engine;
             Console.WriteLine("pause state");
-            GameView.GetInstance().getGameForm().Text = "Pause";
+            engine.SetMenu(Option.Music);
         }
 
         public override void stateUpdate()
@@ -31,5 +31,22 @@ namespace Explorus.Controller
         {
             return "Pause";
         }
+
+/*
+        delegate void SetTextCallback();
+        public override void SetText()
+        {
+            if (GameView.Instance.getGameForm().InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(SetText);
+                GameView.Instance.getGameForm().Invoke(d, new object[] {"Pause"});
+            }
+
+            else
+            {
+                GameView.Instance.getGameForm().Text = "Pause";
+            }
+
+        }*/
     }
 }

@@ -20,7 +20,7 @@ namespace Explorus
 
     public sealed class GameView
     {
-        private static GameView instance = null;
+        private static readonly GameView instance = new GameView();
         private static readonly object padlock = new object();
 
         private Keys currentInput = Keys.None;
@@ -39,7 +39,16 @@ namespace Explorus
         private bool wasMinimized = false;
         private bool hadLostFocus = false;
 
-        public GameView()
+        static GameView()
+        {
+
+        }
+        private GameView()
+        {
+            load();
+        }
+
+        private void load()
         {
             oGameForm = new GameForm();
             oGameForm.MinimumSize = new Size(600, 600);
@@ -61,19 +70,12 @@ namespace Explorus
             oGameForm.SubscribeToInput(this);
         }
 
-        public static GameView GetInstance()
+        public static GameView Instance
         {
-            if (instance == null)
+            get
             {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new GameView();
-                    }
-                }
+                return instance;
             }
-            return instance;
         }
 
         public void inputSubscription(Keys newInput)
@@ -162,7 +164,10 @@ namespace Explorus
 
             string gameState = GameEngine.GetInstance().GetState().Name();
             oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
-            ;
+            if (fps != 0)
+            {
+                oGameForm.Text = oGameForm.Text + " ۰•● ❤ ●•۰  FPS: " + fps.ToString();
+            }
 
             //pour rendre le jeu transparent
             ColorMatrix matrix = new ColorMatrix();
