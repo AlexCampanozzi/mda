@@ -43,8 +43,13 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
-            movementBuffer.Add(movement);
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            {
+                lock (movementBuffer)
+                {
+                    movementBuffer.Add(movement);
+                }
+            }
         }
         
         
@@ -54,22 +59,21 @@ namespace Explorus.Threads
             {
                 if(movementBuffer.Count > 0)
                 {
-                    MoveObject(movementBuffer.First());
-                    try
+                    lock (movementBuffer)
                     {
+                        MoveObject(movementBuffer.First());
                         movementBuffer.RemoveAt(0);
-                    }
-                    catch
-                    {
-
                     }
                 }
 
                 if(removeBuffer.Count > 0)
                 {
-                    //GameObject obj = removeBuffer[0];
-                    removeBuffer.First().removeItselfFromGame();
-                    removeBuffer.RemoveAt(0);
+                    lock (removeBuffer)
+                    {
+                        //GameObject obj = removeBuffer[0];
+                        removeBuffer.First().removeItselfFromGame();
+                        removeBuffer.RemoveAt(0);
+                    }
                 }
             }
         }
@@ -119,16 +123,12 @@ namespace Explorus.Threads
 
         public void clearBuffer(RigidBody rmv_obj)
         {
-            int count = movementBuffer.Count;
-            for (int i=0; i<count;i++)
+            lock (movementBuffer)
             {
-                try
+                int count = movementBuffer.Count -1; 
+                for (int i=0; i<count;i++)
                 {
-                    if (movementBuffer[count - i - 1].obj == rmv_obj) movementBuffer.RemoveAt(count - i - 1);
-                }
-                catch
-                {
-
+                    if (movementBuffer[count - i].obj == rmv_obj) movementBuffer.RemoveAt(count - i);
                 }
             }
         }
@@ -137,7 +137,10 @@ namespace Explorus.Threads
         {
             if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
-                removeBuffer.Add(obj);
+                lock (removeBuffer)
+                {
+                    removeBuffer.Add(obj);
+                }
             }
         }
 
