@@ -1,4 +1,4 @@
-﻿/* code fsp du physics thread
+﻿/* code fsp du physics thread le 2 est utilisé comme limite pour simplifier l'affichage des états sur ltsa
 * MOVEMENTBUFFER(N=2) = MOVEMENTBUFFER[0],
 *MOVEMENTBUFFER[i:0..N] = (when(i<N) addMove -> MOVEMENTBUFFER[i+1]
 *| when(i>0) moveObject  -> checkCollision -> MOVEMENTBUFFER[i-1]
@@ -38,11 +38,15 @@ namespace Explorus.Threads
      {
         private static PhysicsThread instance = null;
         private static readonly object padlock = new object();
-
+        private List<Direction> validDirection= new List<Direction>();
         List<PlayMovement> movementBuffer = new List<PlayMovement>() { };
         List<GameObject> removeBuffer = new List<GameObject>() { };
         private PhysicsThread()
         {
+            validDirection.Add(new Direction(1, 0));
+            validDirection.Add(new Direction(-1, 0));
+            validDirection.Add(new Direction(0, -1));
+            validDirection.Add(new Direction(0, 1));
         }
 
         public static PhysicsThread GetInstance()
@@ -62,12 +66,10 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            if(movement.dir != null && validDirection.Contains(movement.dir) && movement.obj != null && movement.obj.GetType() != typeof(RigidBody) && movement.speed <= 0)
+            lock (movementBuffer)
             {
-                lock (movementBuffer)
-                {
-                    movementBuffer.Add(movement);
-                }
+                movementBuffer.Add(movement);
             }
         }
         
@@ -157,12 +159,9 @@ namespace Explorus.Threads
 
         public void removeFromGame(GameObject obj)
         {
-            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            lock (removeBuffer)
             {
-                lock (removeBuffer)
-                {
-                    removeBuffer.Add(obj);
-                }
+                removeBuffer.Add(obj);
             }
         }
 
