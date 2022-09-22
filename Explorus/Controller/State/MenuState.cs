@@ -35,20 +35,38 @@ namespace Explorus.Controller
 
             if (menuOption == Option.Music)
             {
-                if (musicVolume >= 0 || musicVolume <= 100)
+                if (musicVolume >= 0 && musicVolume <= 100)
                 {
                     musicVolume = musicVolume + volume;
-                    Console.WriteLine(menuOption.ToString() + " volume is " + musicVolume);
                 }
+                if (musicVolume < 0)
+                {
+                    musicVolume = 0;
+                }
+                if (musicVolume > 100)
+                {
+                    musicVolume = 100;
+                }
+                Console.WriteLine(menuOption.ToString() + " volume is " + musicVolume);
+
+
             }
             else if (menuOption == Option.Sound)
             {
-                if (soundVolume >= 0 || soundVolume <= 100)
+                if (soundVolume >= 0 && soundVolume <= 100)
                 {
                     soundVolume = soundVolume + volume;
-                    Console.WriteLine(menuOption.ToString() + " volume is " + soundVolume);
-
                 }
+                if (soundVolume < 0)
+                {
+                    soundVolume = 0;
+                }
+                if (soundVolume > 100)
+                {
+                    soundVolume = 100;
+                }
+                Console.WriteLine(menuOption.ToString() + " volume is " + soundVolume);
+
             }
 
 
