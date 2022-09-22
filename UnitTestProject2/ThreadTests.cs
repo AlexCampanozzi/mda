@@ -17,7 +17,7 @@ using Explorus.Threads;
 using System.Net.NetworkInformation;
 using System.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
-
+using System.Threading.Tasks;
 
 namespace ExplorusTests
 
@@ -30,17 +30,26 @@ namespace ExplorusTests
         public Map oMap = Map.Instance;
         ImageLoader loader = new ImageLoader();
 
+        [TestInitialize]
+        public void testInitialize()
+        {
+            engine.Start();
+        }
+        [TestCleanup]
+        public void testClean()
+        {
+            engine.Stop();
+        }
         /* physics methods:
          * getInstance: not null
-         * getBuffer: empty at init, count=1 ater valid add, empty after remove
-         * addMove: playmovement: null obj, null/0 dir, 0/negative speed; 
-         * - add every directions
-         * clearBuffer: null obj, clear with slimus, 
-         * clear with toxic, clear with bubble, clear while empty
-         * removeFromGame: remove slimus, toxic, bubble, null
+         * getBuffer: empty at init, Count=1 ater valid add, empty after remove
+         * addMove: PlayMovement: null obj, null/0 dir, 0/negative speed; 
+         * - add every Directions
+         * clearBuffer: null obj, clear with Slimus, 
+         * clear with toxic, clear with Bubble, clear while empty
          * moveObject (private) : check position after valid movement with wall and others
-         * checkCollision (private): add slimus-toxic/toxic-bubble/slimus-gem
-         * add slimus-wall/toxic-wall/bubble-wall
+         * checkCollision (private): add Slimus-toxic/toxic-Bubble/Slimus-gem
+         * add Slimus-wall/toxic-wall/Bubble-wall
          */
         [TestMethod]
         public void threadInstance()
@@ -69,18 +78,6 @@ namespace ExplorusTests
             };
             physics.addMove(mvmt);
             Assert.AreEqual(1, (physics.getBuffer().Count));
-        }
-        [TestMethod]
-        public void RemoveObjectThread()
-        {
-            int x = 12;
-            int y = 15;
-
-            RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-
-            physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
-            physics.removeFromGame(entity);
-            Assert.AreEqual(0, (physics.getBuffer().Count));
         }
 
         [TestMethod]
@@ -148,25 +145,25 @@ namespace ExplorusTests
 
         }
         [TestMethod]
-        public void addTypesObjects()
+        public void addtypesobjects()
         {
             int x = 12;
             int y = 15;
 
             RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-            //RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y-1) * 96), loader, oMap.getID());
-            //RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), new Slimus(new Point(x * 96, y * 96), loader, oMap.getID()));
+            RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID());
+            RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), new Slimus(new Point(x * 96, y * 96), loader, oMap.getID()));
 
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(1, (physics.getBuffer().Count));
-            //physics.addMove(new PlayMovement() { obj = entity2, dir = new Direction(1, 0), speed = 2 });
-            //Assert.AreEqual(2, (physics.getBuffer().Count));
-            //physics.addMove(new PlayMovement() { obj = entity3, dir = new Direction(1, 0), speed = 2 });
-            //Assert.AreEqual(3, (physics.getBuffer().Count));
+            physics.addMove(new PlayMovement() { obj = entity2, dir = new Direction(1, 0), speed = 2 });
+            Assert.AreEqual(2, (physics.getBuffer().Count));
+            physics.addMove(new PlayMovement() { obj = entity3, dir = new Direction(1, 0), speed = 2 });
+            Assert.AreEqual(3, (physics.getBuffer().Count));
         }
 
         [TestMethod]
-        public void clearTypesBuffer()
+        public void cleartypesbuffer()
         {
             int x = 12;
             int y = 15;
@@ -192,7 +189,7 @@ namespace ExplorusTests
         }
 
         [TestMethod]
-        public void clearEmptyBuffer()
+        public void clearemptybuffer()
         {
             int x = 12;
             int y = 15;
@@ -201,7 +198,7 @@ namespace ExplorusTests
             Assert.AreEqual(0, (physics.getBuffer().Count));
         }
         [TestMethod]
-        public void clearNullBuffer()
+        public void clearnullbuffer()
         {
             int x = 12;
             int y = 15;
@@ -212,44 +209,9 @@ namespace ExplorusTests
             physics.clearBuffer(null);
             Assert.AreEqual(1, (physics.getBuffer().Count));
         }
-        [TestMethod]
-        public void removeGame()
-        {
-            int x = 12;
-            int y = 15;
-
-            Slimus entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-            RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID());
-            RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), entity);
-
-            physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
-            Assert.AreEqual(1, (physics.getBuffer().Count));
-            physics.addMove(new PlayMovement() { obj = entity2, dir = new Direction(1, 0), speed = 2 });
-            Assert.AreEqual(2, (physics.getBuffer().Count));
-            physics.addMove(new PlayMovement() { obj = entity3, dir = new Direction(1, 0), speed = 2 });
-            Assert.AreEqual(3, (physics.getBuffer().Count));
-
-            physics.removeFromGame(null);
-            Assert.AreEqual(3, (physics.getBuffer().Count));
-            physics.removeFromGame(entity);
-            Assert.AreEqual(2, (physics.getBuffer().Count));
-            physics.removeFromGame(entity2);
-            Assert.AreEqual(1, (physics.getBuffer().Count));
-            physics.removeFromGame(entity3);
-            Assert.AreEqual(0, (physics.getBuffer().Count));
-        }
+        
 
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            engine.Start();
-        }
 
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            engine.Stop();
-        }
     }
 }

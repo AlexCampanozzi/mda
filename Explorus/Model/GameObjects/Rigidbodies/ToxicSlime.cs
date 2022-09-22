@@ -158,6 +158,7 @@ namespace Explorus.Model
             if (life <= 0)
             {
                 physics.removeFromGame(this);
+                physics.clearBuffer(this);
                 compoundGameObject = Map.Instance.GetCompoundGameObject();
                 compoundGameObject.add(new Gem(this.position, iloader, Map.Instance.getID()), gridPosition.X, gridPosition.Y);
 

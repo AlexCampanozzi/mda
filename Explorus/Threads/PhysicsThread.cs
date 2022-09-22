@@ -38,15 +38,14 @@ namespace Explorus.Threads
      {
         private static PhysicsThread instance = null;
         private static readonly object padlock = new object();
-        private List<Direction> validDirection= new List<Direction>();
+        private List<(int,int)> validDirection = new List<(int, int)>()
+        {
+            (0,1), (0,-1), (1,0),(-1,0)
+        };
         List<PlayMovement> movementBuffer = new List<PlayMovement>() { };
         List<GameObject> removeBuffer = new List<GameObject>() { };
         private PhysicsThread()
         {
-            validDirection.Add(new Direction(1, 0));
-            validDirection.Add(new Direction(-1, 0));
-            validDirection.Add(new Direction(0, -1));
-            validDirection.Add(new Direction(0, 1));
         }
 
         public static PhysicsThread GetInstance()
@@ -66,11 +65,14 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if(movement.dir != null && validDirection.Contains(movement.dir) && movement.obj != null && movement.speed > 0)
-            lock (movementBuffer)
-            {
-                movementBuffer.Add(movement);
-            }
+            //if (GameEngine.GetInstance().GetState().Name() == "Play")
+            //{
+                if (movement.dir != null && validDirection.Contains((movement.dir.X, movement.dir.Y)) && movement.obj != null && movement.speed > 0)
+                    lock (movementBuffer)
+                    {
+                        movementBuffer.Add(movement);
+                    }
+            //}
         }
         
         
@@ -162,10 +164,13 @@ namespace Explorus.Threads
 
         public void removeFromGame(GameObject obj)
         {
-            lock (removeBuffer)
-            {
-                removeBuffer.Add(obj);
-            }
+            //if (GameEngine.GetInstance().GetState().Name() == "Play")
+            //{
+                lock (removeBuffer)
+                {
+                    removeBuffer.Add(obj);
+                }
+            //}
         }
 
         public List<PlayMovement> getBuffer()
