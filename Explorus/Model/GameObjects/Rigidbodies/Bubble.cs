@@ -50,21 +50,25 @@ namespace Explorus.Model
 
         public override void update()
         {
-            if(popped == 0)
+            if (GameEngine.GetInstance().GetState().Name() == "Play")
             {
-                physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = velocity });
-            }
-            else if(popped >= 99)
-            {
-                Console.WriteLine("removed bubble");
-                physics.removeFromGame(this);
-            }
-            else if(popped >= 1)
-            {
+                if (popped == 0)
+                {
+                    physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = velocity });
+                }
+                else if (popped >= 99)
+                {
+                    Console.WriteLine("removed bubble");
+                    physics.removeFromGame(this);
+                    physics.clearBuffer(this);
+                }
+                else if (popped >= 1)
+                {
 
-                
-                image = animator.Animate(popped);
-                popped += 3;
+
+                    image = animator.Animate(popped);
+                    popped += 3;
+                }
             }
             
         }

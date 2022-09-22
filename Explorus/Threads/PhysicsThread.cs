@@ -1,4 +1,23 @@
-﻿using Explorus.Controller;
+﻿/* code fsp du physics thread le 2 est utilisé comme limite pour simplifier l'affichage des états sur ltsa
+* MOVEMENTBUFFER(N=2) = MOVEMENTBUFFER[0],
+*MOVEMENTBUFFER[i:0..N] = (when(i<N) addMove -> MOVEMENTBUFFER[i+1]
+*| when(i>0) moveObject  -> checkCollision -> MOVEMENTBUFFER[i-1]
+*| when(i>0) clearBuffer -> MOVEMENTBUFFER[i-1]
+*).
+*
+*REMOVEBUFFER(N=2) = REMOVEBUFFER[0],
+*REMOVEBUFFER[i:0..N] = (when(i<N) removeFromGame -> REMOVEBUFFER[i+1] 
+*| when(i>0) removeItselfFromGame -> REMOVEBUFFER[i-1]
+*).
+*
+*MAIN = (addMove -> MAIN | removeFromGame -> MAIN | clearBuffer -> MAIN).
+*PHYSICSTHREAD = (moveObject -> PHYSICSTHREAD | removeItselfFromGame -> PHYSICSTHREAD).
+*
+*||BUFFERS = (MAIN || MOVEMENTBUFFER || PHYSICSTHREAD 
+*|| MAIN || REMOVEBUFFER || PHYSICSTHREAD).  
+*/
+
+using Explorus.Controller;
 using Explorus.Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +38,10 @@ namespace Explorus.Threads
      {
         private static PhysicsThread instance = null;
         private static readonly object padlock = new object();
-
+        private List<(int,int)> validDirection = new List<(int, int)>()
+        {
+            (0,1), (0,-1), (1,0),(-1,0)
+        };
         List<PlayMovement> movementBuffer = new List<PlayMovement>() { };
         List<GameObject> removeBuffer = new List<GameObject>() { };
         private PhysicsThread()
@@ -43,13 +65,11 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
-            {
+            if (movement.dir != null && validDirection.Contains((movement.dir.X, movement.dir.Y)) && movement.obj != null && movement.speed > 0)
                 lock (movementBuffer)
                 {
                     movementBuffer.Add(movement);
                 }
-            }
         }
         
         
@@ -123,24 +143,27 @@ namespace Explorus.Threads
 
         public void clearBuffer(RigidBody rmv_obj)
         {
-            lock (movementBuffer)
+            if (rmv_obj != null)
             {
-                int count = movementBuffer.Count -1; 
-                for (int i=0; i<count;i++)
+                lock (movementBuffer)
                 {
-                    if (movementBuffer[count - i].obj == rmv_obj) movementBuffer.RemoveAt(count - i);
+                    int count = movementBuffer.Count;
+                    if (count > 0)
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            if (movementBuffer[count - 1 - i].obj == rmv_obj) movementBuffer.RemoveAt(count - 1 - i);
+                        }
+                    }
                 }
             }
         }
 
         public void removeFromGame(GameObject obj)
         {
-            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            lock (removeBuffer)
             {
-                lock (removeBuffer)
-                {
-                    removeBuffer.Add(obj);
-                }
+                removeBuffer.Add(obj);
             }
         }
 
