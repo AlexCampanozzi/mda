@@ -65,11 +65,14 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if (movement.dir != null && validDirection.Contains((movement.dir.X, movement.dir.Y)) && movement.obj != null && movement.speed > 0)
-                lock (movementBuffer)
-                {
-                    movementBuffer.Add(movement);
-                }
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            {
+                if (movement.dir != null && validDirection.Contains((movement.dir.X, movement.dir.Y)) && movement.obj != null && movement.speed > 0)
+                    lock (movementBuffer)
+                    {
+                        movementBuffer.Add(movement);
+                    }
+            }
         }
         
         
@@ -164,9 +167,12 @@ namespace Explorus.Threads
 
         public void removeFromGame(GameObject obj)
         {
-            lock (removeBuffer)
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
-                removeBuffer.Add(obj);
+                lock (removeBuffer)
+                {
+                    removeBuffer.Add(obj);
+                }
             }
         }
 

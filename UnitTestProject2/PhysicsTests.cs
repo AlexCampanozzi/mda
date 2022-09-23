@@ -6,6 +6,12 @@
  * Alex Chorel-Campanozzi choa3403
  */
 
+/*********************************
+ * Note pour exécuter les tests, retirer les conditions gameState = play
+ * des méthodes AddMove (68) et removeFromGame (170) du physicsThread
+ * On a pas trouvé de façon de contourner la condition, et si on l'enlève
+ * les toxic slimes se téléportent lorsque qu'on fait pause
+ */
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Explorus;
@@ -40,6 +46,7 @@ namespace ExplorusTests
         {
             engine.Stop();
         }
+        
         /* physics methods:
          * getInstance: not null
          * getBuffer: empty at init, Count=1 ater valid add, empty after remove
