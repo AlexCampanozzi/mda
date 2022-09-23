@@ -21,7 +21,6 @@ namespace Explorus
     public sealed class GameView
     {
         private static readonly GameView instance = new GameView();
-        private static readonly object padlock = new object();
 
         private Keys currentInput = Keys.None;
         private double fps;
@@ -200,10 +199,17 @@ namespace Explorus
                 {
                     Image img = compoundGameObjectList[i].GetImage();
                     int size_offset = 0;
-                
-                     if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
+
+                    try
                     {
-                        size_offset = 24;
+                        if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
+                        {
+                            size_offset = 24;
+                        }
+                    }
+                    catch
+                    {
+
                     }
 
                     if (gameState != "Play")
@@ -236,8 +242,7 @@ namespace Explorus
                 resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
                 e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
-
-
+            GC.Collect();
         }
         public double getFPS()
         {

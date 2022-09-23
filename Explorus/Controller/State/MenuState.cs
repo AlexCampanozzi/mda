@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Explorus.Threads;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Explorus.Controller
         private int soundVolume = 50;
 
         private Option menuOption;
-
+        AudioThread audio = AudioThread.Instance;
         public MenuState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
@@ -51,6 +52,7 @@ namespace Explorus.Controller
                     musicVolume = 0;
                 }
 
+                audio.setMusicVolume(musicVolume);
                 Console.WriteLine(menuOption.ToString() + " volume is " + musicVolume);
 
 
@@ -74,7 +76,7 @@ namespace Explorus.Controller
                     soundVolume = 0;
                 }
                 Console.WriteLine(menuOption.ToString() + " volume is " + soundVolume);
-
+                audio.setSoundVolume(soundVolume);
             }
 
 

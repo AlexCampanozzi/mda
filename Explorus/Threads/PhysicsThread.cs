@@ -86,8 +86,15 @@ namespace Explorus.Threads
                     {
                         lock (movementBuffer)
                         {
-                            MoveObject(movementBuffer.First());
-                            movementBuffer.RemoveAt(0);
+                            try
+                            {
+                                MoveObject(movementBuffer.First());
+                                movementBuffer.RemoveAt(0);
+                            }
+                            catch
+                            {
+
+                            }
                         }
                     }
 
@@ -101,6 +108,7 @@ namespace Explorus.Threads
                         }
                     }
                 }
+
             }
         }
 
