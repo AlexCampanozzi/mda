@@ -27,6 +27,7 @@ namespace ExplorusTests
     {
         GameEngine engine = new GameEngine();
         public PhysicsThread physics = PhysicsThread.GetInstance();
+        public RenderThread render = RenderThread.GetInstance();
         public Map oMap = Map.Instance;
         ImageLoader loader = new ImageLoader();
 
@@ -44,7 +45,6 @@ namespace ExplorusTests
         [TestMethod]
         public void renderThreadtest()
         {
-            RenderThread render = RenderThread.GetInstance();
             Assert.AreNotEqual(null, render);
         }
         /* physics methods:
