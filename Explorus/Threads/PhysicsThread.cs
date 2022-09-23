@@ -65,11 +65,14 @@ namespace Explorus.Threads
 
         public void addMove(PlayMovement movement)
         {
-            if (movement.dir != null && validDirection.Contains((movement.dir.X, movement.dir.Y)) && movement.obj != null && movement.speed > 0)
-                lock (movementBuffer)
-                {
-                    movementBuffer.Add(movement);
-                }
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            {
+                if (movement.dir != null && validDirection.Contains((movement.dir.X, movement.dir.Y)) && movement.obj != null && movement.speed > 0)
+                    lock (movementBuffer)
+                    {
+                        movementBuffer.Add(movement);
+                    }
+            }
         }
         
         
@@ -77,22 +80,25 @@ namespace Explorus.Threads
         {
             while (true)
             {
-                if(movementBuffer.Count > 0)
+                if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
                 {
-                    lock (movementBuffer)
+                    if (movementBuffer.Count > 0)
                     {
-                        MoveObject(movementBuffer.First());
-                        movementBuffer.RemoveAt(0);
+                        lock (movementBuffer)
+                        {
+                            MoveObject(movementBuffer.First());
+                            movementBuffer.RemoveAt(0);
+                        }
                     }
-                }
 
-                if(removeBuffer.Count > 0)
-                {
-                    lock (removeBuffer)
+                    if (removeBuffer.Count > 0)
                     {
-                        //GameObject obj = removeBuffer[0];
-                        removeBuffer.First().removeItselfFromGame();
-                        removeBuffer.RemoveAt(0);
+                        lock (removeBuffer)
+                        {
+                            //GameObject obj = removeBuffer[0];
+                            removeBuffer.First().removeItselfFromGame();
+                            removeBuffer.RemoveAt(0);
+                        }
                     }
                 }
             }
@@ -161,9 +167,12 @@ namespace Explorus.Threads
 
         public void removeFromGame(GameObject obj)
         {
-            lock (removeBuffer)
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
-                removeBuffer.Add(obj);
+                lock (removeBuffer)
+                {
+                    removeBuffer.Add(obj);
+                }
             }
         }
 

@@ -16,6 +16,7 @@ using Explorus.Threads;
 using System.Threading;
 using System.Diagnostics;
 using System.Security;
+using System.Windows.Media;
 
 namespace Explorus.Model
 {
@@ -48,15 +49,13 @@ namespace Explorus.Model
         private CompoundGameObject compoundGameObject;
 
         private AudioThread audio = AudioThread.Instance;
-        System.Media.SoundPlayer soundMove = new System.Media.SoundPlayer("./Resources/Audio/sound01.wav");
-        System.Media.SoundPlayer soundHit = new System.Media.SoundPlayer("./Resources/Audio/sound03.wav");
-        System.Media.SoundPlayer soundGem = new System.Media.SoundPlayer("./Resources/Audio/sound08.wav");
-        System.Media.SoundPlayer soundDoor = new System.Media.SoundPlayer("./Resources/Audio/sound09.wav");
-        System.Media.SoundPlayer soundWin = new System.Media.SoundPlayer("./Resources/Audio/sound10.wav");
-        System.Media.SoundPlayer soundShoot = new System.Media.SoundPlayer("./Resources/Audio/sound15.wav");
+
 
         public Slimus(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimusImage, ID)
         {
+
+
+
             states = loader.SlimusImages;
             image = loader.SlimusImage;
             goalPosition = pos;
@@ -85,7 +84,7 @@ namespace Explorus.Model
                     {
                         case Keys.Left:
                             direction = new Direction(-1, 0);
-                            audio.addSound(soundMove);
+                            audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = -1;
                             last_slimeDirY = 0;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -94,7 +93,7 @@ namespace Explorus.Model
 
                         case Keys.Right:
                             direction = new Direction(1, 0);
-                            audio.addSound(soundMove);
+                            audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = 1;
                             last_slimeDirY = 0;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -103,7 +102,7 @@ namespace Explorus.Model
 
                         case Keys.Up:
                             direction = new Direction(0, -1);
-                            audio.addSound(soundMove);
+                            audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = 0;
                             last_slimeDirY = -1;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -112,7 +111,7 @@ namespace Explorus.Model
 
                         case Keys.Down:
                             direction = new Direction(0, 1);
-                            audio.addSound(soundMove);
+                            audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = 0;
                             last_slimeDirY = 1;
                             if (last_slimeDirX == 0 && last_slimeDirY == 0)
@@ -137,7 +136,7 @@ namespace Explorus.Model
                     {
                         gameMaster.useBubble();
                         compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
-                        audio.addSound(soundShoot);
+                        audio.addSound(Sound.soundShootS);
                     }
                 }
             }
@@ -145,31 +144,40 @@ namespace Explorus.Model
 
         public override Image GetImage()
         {
-            return image;
+            lock (image)
+            {
+                return image;
+            }
         }
 
         private void SetImage()
         {
-            int progress = (int)( position.X % 96.0 + position.Y % 96.0);
-            image = animator.Animate(progress, direction.X, direction.Y);
-            if (invincible)
+            lock (image)
             {
-                if (!alphaTimer.IsRunning) alphaTimer.Start();
-                else if (alphaTimer.ElapsedMilliseconds >= 300)
-                {
-                    if (!transparent) transparent = true;
-                    else transparent = false;
-                    alphaTimer.Restart();
-                }
-            }
-            else if (alphaTimer.IsRunning)
-            {
-                alphaTimer.Stop();
-                alphaTimer.Reset();
-                transparent = false;
-            }
+                int progress = (int)(position.X % 96.0 + position.Y % 96.0);
 
-            if (transparent) image = animator.halfOpacity(image);
+
+                image = animator.Animate(progress, direction.X, direction.Y);
+
+                if (invincible)
+                {
+                    if (!alphaTimer.IsRunning) alphaTimer.Start();
+                    else if (alphaTimer.ElapsedMilliseconds >= 300)
+                    {
+                        if (!transparent) transparent = true;
+                        else transparent = false;
+                        alphaTimer.Restart();
+                    }
+                }
+                else if (alphaTimer.IsRunning)
+                {
+                    alphaTimer.Stop();
+                    alphaTimer.Reset();
+                    transparent = false;
+                }
+                if (transparent) image = animator.halfOpacity(image);
+                
+            }
         }
 
         public override void update()
@@ -183,7 +191,7 @@ namespace Explorus.Model
             GameMaster gameMaster = GameMaster.Instance;
             //Map oMap = Map.Instance;
             //List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
-            if (GameEngine.GetInstance().GetState().Name() == "Play")
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
                 if (direction.X != 0 || direction.Y != 0)
                 {
@@ -268,18 +276,18 @@ namespace Explorus.Model
             {
                 gameMaster.GemCollected();
                 physics.removeFromGame(otherCollider.parent);
-                audio.addSound(soundGem);
+                audio.addSound(Sound.soundGemS);
             }
             else if (otherCollider.parent.GetType() == typeof(Door))
             {
-                audio.addSound(soundDoor);
+                audio.addSound(Sound.soundDoorS);
                 physics.removeFromGame(otherCollider.parent);
             }
             else if (otherCollider.parent.GetType() == typeof(Slime))
             {
                 physics.removeFromGame(otherCollider.parent);
                 gameMaster.rescueSlime();
-                audio.addSound(soundWin);
+                audio.addSound(Sound.soundWinS);
             }
         }
 
@@ -296,7 +304,7 @@ namespace Explorus.Model
                 timer.Start();
                 invincible = true;
 
-                audio.addSound(soundHit);
+                audio.addSound(Sound.soundHit);
             }
             else
             {

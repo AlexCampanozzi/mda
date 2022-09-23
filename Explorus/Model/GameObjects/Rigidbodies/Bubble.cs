@@ -8,6 +8,7 @@ using System.Windows.Forms.VisualStyles;
 using Explorus.Controller;
 using Explorus.Model.GameObjects.Rigidbodies;
 using Explorus.Threads;
+using System.Windows.Media;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace Explorus.Model
@@ -30,10 +31,11 @@ namespace Explorus.Model
         private int popped = 0;
 
         private AudioThread audio = AudioThread.Instance;
-        System.Media.SoundPlayer soundHit = new System.Media.SoundPlayer("./Resources/Audio/sound11.wav");
-        System.Media.SoundPlayer soundHitWall = new System.Media.SoundPlayer("./Resources/Audio/sound13.wav");
+
         public Bubble(Point pos, ImageLoader loader, int ID, Slimus _slimus) : base(pos, loader.BubbleImages[0], ID)
         {
+
+
             collider = new CircleCollider(this, 24);
             slimus = _slimus;
             velocity = slimus.getSlimeVelocity()*2;
@@ -44,13 +46,13 @@ namespace Explorus.Model
             direction = new Direction(dirX, dirY);
             if (direction == null || (direction.X == 0 && direction.Y == 0))
                 direction.X = 1;
-
+            
             animator = new simpleAnimator(this, images, new int[] { 0, 1, 2 });
         }
 
         public override void update()
         {
-            if (GameEngine.GetInstance().GetState().Name() == "Play")
+            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
                 if (popped == 0)
                 {
@@ -64,8 +66,10 @@ namespace Explorus.Model
                 else if (popped >= 1)
                 {
 
-
-                    image = animator.Animate(popped);
+                    lock (image)
+                    {
+                        image = animator.Animate(popped);
+                    }
                     popped += 3;
                 }
             }
@@ -80,11 +84,11 @@ namespace Explorus.Model
                 if (otherCollider.parent.GetType() == typeof(ToxicSlime))
                 {
                     ((ToxicSlime)otherCollider.parent).loseLife();
-                    audio.addSound(soundHit);
+                    audio.addSound(Sound.soundHitB);
                 }
                 else
                 {
-                    audio.addSound(soundHitWall);
+                    audio.addSound(Sound.soundHitWallB);
                 }
                 collider = null;
             }
