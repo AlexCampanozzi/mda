@@ -63,7 +63,7 @@ namespace Explorus
             header = Header.GetInstance();
             windowState = oGameForm.WindowState;
 
-            pauseImage = Image.FromFile("./Resources/pause.png");
+            pauseImage = Image.FromFile("./Resources/pause_menu.png");
             resumeImage = Image.FromFile("./Resources/resuming.png");
             gameOverImage = Image.FromFile("./Resources/gameover.png");
 
@@ -125,7 +125,6 @@ namespace Explorus
             if (this.windowState == FormWindowState.Minimized)
             {
                 wasMinimized = true;
-                Console.WriteLine("minimize");
                 GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
             }
 
@@ -139,7 +138,6 @@ namespace Explorus
         private void Form_LostFocus(object sender, System.EventArgs e)
         {
             hadLostFocus = true;
-            Console.WriteLine("game lost focus");
             GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
         }
 
@@ -148,7 +146,6 @@ namespace Explorus
             if (hadLostFocus)
             {
                 hadLostFocus = false;
-                Console.WriteLine("game regained focus");
                 GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
 
             }

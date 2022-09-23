@@ -133,11 +133,9 @@ namespace Explorus.Model
                 {
                     compoundGameObject = Map.Instance.GetCompoundGameObject();
                     GameMaster gameMaster = GameMaster.Instance;
-                    Console.WriteLine(gameMaster.getBubbleStatus());
                     if (gameMaster.getBubbleStatus() >= 100)
                     {
                         gameMaster.useBubble();
-                        Console.WriteLine("spawn bubble");
                         compoundGameObject.add(new Bubble(this.position, slimeloader, Map.Instance.getID(), this), gridPosition.X, gridPosition.Y);
                         audio.addSound(soundShoot);
                     }

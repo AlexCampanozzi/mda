@@ -13,7 +13,6 @@ namespace Explorus.Controller
         public PlayState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
-            Console.WriteLine("play state");
 
         }
 

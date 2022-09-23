@@ -107,7 +107,6 @@ namespace Explorus
 
                 if (FPSOn && readyForFPS == 0)
                 {
-                    Console.WriteLine("ready fps");
                     readyForFPS = 100;
                     oView.setFPS(fps);
                 }
@@ -192,6 +191,10 @@ namespace Explorus
 
                     case Keys.Left:
                         menu.ChangeVolume(-1);
+                        break;
+
+                    case Keys.M:
+                        menu.ChangeVolume(0);
                         break;
                 }
 

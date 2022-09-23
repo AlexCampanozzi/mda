@@ -58,7 +58,6 @@ namespace Explorus.Model
                 }
                 else if (popped >= 99)
                 {
-                    Console.WriteLine("removed bubble");
                     physics.removeFromGame(this);
                     physics.clearBuffer(this);
                 }

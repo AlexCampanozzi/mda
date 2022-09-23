@@ -26,7 +26,6 @@ namespace Explorus.Controller
         public MenuState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
-            Console.WriteLine("MenuState state");
             menuOption = Option.Music;
         }
 
@@ -47,6 +46,11 @@ namespace Explorus.Controller
                 {
                     musicVolume = 100;
                 }
+                if (volume == 0)
+                {
+                    musicVolume = 0;
+                }
+
                 Console.WriteLine(menuOption.ToString() + " volume is " + musicVolume);
 
 
@@ -64,6 +68,10 @@ namespace Explorus.Controller
                 if (soundVolume > 100)
                 {
                     soundVolume = 100;
+                }
+                if (volume == 0)
+                {
+                    soundVolume = 0;
                 }
                 Console.WriteLine(menuOption.ToString() + " volume is " + soundVolume);
 

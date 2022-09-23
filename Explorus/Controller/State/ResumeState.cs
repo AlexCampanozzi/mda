@@ -14,14 +14,11 @@ namespace Explorus.Controller
         public ResumeState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
-            Console.WriteLine("resume state");
         }
 
         public override void stateUpdate()
         {
-            Console.WriteLine("waiting to resumed");
             Thread.Sleep(3000);
-            Console.WriteLine("resumed");
             engine.ChangeState(new PlayState(engine));
         }
 
