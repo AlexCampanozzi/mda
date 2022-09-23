@@ -1,4 +1,14 @@
-﻿using Explorus.Controller;
+﻿//SOUNDBUFFER(N = 2) = SOUNDBUFFER[0],
+//SOUNDBUFFER[i: 0..N] = (when(i < N) addSound->SOUNDBUFFER[i + 1]
+//| when(i > 0) playSound->clearBuffer->SOUNDBUFFER[i - 1]
+//).
+
+//MAIN = (addSound->MAIN).
+//SOUNDTHREAD = (playSound->SOUNDTHREAD).
+//MUSIC = (playMusic->MUSIC).
+
+//|| BUFFERS = (MAIN || SOUNDBUFFER || SOUNDTHREAD || MUSIC).
+using Explorus.Controller;
 using Explorus.Model;
 using System;
 using System.Collections.Generic;
@@ -10,6 +20,8 @@ using System.Threading;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Forms;
+
+
 
 namespace Explorus.Threads
 {
