@@ -41,11 +41,14 @@ namespace Explorus.Controller
 
         private GameMaster()
         {
-            foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
+            lock (compoundGameObject)
             {
-                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
+                foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
                 {
-                    numberOfGem++;
+                    if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
+                    {
+                        numberOfGem++;
+                    }
                 }
             }
         }

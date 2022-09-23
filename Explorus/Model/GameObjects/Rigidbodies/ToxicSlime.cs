@@ -14,6 +14,7 @@ using Explorus.Controller;
 using Explorus.Model.GameObjects.Rigidbodies;
 //using System.Drawing;
 using Explorus.Threads;
+using System.Windows.Media;
 
 namespace Explorus.Model
 {
@@ -39,13 +40,12 @@ namespace Explorus.Model
         CompoundGameObject compoundGameObject;
 
         private AudioThread audio = AudioThread.Instance;
-        System.Media.SoundPlayer soundHit = new System.Media.SoundPlayer("./Resources/Audio/sound19.wav");
-        System.Media.SoundPlayer soundDead = new System.Media.SoundPlayer("./Resources/Audio/sound08.wav");
-        System.Media.SoundPlayer soundDirectionChange = new System.Media.SoundPlayer("./Resources/Audio/sound13.wav");
+
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
         {
+
             int[] order = { 2, 3, 2, 1 };
             collider = new CircleCollider(this, 39);
             states = loader.ToxicSlimeImages;
@@ -55,7 +55,10 @@ namespace Explorus.Model
         private void SetImage()
         {
             int progress = (int)(position.X % 96.0 + position.Y % 96.0);
-            image = animator.Animate(progress, direction.X, direction.Y);
+            lock (image)
+            {
+                image = animator.Animate(progress, direction.X, direction.Y);
+            }
         }
 
         public override void update()
@@ -68,7 +71,6 @@ namespace Explorus.Model
 
             GameMaster gameMaster = GameMaster.Instance;
             Map oMap = Map.Instance;
-            List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
 
             if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
@@ -130,7 +132,7 @@ namespace Explorus.Model
         {
             direction.X = direction.X * -1;
             direction.Y = direction.Y * -1;
-            audio.addSound(soundDirectionChange);
+            audio.addSound(Sound.soundDirectionChange);
         }
 
         public override void OnCollisionEnter(Collider otherCollider)
@@ -139,7 +141,7 @@ namespace Explorus.Model
             {
                 ((ToxicSlime)otherCollider.parent).invertDir();
                 this.invertDir();
-                audio.addSound(soundHit);
+                audio.addSound(Sound.soundHit);
             }
             else if (otherCollider.parent.GetType() == typeof(Door))
             {
@@ -165,7 +167,7 @@ namespace Explorus.Model
                 compoundGameObject = Map.Instance.GetCompoundGameObject();
                 compoundGameObject.add(new Gem(this.position, iloader, Map.Instance.getID()), gridPosition.X, gridPosition.Y);
 
-                audio.addSound(soundDead);
+                audio.addSound(Sound.soundDead);
             }
         }
     }

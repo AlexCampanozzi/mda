@@ -194,23 +194,29 @@ namespace Explorus
             }
 
             List<GameObject> compoundGameObjectList = map.GetCompoundGameObject().getComponentGameObjetList();
-            for (int i = 0; i < compoundGameObjectList.Count; i++)
+            lock (compoundGameObjectList)
             {
-                Image img = compoundGameObjectList[i].GetImage();
-                int size_offset = 0;
-                if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { 
-                    size_offset = 24; }
+                for (int i = 0; i < compoundGameObjectList.Count; i++)
+                {
+                    Image img = compoundGameObjectList[i].GetImage();
+                    int size_offset = 0;
+                
+                     if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
+                    {
+                        size_offset = 24;
+                    }
 
-                if(gameState != "Play")
-                {
-                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
-                }
-                else
-                {
-                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                    if (gameState != "Play")
+                    {
+                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                    }
+
                 }
             }
-                
             e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
                 
             if (gameState == "Pause")

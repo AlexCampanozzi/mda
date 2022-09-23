@@ -171,14 +171,18 @@ namespace Explorus.Model
 
         public void resetMap()
         {
-            Map map = Instance;
-            //instance = null;
-            int len = compoundGameObject.getComponentGameObjetList().Count;
-            for (int i=0; i<len ;i++)
-            {
-                compoundGameObject.getComponentGameObjetList()[len-i-1].removeItselfFromGame();
-            }
 
+            Map map = Instance;
+
+            lock (compoundGameObject)
+            {
+                //instance = null;
+                int len = compoundGameObject.getComponentGameObjetList().Count;
+                for (int i = 0; i < len; i++)
+                {
+                    compoundGameObject.getComponentGameObjetList()[len - i - 1].removeItselfFromGame();
+                }
+            }
             load();
         }
     }
