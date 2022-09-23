@@ -50,7 +50,7 @@ namespace Explorus.Model
 
         public override void update()
         {
-            if (GameEngine.GetInstance().GetState().Name() == "Play")
+            if(GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
                 if (popped == 0)
                 {

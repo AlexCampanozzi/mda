@@ -183,7 +183,7 @@ namespace Explorus.Model
             GameMaster gameMaster = GameMaster.Instance;
             //Map oMap = Map.Instance;
             //List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
-            if (GameEngine.GetInstance().GetState().Name() == "Play")
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
                 if (direction.X != 0 || direction.Y != 0)
                 {

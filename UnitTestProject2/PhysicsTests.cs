@@ -6,6 +6,12 @@
  * Alex Chorel-Campanozzi choa3403
  */
 
+/*********************************
+ * Note pour exécuter les tests, retirer les conditions gameState = play
+ * des méthodes AddMove (68) et removeFromGame (170) du physicsThread
+ * On a pas trouvé de façon de contourner la condition, et si on l'enlève
+ * les toxic slimes se téléportent lorsque qu'on fait pause
+ */
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Explorus;
@@ -23,7 +29,7 @@ namespace ExplorusTests
 
 {
     [TestClass]
-    public class ThreadTests
+    public class PhysicsTests
     {
         GameEngine engine = new GameEngine();
         public PhysicsThread physics = PhysicsThread.GetInstance();
@@ -40,13 +46,7 @@ namespace ExplorusTests
         {
             engine.Stop();
         }
-        // render thread
-        [TestMethod]
-        public void renderThreadtest()
-        {
-            RenderThread render = RenderThread.GetInstance();
-            Assert.AreNotEqual(null, render);
-        }
+        
         /* physics methods:
          * getInstance: not null
          * getBuffer: empty at init, Count=1 ater valid add, empty after remove
@@ -77,14 +77,10 @@ namespace ExplorusTests
             int y = 15;
 
             RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-            PlayMovement mvmt = new PlayMovement()
-            {
-                obj = entity,
-                dir = new Direction(1, 0),
-                speed = 2
-            };
-            physics.addMove(mvmt);
+
+            physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(1, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
         }
 
         [TestMethod]
@@ -136,6 +132,7 @@ namespace ExplorusTests
             Assert.AreEqual(3, (physics.getBuffer().Count));
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(0, -1), speed = 2 });
             Assert.AreEqual(4, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
         }
         [TestMethod]
         public void addInvalidSpeed()
@@ -167,6 +164,9 @@ namespace ExplorusTests
             Assert.AreEqual(2, (physics.getBuffer().Count));
             physics.addMove(new PlayMovement() { obj = entity3, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(3, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
+            physics.clearBuffer(entity2);
+            physics.clearBuffer(entity3);
         }
 
         [TestMethod]
@@ -215,6 +215,7 @@ namespace ExplorusTests
             Assert.AreEqual(1, (physics.getBuffer().Count));
             physics.clearBuffer(null);
             Assert.AreEqual(1, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
         }
         
 
