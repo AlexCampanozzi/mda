@@ -23,11 +23,10 @@ namespace ExplorusTests
 
 {
     [TestClass]
-    public class ThreadTests
+    public class PhysicsTests
     {
         GameEngine engine = new GameEngine();
         public PhysicsThread physics = PhysicsThread.GetInstance();
-        public RenderThread render = RenderThread.GetInstance();
         public Map oMap = Map.Instance;
         ImageLoader loader = new ImageLoader();
 
@@ -40,12 +39,6 @@ namespace ExplorusTests
         public void testClean()
         {
             engine.Stop();
-        }
-        // render thread
-        [TestMethod]
-        public void renderThreadtest()
-        {
-            Assert.AreNotEqual(null, render);
         }
         /* physics methods:
          * getInstance: not null
@@ -77,14 +70,10 @@ namespace ExplorusTests
             int y = 15;
 
             RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-            PlayMovement mvmt = new PlayMovement()
-            {
-                obj = entity,
-                dir = new Direction(1, 0),
-                speed = 2
-            };
-            physics.addMove(mvmt);
+
+            physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(1, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
         }
 
         [TestMethod]
@@ -136,6 +125,7 @@ namespace ExplorusTests
             Assert.AreEqual(3, (physics.getBuffer().Count));
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(0, -1), speed = 2 });
             Assert.AreEqual(4, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
         }
         [TestMethod]
         public void addInvalidSpeed()
@@ -167,6 +157,9 @@ namespace ExplorusTests
             Assert.AreEqual(2, (physics.getBuffer().Count));
             physics.addMove(new PlayMovement() { obj = entity3, dir = new Direction(1, 0), speed = 2 });
             Assert.AreEqual(3, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
+            physics.clearBuffer(entity2);
+            physics.clearBuffer(entity3);
         }
 
         [TestMethod]
@@ -215,6 +208,7 @@ namespace ExplorusTests
             Assert.AreEqual(1, (physics.getBuffer().Count));
             physics.clearBuffer(null);
             Assert.AreEqual(1, (physics.getBuffer().Count));
+            physics.clearBuffer(entity);
         }
         
 
