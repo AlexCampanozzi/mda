@@ -1,4 +1,8 @@
-﻿using Explorus.Controller;
+﻿/*
+ * RENDERTHREAD = (run -> RENDERTHREAD). 
+ */
+
+using Explorus.Controller;
 using Explorus.Model;
 using System;
 using System.Collections.Generic;
