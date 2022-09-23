@@ -77,22 +77,25 @@ namespace Explorus.Threads
         {
             while (true)
             {
-                if(movementBuffer.Count > 0)
+                if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
                 {
-                    lock (movementBuffer)
+                    if (movementBuffer.Count > 0)
                     {
-                        MoveObject(movementBuffer.First());
-                        movementBuffer.RemoveAt(0);
+                        lock (movementBuffer)
+                        {
+                            MoveObject(movementBuffer.First());
+                            movementBuffer.RemoveAt(0);
+                        }
                     }
-                }
 
-                if(removeBuffer.Count > 0)
-                {
-                    lock (removeBuffer)
+                    if (removeBuffer.Count > 0)
                     {
-                        //GameObject obj = removeBuffer[0];
-                        removeBuffer.First().removeItselfFromGame();
-                        removeBuffer.RemoveAt(0);
+                        lock (removeBuffer)
+                        {
+                            //GameObject obj = removeBuffer[0];
+                            removeBuffer.First().removeItselfFromGame();
+                            removeBuffer.RemoveAt(0);
+                        }
                     }
                 }
             }
