@@ -20,7 +20,10 @@ namespace GEI797Labo.Models.Collections
 
         public List<Shape> FindById(params object[] values)
         {
-            for i in 
+            for (int i = 0; i < length; i++)
+            {
+
+            }
             return oShapes[id];
         }
 
