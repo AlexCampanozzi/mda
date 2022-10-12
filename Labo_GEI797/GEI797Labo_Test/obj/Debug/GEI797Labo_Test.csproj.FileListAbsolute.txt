@@ -1,0 +1,11 @@
+K:\mda\Labo_GEI797\GEI797Labo_Test\bin\Debug\GEI797Labo_Test.dll
+K:\mda\Labo_GEI797\GEI797Labo_Test\bin\Debug\GEI797Labo_Test.pdb
+K:\mda\Labo_GEI797\GEI797Labo_Test\bin\Debug\GEI797Labo.exe
+K:\mda\Labo_GEI797\GEI797Labo_Test\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+K:\mda\Labo_GEI797\GEI797Labo_Test\bin\Debug\GEI797Labo.pdb
+K:\mda\Labo_GEI797\GEI797Labo_Test\bin\Debug\GEI797Labo.exe.config
+K:\mda\Labo_GEI797\GEI797Labo_Test\obj\Debug\GEI797Labo_Test.csproj.AssemblyReference.cache
+K:\mda\Labo_GEI797\GEI797Labo_Test\obj\Debug\GEI797Labo_Test.csproj.CoreCompileInputs.cache
+K:\mda\Labo_GEI797\GEI797Labo_Test\obj\Debug\GEI797Labo_Test.csproj.CopyComplete
+K:\mda\Labo_GEI797\GEI797Labo_Test\obj\Debug\GEI797Labo_Test.dll
+K:\mda\Labo_GEI797\GEI797Labo_Test\obj\Debug\GEI797Labo_Test.pdb
