@@ -82,14 +82,17 @@ namespace Explorus.Controller
             //this.state = new PlayState(this);
             this.state = new StartState(this);
             audioState = new AudioState(this);
-            oView = GameView.Instance;
+            
             menuWindow = MenuWindow.Instance;
             currentOption = Option.Start;
             menuWindow.setOption(currentOption);
 
+            levelState = new LevelState(this);
+            oView = GameView.Instance;
 
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
+
 
             physics = PhysicsThread.GetInstance();
             physicsThread = new Thread(physics.Run);
@@ -102,6 +105,7 @@ namespace Explorus.Controller
             audio = AudioThread.Instance;
             audioThread = new Thread(audio.Run);
             audioThread.Start();
+
 
             oView.Show();
         }
@@ -266,7 +270,12 @@ namespace Explorus.Controller
 
                     switch (currentOption)
                     {
-                        case Option.Start: 
+                        case Option.Start:
+                            oView.getMap().resetMap();
+
+                            GameMaster gameMaster = GameMaster.Instance;
+                            gameMaster.setSlimeAmount(GetLevelState().Slimes);
+
                             ChangeState(new PlayState(this));
                             audio.setGameMusic();
                             break;

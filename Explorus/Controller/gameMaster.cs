@@ -43,16 +43,8 @@ namespace Explorus.Controller
 
         private GameMaster()
         {
-            lock (compoundGameObject)
-            {
-                foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
-                {
-                    if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
-                    {
-                        numberOfGem++;
-                    }
-                }
-            }
+            
+            GameEngine engine = GameEngine.GetInstance();
         }
         static GameMaster()
         {
@@ -106,7 +98,7 @@ namespace Explorus.Controller
         public void GemCollected()
         {
             gemCollected++;
-            oView.getHeader().setGem(gemCollected);
+            oView.getHeader().setGem(gemCollected * 100 / numberOfGem);
         }
         
         
@@ -176,6 +168,11 @@ namespace Explorus.Controller
         public int getLifeStatus()
         {
             return lifeStatus * 100 / 6;
+        }
+
+        public void setSlimeAmount(int slimes)
+        {
+            numberOfGem = slimes;
         }
 
         public void useBubble()

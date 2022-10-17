@@ -11,6 +11,7 @@ using System.Drawing;
 using System;
 using System.Collections.Generic;
 using Explorus.Properties;
+using Explorus.Controller;
 
 // This class is a singleton
 namespace Explorus.Model
@@ -114,6 +115,8 @@ namespace Explorus.Model
 
             compoundGameObject = new CompoundGameObject();
 
+            List<Point> potentialToxicSlimes = new List<Point>();
+
             for (int x = 0; x< typeMap.GetLength(0); x++)
             {
                 for(int y = 0; y < typeMap.GetLength(1); y++)
@@ -138,7 +141,7 @@ namespace Explorus.Model
                                 compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.ToxicSlime:
-                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader, getID()), x, y);
+                                potentialToxicSlimes.Add(new Point(x * 96, y * 96));
                                 break;
                             default:
                                 continue;
@@ -146,7 +149,15 @@ namespace Explorus.Model
                     }
                 }
             }
-
+            GameEngine engine = GameEngine.GetInstance();
+            Random random = new Random();
+            for(int i = 0; i < engine.GetLevelState().Slimes; i++)
+            {
+                int id = random.Next(0, potentialToxicSlimes.Count - 1);
+                Point point = potentialToxicSlimes[id];
+                potentialToxicSlimes.RemoveAt(id);
+                compoundGameObject.add(new ToxicSlime(point, loader, getID()), point.X/96, point.Y/96);
+            }
             return compoundGameObject.getComponentGameObjetList();
         }
 
