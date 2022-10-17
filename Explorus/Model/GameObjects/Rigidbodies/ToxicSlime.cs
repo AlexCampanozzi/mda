@@ -119,34 +119,19 @@ namespace Explorus.Model
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
-                        //if (inverted)
-                        //{
-                        //    direction = new Behaviors().randomException(direction, this);
-                        //    last_direction = direction;
                         inverted = false;
-                        //}
-                        //else
-                        //{
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                            last_direction = direction;
-                        //}
+                        last_direction = direction;
                         
                     }
                     else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
-                        //if (inverted)
-                        //{
-                        //    direction = new Behaviors().randomException(direction, this);
-                        //    last_direction = direction;
                         inverted = false;
-                        //}
-                        //else
-                        //{
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                            last_direction = direction;
-                        //}
+                        last_direction = direction;
+                        
                     }
 
                     physics.clearBuffer(this);
