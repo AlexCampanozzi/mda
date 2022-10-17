@@ -76,7 +76,7 @@ namespace Explorus.Model
             {
                 if(input == Keys.None)
                 {
-                    last_direction = direction;
+                    //last_direction = direction;
                     direction = new Direction(0, 0);
                 }
                 else
@@ -124,7 +124,7 @@ namespace Explorus.Model
                             break;
 
                         default:
-                            last_direction = new Direction(0, 1);
+                            //last_direction = new Direction(0, 1);
                             direction = new Direction(0, 0);
                             break;
                     }
