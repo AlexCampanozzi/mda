@@ -66,6 +66,12 @@
     <Compile Include="GameForm.Designer.cs">
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Behavior\AmbushStrategy.cs" />
+    <Compile Include="Model\Behavior\BehaviorContext.cs" />
+    <Compile Include="Model\Behavior\Behaviors.cs" />
+    <Compile Include="Model\Behavior\DualStrategy.cs" />
+    <Compile Include="Model\Behavior\IBehavior.cs" />
+    <Compile Include="Model\Behavior\PursuitStrategy.cs" />
     <Compile Include="Model\Colliders\CircleCollider.cs" />
     <Compile Include="Model\Colliders\Collider.cs" />
     <Compile Include="Model\GameObjects\CompoundGameObject.cs" />

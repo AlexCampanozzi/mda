@@ -11,6 +11,7 @@ using System.Drawing;
 using System;
 using System.Collections.Generic;
 using Explorus.Properties;
+using Explorus.Model.Behavior;
 
 // This class is a singleton
 namespace Explorus.Model
@@ -138,7 +139,7 @@ namespace Explorus.Model
                                 compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.ToxicSlime:
-                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader, getID()), x, y);
+                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader, getID(), new AmbushStrategy()), x, y);
                                 break;
                             default:
                                 continue;
