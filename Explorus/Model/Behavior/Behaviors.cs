@@ -37,7 +37,7 @@ namespace Explorus.Model.Behavior
                     int newDirID = rnd.Next(0, 3);
                     newDir = randomCase(newDirID);
                     objectTypes nextgrid = gridMap[gridPosition.X + newDir.X, gridPosition.Y + newDir.Y];
-                    if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door)
+                    if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door && nextgrid != objectTypes.ToxicSlime)
                     {
                         wall = false;
                     }

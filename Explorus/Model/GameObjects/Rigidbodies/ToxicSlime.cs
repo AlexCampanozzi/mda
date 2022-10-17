@@ -48,6 +48,7 @@ namespace Explorus.Model
         protected Direction lastPlayerDir;
         public Stopwatch behaviorTimer = new Stopwatch();
         protected bool pursuit;
+        private bool inverted;
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -118,15 +119,34 @@ namespace Explorus.Model
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
+                        //if (inverted)
+                        //{
+                        //    direction = new Behaviors().randomException(direction, this);
+                        //    last_direction = direction;
+                        inverted = false;
+                        //}
+                        //else
+                        //{
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                        last_direction = direction;
+                            last_direction = direction;
+                        //}
+                        
                     }
                     else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
+                        //if (inverted)
+                        //{
+                        //    direction = new Behaviors().randomException(direction, this);
+                        //    last_direction = direction;
+                        inverted = false;
+                        //}
+                        //else
+                        //{
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                        last_direction = direction;
+                            last_direction = direction;
+                        //}
                     }
 
                     physics.clearBuffer(this);
@@ -139,10 +159,15 @@ namespace Explorus.Model
 
         public void invertDir()
         {
-            direction.X = direction.X * -1;
-            direction.Y = direction.Y * -1;
-            last_direction = direction;
-            audio.addSound(Sound.soundDirectionChange);
+            if (!inverted)
+            {
+                //direction.X = direction.X * -1;
+                //direction.Y = direction.Y * -1;
+                direction = new Behaviors().randomException(direction, this);
+                last_direction = direction;
+                audio.addSound(Sound.soundDirectionChange);
+                inverted = true;
+            }
         }
 
         public override void OnCollisionEnter(Collider otherCollider)
