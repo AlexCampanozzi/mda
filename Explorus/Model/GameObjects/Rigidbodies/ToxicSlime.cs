@@ -96,7 +96,7 @@ namespace Explorus.Model
         }
         public override void update()
         {
-            if(direction == null || (direction.X == 0 && direction.Y ==0))
+            if (direction == null || (direction.X == 0 && direction.Y == 0))
             {
                 (direction, _, _, _) = context.choosePath();
                 last_direction = direction;
@@ -111,15 +111,7 @@ namespace Explorus.Model
             Map oMap = Map.Instance;
 
             if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
-            {
-                // 3 cases
-                // special, lost, random
-                //pursuit
-                // follow & follow around corner (special)
-                // dual
-                // follow & follow around and run away
-                // ambush
-                // parralelle
+            { 
                 if (direction.X != 0 || direction.Y != 0)
                 {
                     if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
@@ -142,62 +134,14 @@ namespace Explorus.Model
 
                     SetImage();
                 }
-                //if (direction.X != 0 || direction.Y != 0)
-                //{
-                //if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door)) //Collision
-                //{
-                //    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
-                //    {
-                //        gridPosition.X += direction.X;
-                //        gridPosition.Y += direction.Y;
-                //    }
-                //    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
-                //    {
-                //        gridPosition.X += direction.X;
-                //        gridPosition.Y += direction.Y;
-                //    }
-                //    else
-                //    {
-                //    }
-                //}
-                //else
-                //{
-                //    physics.clearBuffer(this);
-                //    //newRndDir();
-                //    direction = context.choosePath();
-                //}
-
-                //}
             }
-        }
-
-        public void newRndDir()
-        {
-            Random rnd = new Random();
-            int newDirID = rnd.Next(0, 3);
-            Direction newDir = new Direction(0, 1);
-            switch (newDirID)
-            {
-                case 0:
-                    newDir = new Direction(0, 1);
-                    break;
-                case 1:
-                    newDir = new Direction(1, 0);
-                    break;
-                case 2:
-                    newDir = new Direction(0, -1);
-                    break;
-                case 3:
-                    newDir = new Direction(-1, 0);
-                    break;
-            }
-            direction = newDir;
         }
 
         public void invertDir()
         {
             direction.X = direction.X * -1;
             direction.Y = direction.Y * -1;
+            last_direction = direction;
             audio.addSound(Sound.soundDirectionChange);
         }
 

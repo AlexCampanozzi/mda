@@ -102,22 +102,31 @@ namespace Explorus.Model.Behavior
             objectTypes nextGrid;
             // find slimus in corridor
             // check UP
-            for (int i = gridPosition.Y; i > 0; i--)
-            {
-                nextGrid = gridMap[gridPosition.X, i];
-                if (gridPosition.X == PlayerGrid.X && i == PlayerGrid.Y)
+            if(gridPosition.X == PlayerGrid.X && gridPosition.Y == PlayerGrid.Y){
+                newDir = random(slime, slime.getLastDirection());
+                SlimusDir = slimus.getLastDirection();
+                SlimusFound = true;
+                SlimusPosX = gridPosition.X;
+                SlimusPosY = gridPosition.Y;
+            }
+            if (!SlimusFound) {
+                for (int i = gridPosition.Y; i > 0; i--)
                 {
-                    newDir = new Direction(0, -1);
-                    SlimusDir = slimus.getLastDirection();
-                    SlimusFound = true;
-                    SlimusPosX = gridPosition.X;
-                    SlimusPosY = i;
-                    break;
-                }
-                else if (nextGrid == objectTypes.Wall || nextGrid == objectTypes.Door)
-                {
-                    break;
-                }
+                    nextGrid = gridMap[gridPosition.X, i];
+                    if (gridPosition.X == PlayerGrid.X && i == PlayerGrid.Y)
+                    {
+                        newDir = new Direction(0, -1);
+                        SlimusDir = slimus.getLastDirection();
+                        SlimusFound = true;
+                        SlimusPosX = gridPosition.X;
+                        SlimusPosY = i;
+                        break;
+                    }
+                    else if (nextGrid == objectTypes.Wall || nextGrid == objectTypes.Door)
+                    {
+                        break;
+                    }
+                } 
             }
             // check DOWN
             if (!SlimusFound)
