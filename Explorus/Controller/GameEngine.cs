@@ -221,10 +221,10 @@ namespace Explorus
 
                 gameMaster.update();
 
-                oView.getHeader().setKey(gameMaster.GetKeyStatus()); // à changer de place
+                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK FUCK YOU
                 oView.getHeader().setGem(gameMaster.getGemStatus());
                 oView.getHeader().setLife(gameMaster.getLifeStatus());
-                oView.getHeader().setBubble(gameMaster.getBubbleStatus());
+                oView.getHeader().setBubble(gameMaster.getBubbleStatus());*/
 
             }
         }

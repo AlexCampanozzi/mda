@@ -37,6 +37,8 @@ namespace Explorus.Controller
         private int numLevel = 3;
         private int currentLevel = 1;
 
+        private GameView oView = GameView.Instance;
+
         private CompoundGameObject compoundGameObject = Map.Instance.GetCompoundGameObject();
 
         private GameMaster()
@@ -82,6 +84,7 @@ namespace Explorus.Controller
             if (gemCollected == numberOfGem)
             {
                 keyStatus = true;
+                oView.getHeader().setKey(keyStatus);
             }
         }
 
@@ -93,13 +96,17 @@ namespace Explorus.Controller
         public void useKey()
         {
             keyStatus = false;
+            oView.getHeader().setKey(keyStatus);
         }
 
         public void GemCollected()
         {
             gemCollected++;
+            oView.getHeader().setGem(gemCollected);
         }
-
+        
+        
+        
         public int getGemStatus()
         {
             if (numberOfGem > 0) return gemCollected * 100 / numberOfGem;
@@ -159,6 +166,7 @@ namespace Explorus.Controller
         public void lostLife()
         {
             lifeStatus--;
+            oView.getHeader().setLife(lifeStatus);
             if (lifeStatus == 0) EndOfGame = true;
         }
         public int getLifeStatus()
@@ -169,6 +177,7 @@ namespace Explorus.Controller
         public void useBubble()
         {
             if (bubbleStatus == 6) bubbleStatus -= 6;
+            oView.getHeader().setBubble(bubbleStatus);
         }
 
         public int getBubbleStatus()
@@ -186,6 +195,7 @@ namespace Explorus.Controller
                     }
                 }
             }
+            oView.getHeader().setBubble(bubbleStatus * 100/6);
             return bubbleStatus * 100 / 6;
         }
     }

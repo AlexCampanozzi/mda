@@ -67,6 +67,9 @@ namespace Explorus
             gameOverImage = Image.FromFile("./Resources/gameover.png");
 
             oGameForm.SubscribeToInput(this);
+
+            xSize = map.GetTypeMap().GetLength(0) * 96;
+            ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
         }
 
         public static GameView Instance
@@ -155,9 +158,18 @@ namespace Explorus
             Application.Exit();
         }
 
+        private int xSize;
+        private int ySize;
+        float xScaling;
+        float yScaling;
+
+        float minScale;
+        int xOffset;
+        int yOffset;
+
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-
+            
             string gameState = GameEngine.GetInstance().GetState().Name();
             oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
             if (fps != 0)
@@ -173,15 +185,15 @@ namespace Explorus
 
 
             e.Graphics.Clear(Color.Black);
-            int xSize = map.GetTypeMap().GetLength(0) * 96;
-            int ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
 
-            float xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
-            float yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
+            
 
-            float minScale = Math.Min(xScaling, yScaling);
-            int xOffset = 0;
-            int yOffset = 0;
+            xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
+            yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
+
+            minScale = Math.Min(xScaling, yScaling);
+            xOffset = 0;
+            yOffset = 0;
 
             if (xScaling > yScaling)
             {
@@ -223,6 +235,7 @@ namespace Explorus
 
                 }
             }
+            
             e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
                 
             if (gameState == "Pause")
@@ -242,7 +255,7 @@ namespace Explorus
                 resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
                 e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
-            GC.Collect();
+            //GC.Collect();
         }
         public double getFPS()
         {
