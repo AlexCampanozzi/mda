@@ -50,14 +50,14 @@ namespace Explorus.Model
         protected bool pursuit;
 
         //Map map = Map.GetInstance();
-        public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
+        public ToxicSlime(Point pos, ImageLoader loader, int ID, IBehavior strategy) : base(pos, loader.ToxicSlimeImage, ID)
         {
             int[] order = { 2, 3, 2, 1 };
             collider = new CircleCollider(this, 39);
             states = loader.ToxicSlimeImages;
             animator = new directionAnimator(states, order);
             iloader = loader;
-            context = new BehaviorContext(this, new AmbushStrategy());
+            context = new BehaviorContext(this, strategy);
 
         }
         private void SetImage()
