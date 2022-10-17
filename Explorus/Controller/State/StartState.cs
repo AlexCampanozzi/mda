@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace Explorus.Controller
 {
-    public class PauseState : State
+    class StartState : State
     {
-        public PauseState(GameEngine engine) : base(engine)
+        public StartState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
         }
@@ -24,11 +24,9 @@ namespace Explorus.Controller
         {
             return lag;
         }
-
         public override string Name()
         {
-            return "Pause";
+            return "Start";
         }
-
     }
 }

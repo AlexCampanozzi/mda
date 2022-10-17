@@ -38,6 +38,8 @@ namespace Explorus
         private bool wasMinimized = false;
         private bool hadLostFocus = false;
 
+        private MenuWindow menuWindow = MenuWindow.Instance;
+
         static GameView()
         {
 
@@ -243,9 +245,21 @@ namespace Explorus
             
             e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
                 
-            if (gameState == "Pause")
+            if (gameState == "Pause" || gameState == "Start")
             {
-                e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+                //e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+                menuWindow.getMenuWindow(e);
+                
+            }
+
+            if (gameState == "Audio")
+            {
+                menuWindow.audioMenu(e);
+            }
+
+            if (gameState == "Level")
+            {
+                menuWindow.levelMenu(e);
             }
 
             if (gameState == "Resume")
