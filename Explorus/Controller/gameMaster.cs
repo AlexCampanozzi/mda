@@ -83,9 +83,13 @@ namespace Explorus.Controller
         {
             if (gemCollected == numberOfGem)
             {
-                keyStatus = true;
-                oView.getHeader().setKey(keyStatus);
+                if (keyStatus != true)
+                {
+                    keyStatus = true;
+                    oView.getHeader().setKey(keyStatus);
+                }
             }
+            getBubbleStatus();
         }
 
         public bool GetKeyStatus()
@@ -166,7 +170,7 @@ namespace Explorus.Controller
         public void lostLife()
         {
             lifeStatus--;
-            oView.getHeader().setLife(lifeStatus);
+            oView.getHeader().setLife(lifeStatus * 100 / 6);
             if (lifeStatus == 0) EndOfGame = true;
         }
         public int getLifeStatus()
@@ -192,10 +196,11 @@ namespace Explorus.Controller
                         timer.Stop();
                         bubbleStatus++;
                         timer.Reset();
+
+                        oView.getHeader().setBubble(bubbleStatus * 100 / 6);
                     }
                 }
             }
-            oView.getHeader().setBubble(bubbleStatus * 100/6);
             return bubbleStatus * 100 / 6;
         }
     }

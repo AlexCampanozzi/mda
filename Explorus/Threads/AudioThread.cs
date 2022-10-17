@@ -62,7 +62,6 @@ namespace Explorus.Threads
 
         private AudioThread()
         {
-
             
         }
 
@@ -83,7 +82,30 @@ namespace Explorus.Threads
         
         public void Run()
         {
-            
+            MediaPlayer soundHit = new MediaPlayer();
+            MediaPlayer soundDead = new MediaPlayer();
+            MediaPlayer soundDirectionChange = new MediaPlayer();
+            MediaPlayer soundMoveS = new MediaPlayer();
+            MediaPlayer soundHitS = new MediaPlayer();
+            MediaPlayer soundGemS = new MediaPlayer();
+            MediaPlayer soundDoorS = new MediaPlayer();
+            MediaPlayer soundWinS = new MediaPlayer();
+            MediaPlayer soundShootS = new MediaPlayer();
+            MediaPlayer soundHitB = new MediaPlayer();
+            MediaPlayer soundHitWallB = new MediaPlayer();
+
+            soundDead.Open(new System.Uri("Resources/Audio/sound08.wav", UriKind.Relative));
+            soundHit.Open(new System.Uri("Resources/Audio/sound19.wav", UriKind.Relative));
+            soundDirectionChange.Open(new System.Uri("Resources/Audio/sound13.wav", UriKind.Relative));
+            soundMoveS.Open(new System.Uri("Resources/Audio/sound01.wav", UriKind.Relative));
+            soundHitS.Open(new System.Uri("Resources/Audio/sound03.wav", UriKind.Relative));
+            soundGemS.Open(new System.Uri("Resources/Audio/sound08.wav", UriKind.Relative));
+            soundDoorS.Open(new System.Uri("Resources/Audio/sound09.wav", UriKind.Relative));
+            soundWinS.Open(new System.Uri("Resources/Audio/sound10.wav", UriKind.Relative));
+            soundShootS.Open(new System.Uri("Resources/Audio/sound15.wav", UriKind.Relative));
+            soundHitB.Open(new System.Uri("Resources/Audio/sound11.wav", UriKind.Relative));
+            soundHitWallB.Open(new System.Uri("Resources/Audio/sound13.wav", UriKind.Relative));
+
             new Thread(music).Start();
             while (true)
             {
@@ -92,69 +114,57 @@ namespace Explorus.Threads
                     switch(soundBuffer.First())
                     {
                         case Sound.soundHit:
-                            MediaPlayer soundHit = new MediaPlayer();
-                            soundHit.Open(new System.Uri("Resources/Audio/sound19.wav", UriKind.Relative));
+                            soundHit.Position = System.TimeSpan.FromSeconds(0);
                             soundHit.Volume = soundVolume;
                             soundHit.Play();
                             break;
                         case Sound.soundDead:
-                            MediaPlayer soundDead = new MediaPlayer();
-                            soundDead.Open(new System.Uri("Resources/Audio/sound08.wav", UriKind.Relative));
+                            soundDead.Position = System.TimeSpan.FromSeconds(0);
                             soundDead.Volume = soundVolume;
                             soundDead.Play();
                             break;
                         case Sound.soundDirectionChange:
-                            MediaPlayer soundDirectionChange = new MediaPlayer();
-                            soundDirectionChange.Open(new System.Uri("Resources/Audio/sound13.wav", UriKind.Relative));
+                            soundDirectionChange.Position = System.TimeSpan.FromSeconds(0);
                             soundDirectionChange.Volume = soundVolume;
                             soundDirectionChange.Play();
                             break;
                         case Sound.soundMoveS:
-                            MediaPlayer soundMoveS = new MediaPlayer();
-                            soundMoveS.Open(new System.Uri("Resources/Audio/sound01.wav", UriKind.Relative));
+                            soundMoveS.Position = System.TimeSpan.FromSeconds(0);
                             soundMoveS.Volume = soundVolume;
                             soundMoveS.Play();
                             break;
                         case Sound.soundHitS:
-                            MediaPlayer soundHitS = new MediaPlayer();
-                            soundHitS.Open(new System.Uri("Resources/Audio/sound03.wav", UriKind.Relative));
+                            soundHitS.Position = System.TimeSpan.FromSeconds(0);
                             soundHitS.Volume = soundVolume;
                             soundHitS.Play();
                             break;
                         case Sound.soundGemS:
-                            MediaPlayer soundGemS = new MediaPlayer();
-                            soundGemS.Open(new System.Uri("Resources/Audio/sound08.wav", UriKind.Relative));
+                            soundGemS.Position = System.TimeSpan.FromSeconds(0);
                             soundGemS.Volume = soundVolume;
                             soundGemS.Play();
                             break;
                         case Sound.soundDoorS:
-                            MediaPlayer soundDoorS = new MediaPlayer();
-                            soundDoorS.Open(new System.Uri("Resources/Audio/sound09.wav", UriKind.Relative));
+                            soundDoorS.Position = System.TimeSpan.FromSeconds(0);
                             soundDoorS.Volume = soundVolume;
                             soundDoorS.Play();
                             break;
                         case Sound.soundWinS:
-                            MediaPlayer soundWinS = new MediaPlayer();
-                            soundWinS.Open(new System.Uri("Resources/Audio/sound10.wav", UriKind.Relative));
+                            soundWinS.Position = System.TimeSpan.FromSeconds(0);
                             soundWinS.Volume = soundVolume;
                             soundWinS.Play();
                             break;
                         case Sound.soundShootS:
-                            MediaPlayer soundShootS = new MediaPlayer();
-                            soundShootS.Open(new System.Uri("Resources/Audio/sound15.wav", UriKind.Relative));
+                            soundShootS.Position = System.TimeSpan.FromSeconds(0);
                             soundShootS.Volume = soundVolume;
                             soundShootS.Play();
                             break;
                         case Sound.soundHitB:
-                            MediaPlayer soundHitB = new MediaPlayer();
-                            soundHitB.Open(new System.Uri("Resources/Audio/sound11.wav", UriKind.Relative));
+                            soundHitB.Position = System.TimeSpan.FromSeconds(0);
                             soundHitB.Volume = soundVolume;
                             soundHitB.Play();
                             break;
                         case Sound.soundHitWallB:
-                            MediaPlayer soundHitWallB = new MediaPlayer();
-
-                            soundHitWallB.Open(new System.Uri("Resources/Audio/sound13.wav", UriKind.Relative));
+                            soundHitWallB.Position = System.TimeSpan.FromSeconds(0);
                             soundHitWallB.Volume = soundVolume;
                             soundHitWallB.Play();
                             break;

@@ -57,6 +57,7 @@ namespace Explorus
             oGameForm.Resize += new EventHandler(Form_Resize);
             oGameForm.LostFocus += new EventHandler(Form_LostFocus);
             oGameForm.GotFocus += new EventHandler(Form_GainFocus);
+          
 
             map = Map.Instance;
             header = Header.GetInstance();
@@ -135,6 +136,10 @@ namespace Explorus
                 wasMinimized = false;
                 GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
             }
+
+            pauseImage = resizeImage(pauseImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+            resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+            gameOverImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
         }
 
         private void Form_LostFocus(object sender, System.EventArgs e)
@@ -240,19 +245,16 @@ namespace Explorus
                 
             if (gameState == "Pause")
             {
-                pauseImage = resizeImage(pauseImage, new Size(oGameForm.Size.Width/2, oGameForm.Size.Height/3));
                 e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
 
             if (gameState == "Resume")
             {
-                resumeImage = resizeImage(resumeImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
                 e.Graphics.DrawImage(resumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
 
             if (gameState == "Stop")
             {
-                resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
                 e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
             //GC.Collect();

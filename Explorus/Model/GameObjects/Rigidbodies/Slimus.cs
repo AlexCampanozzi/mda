@@ -31,7 +31,9 @@ namespace Explorus.Model
         private Movement slimus_movement;
         private Point goalPosition;
         private Dictionary<int, Image> states;
+        private Dictionary<int, Image> alphaStates;
         private Animator animator;
+        private Animator alphaAnimator;
         private ImageLoader slimeloader;
 
         private Direction direction = new Direction(0, -1);
@@ -57,12 +59,20 @@ namespace Explorus.Model
 
 
             states = loader.SlimusImages;
+
+            int[] order = { 2, 3, 2, 1 };
+            animator = new directionAnimator(states, order);
+            alphaStates = new Dictionary<int, Image>();
+            foreach (KeyValuePair<int, Image> image in states)
+            {
+                alphaStates[image.Key] = animator.halfOpacity(image.Value);
+            }
+            
             image = loader.SlimusImage;
             goalPosition = pos;
             slimus_movement = new Movement(slimeVelocity, pos);
             collider = new CircleCollider(this, 39);
-            int[] order = { 2, 3, 2, 1 };
-            animator = new directionAnimator(states, order);
+            alphaAnimator = new directionAnimator(alphaStates, order);
             slimeloader = loader;
         }
 
@@ -175,7 +185,10 @@ namespace Explorus.Model
                     alphaTimer.Reset();
                     transparent = false;
                 }
-                if (transparent) image = animator.halfOpacity(image);
+                if (transparent)
+                {
+                    image = alphaAnimator.Animate(progress, direction.X, direction.Y);
+                }
                 
             }
         }
