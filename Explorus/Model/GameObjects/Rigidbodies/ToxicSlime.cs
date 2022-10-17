@@ -48,7 +48,6 @@ namespace Explorus.Model
         protected Direction lastPlayerDir;
         public Stopwatch behaviorTimer = new Stopwatch();
         protected bool pursuit;
-        private bool inverted;
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -58,7 +57,7 @@ namespace Explorus.Model
             states = loader.ToxicSlimeImages;
             animator = new directionAnimator(states, order);
             iloader = loader;
-            context = new BehaviorContext(this, new DualStrategy());
+            context = new BehaviorContext(this, new AmbushStrategy());
 
         }
         private void SetImage()
@@ -119,7 +118,6 @@ namespace Explorus.Model
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
-                        inverted = false;
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
                         last_direction = direction;
                         
@@ -128,7 +126,7 @@ namespace Explorus.Model
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
-                        inverted = false;
+                        (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
                         last_direction = direction;
                         
@@ -142,28 +140,10 @@ namespace Explorus.Model
             }
         }
 
-        public void invertDir()
-        {
-            if (!inverted)
-            {
-                direction.X = direction.X * -1;
-                direction.Y = direction.Y * -1;
-                direction = new Behaviors().random(this, direction);
-                last_direction = direction;
-                audio.addSound(Sound.soundDirectionChange);
-                inverted = true;
-            }
-        }
 
         public override void OnCollisionEnter(Collider otherCollider)
         {
-            if(otherCollider.parent.GetType() == typeof(ToxicSlime))
-            {
-                ((ToxicSlime)otherCollider.parent).invertDir();
-                this.invertDir();
-                audio.addSound(Sound.soundHit);
-            }
-            else if (otherCollider.parent.GetType() == typeof(Door))
+            if (otherCollider.parent.GetType() == typeof(Door))
             {
                 physics.removeFromGame(otherCollider.parent);
             }

@@ -37,7 +37,7 @@ namespace Explorus.Model.Behavior
                     int newDirID = rnd.Next(4);
                     newDir = randomCase(newDirID);
                     objectTypes nextgrid = gridMap[gridPosition.X + newDir.X, gridPosition.Y + newDir.Y];
-                    if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door && nextgrid != objectTypes.ToxicSlime)
+                    if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door)
                     {
                         wall = false;
                     }
@@ -67,6 +67,7 @@ namespace Explorus.Model.Behavior
             }
             return newDir;
         }
+        
         private Direction randomCase(int newDirID)
         {
             Direction newDir = new Direction(0,0);
@@ -87,6 +88,7 @@ namespace Explorus.Model.Behavior
             }
             return newDir;
         }
+
         public (Direction, bool, Direction, int, int) findPlayer(ToxicSlime slime)
         {
             Direction newDir = new Direction(0, 0);
@@ -232,5 +234,23 @@ namespace Explorus.Model.Behavior
             }
             return (newDir, SlimusPosX, SlimusPosY, SlimusDir);
         }
+        public (bool, Direction) ambush(ToxicSlime slime)
+        {
+            bool SlimusFound = false;
+            Direction newDir = new Direction(0, 0);
+            Point gridPosition = slime.GetGridPosition();
+            Slimus slimus = (Slimus)Map.Instance.GetObjectList().Find(obj => obj.GetCollider().parent.GetType() == typeof(Slimus));
+            Point PlayerGrid = slimus.GetGridPosition();
+
+            if (gridPosition.X == PlayerGrid.X || gridPosition.Y == PlayerGrid.Y)
+            {
+                newDir = slimus.getLastDirection();
+                SlimusFound = true;
+            }
+
+
+            return (SlimusFound, newDir);
+        }
+        
     }
 }
