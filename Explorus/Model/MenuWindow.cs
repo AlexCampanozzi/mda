@@ -204,7 +204,7 @@ namespace Explorus.Model
         public void setOption(Option option)
         {
             currentOption = option;
-            Console.WriteLine(currentOption);
+            //Console.WriteLine(currentOption);
 
         }
 

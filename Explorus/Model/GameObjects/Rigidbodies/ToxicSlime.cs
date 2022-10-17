@@ -161,9 +161,9 @@ namespace Explorus.Model
         {
             if (!inverted)
             {
-                //direction.X = direction.X * -1;
-                //direction.Y = direction.Y * -1;
-                direction = new Behaviors().randomException(direction, this);
+                direction.X = direction.X * -1;
+                direction.Y = direction.Y * -1;
+                direction = new Behaviors().random(this, direction);
                 last_direction = direction;
                 audio.addSound(Sound.soundDirectionChange);
                 inverted = true;

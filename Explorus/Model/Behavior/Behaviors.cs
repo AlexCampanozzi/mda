@@ -34,7 +34,7 @@ namespace Explorus.Model.Behavior
             {
                 while (wall)
                 {
-                    int newDirID = rnd.Next(0, 3);
+                    int newDirID = rnd.Next(4);
                     newDir = randomCase(newDirID);
                     objectTypes nextgrid = gridMap[gridPosition.X + newDir.X, gridPosition.Y + newDir.Y];
                     if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door && nextgrid != objectTypes.ToxicSlime)
@@ -54,7 +54,7 @@ namespace Explorus.Model.Behavior
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
             while (wall)
             {
-                int newDirID = rnd.Next(0, 3);
+                int newDirID = rnd.Next(4);
                 newDir = randomCase(newDirID);
                 objectTypes nextgrid = gridMap[gridPosition.X + newDir.X, gridPosition.Y + newDir.Y];
                 if (newDir != BadDir)
