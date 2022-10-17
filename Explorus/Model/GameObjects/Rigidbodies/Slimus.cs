@@ -35,7 +35,6 @@ namespace Explorus.Model
         private ImageLoader slimeloader;
 
         protected new Direction direction = new Direction(0, -1);
-        public new Direction last_direction = new Direction(0, -1);
 
         private bool readyForInput = true;
 

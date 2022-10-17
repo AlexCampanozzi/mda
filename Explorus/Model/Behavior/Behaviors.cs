@@ -35,27 +35,55 @@ namespace Explorus.Model.Behavior
                 while (wall)
                 {
                     int newDirID = rnd.Next(0, 3);
-                    switch (newDirID)
-                    {
-                        case 0:
-                            newDir = new Direction(0, 1);
-                            break;
-                        case 1:
-                            newDir = new Direction(1, 0);
-                            break;
-                        case 2:
-                            newDir = new Direction(0, -1);
-                            break;
-                        case 3:
-                            newDir = new Direction(-1, 0);
-                            break;
-                    }
+                    newDir = randomCase(newDirID);
                     objectTypes nextgrid = gridMap[gridPosition.X + newDir.X, gridPosition.Y + newDir.Y];
                     if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door)
                     {
                         wall = false;
                     }
                 }
+            }
+            return newDir;
+        }
+        private Direction randomException(Direction BadDir, ToxicSlime slime)
+        {
+            Direction newDir = new Direction(0, 0);
+            bool wall = true;
+            Random rnd = new Random();
+            Point gridPosition = slime.GetGridPosition();
+            objectTypes[,] gridMap = Map.Instance.GetTypeMap();
+            while (wall)
+            {
+                int newDirID = rnd.Next(0, 3);
+                newDir = randomCase(newDirID);
+                objectTypes nextgrid = gridMap[gridPosition.X + newDir.X, gridPosition.Y + newDir.Y];
+                if (newDir != BadDir)
+                {
+                    if (nextgrid != objectTypes.Wall && nextgrid != objectTypes.Door)
+                    {
+                        wall = false;
+                    }
+                }
+            }
+            return newDir;
+        }
+        private Direction randomCase(int newDirID)
+        {
+            Direction newDir = new Direction(0,0);
+            switch (newDirID)
+            {
+                case 0:
+                    newDir = new Direction(0, 1);
+                    break;
+                case 1:
+                    newDir = new Direction(1, 0);
+                    break;
+                case 2:
+                    newDir = new Direction(0, -1);
+                    break;
+                case 3:
+                    newDir = new Direction(-1, 0);
+                    break;
             }
             return newDir;
         }
@@ -77,7 +105,7 @@ namespace Explorus.Model.Behavior
             Point PlayerGrid = slimus.GetGridPosition();
             objectTypes nextGrid;
 
-                // find slimus in corridor
+            // find slimus in corridor
             // check UP
             for (int i = gridPosition.Y; i > 0; i--)
             {
@@ -85,7 +113,7 @@ namespace Explorus.Model.Behavior
                 if (gridPosition.X == PlayerGrid.X && i == PlayerGrid.Y)
                 {
                     newDir = new Direction(0, -1);
-                    SlimusDir = slimus.last_direction;
+                    SlimusDir = slimus.getLastDirection();
                     SlimusFound = true;
                     SlimusPosX = gridPosition.X;
                     SlimusPosY = i;
@@ -106,7 +134,7 @@ namespace Explorus.Model.Behavior
                     {
                         newDir = new Direction(0, 1);
                         SlimusFound = true;
-                        SlimusDir = slimus.last_direction;
+                        SlimusDir = slimus.getLastDirection();
                         SlimusPosX = gridPosition.X;
                         SlimusPosY = i;
                     }
@@ -126,7 +154,7 @@ namespace Explorus.Model.Behavior
                     {
                         newDir = new Direction(1, 0);
                         SlimusFound = true;
-                        SlimusDir = slimus.last_direction;
+                        SlimusDir = slimus.getLastDirection();
                         SlimusPosX = i;
                         SlimusPosY = gridPosition.Y;
                         break;
@@ -147,7 +175,7 @@ namespace Explorus.Model.Behavior
                     {
                         newDir = new Direction(-1, 0);
                         SlimusFound = true;
-                        SlimusDir = slimus.last_direction;
+                        SlimusDir = slimus.getLastDirection();
                         SlimusPosX = i;
                         SlimusPosY = gridPosition.Y;
                         break;
@@ -159,13 +187,13 @@ namespace Explorus.Model.Behavior
                 }
             }
 
-            // if not found add last seen logic
-            if (!SlimusFound)
+            // if not found add last seen logic for pursuit
+            if (!SlimusFound && towards)
             {
                 (int lastX, int lastY, Direction lastDirection) = slime.getLastPlayerInfo();
                 if (lastDirection != null)
                 {
-                    if (lastDirection.X != 0 && lastDirection.Y != 0)
+                    if (lastDirection.X != 0 || lastDirection.Y != 0)
                     {
                         // random fonction should let toxic go towards last seen position (with direction first choice)
                         if (gridPosition.X == lastX && gridPosition.Y == lastY)
@@ -174,12 +202,19 @@ namespace Explorus.Model.Behavior
                             //reset to 0,0 to mark as lost
                             SlimusDir = new Direction(0, 0);
                         }
+                        else
+                        {
+                            SlimusDir = lastDirection;
+                            SlimusPosX = lastX;
+                            SlimusPosY = lastY;
+                        }
                     }
                 }
             }
-            if (!towards)
+            // run away logic
+            if(SlimusFound && !towards)
             {
-                newDir = new Direction(-1 * newDir.X, -1 * newDir.Y);
+                newDir = randomException(newDir, slime);
             }
             return (newDir, SlimusPosX, SlimusPosY, SlimusDir);
         }

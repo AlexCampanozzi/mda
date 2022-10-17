@@ -17,10 +17,8 @@ namespace Explorus.Model.Behavior
 
             if (newDir.X == 0 && newDir.Y == 0)
             {
-                newDir = behaviors.random(slime, slime.lastDirection);
+                newDir = behaviors.random(slime, slime.getLastDirection());
             }
-
-            slime.lastDirection = newDir;
 
             return (newDir, playerPosX, playerPosY, playerDir);
         }

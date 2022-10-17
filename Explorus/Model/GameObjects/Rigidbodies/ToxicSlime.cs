@@ -45,7 +45,6 @@ namespace Explorus.Model
         private BehaviorContext context;
         protected int lastPlayerPosX, lastPlayerPosY;
         protected Direction lastPlayerDir;
-        public Direction lastDirection;
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -66,6 +65,7 @@ namespace Explorus.Model
                 image = animator.Animate(progress, direction.X, direction.Y);
             }
         }
+
 
         public (int, int, Direction) getLastPlayerInfo()
         {
@@ -89,7 +89,7 @@ namespace Explorus.Model
             if(direction == null || (direction.X == 0 && direction.Y ==0))
             {
                 (direction, _, _, _) = context.choosePath();
-                lastDirection = direction;
+                last_direction = direction;
             }
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
@@ -117,14 +117,14 @@ namespace Explorus.Model
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                        lastDirection = direction;
+                        last_direction = direction;
                     }
                     else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
                     {
                         gridPosition.X += direction.X;
                         gridPosition.Y += direction.Y;
                         (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                        lastDirection = direction;
+                        last_direction = direction;
                     }
 
                     physics.clearBuffer(this);

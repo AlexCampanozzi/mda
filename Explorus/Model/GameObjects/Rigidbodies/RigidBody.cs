@@ -15,6 +15,7 @@ namespace Explorus.Model
 
         private static readonly object padlock = new object();
         protected Direction direction;
+        protected Direction last_direction;
 
         private Map map = Map.Instance;
         public RigidBody(Point pos, Image img, int ID) : base(pos, img, ID)
@@ -41,6 +42,10 @@ namespace Explorus.Model
         public Direction getDirection()
         {
             return direction;
+        }
+        public Direction getLastDirection()
+        {
+            return last_direction;
         }
         public virtual void OnCollisionEnter(Collider otherCollider)
         {
