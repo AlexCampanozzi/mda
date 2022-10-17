@@ -49,6 +49,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\State\LevelState.cs" />
     <Compile Include="Controller\State\AudioState.cs" />
     <Compile Include="Controller\State\PauseState.cs" />
     <Compile Include="Controller\State\StartState.cs" />

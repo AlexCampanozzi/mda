@@ -28,9 +28,9 @@ namespace Explorus.Model
         private Graphics g;
 
         private GameEngine engine = GameEngine.GetInstance();
+        
         private Option currentOption;
 
-        private AudioOption currentAudioOption;
 
         static MenuWindow()
         {
@@ -118,6 +118,39 @@ namespace Explorus.Model
 
         }
 
+        public void levelMenu(PaintEventArgs e)
+        {
+            g = e.Graphics;
+            g.DrawString("Explorus", titleFont, brushBlue, 200, 50);
+
+            g.DrawString("Slimes Quantity : ", optionFont, brushBlue, 250, 150 + nextLine);
+            g.DrawString(engine.GetLevelState().Slimes.ToString(), optionFont, brushYellow, 680, 150 + nextLine);
+
+            g.DrawString("Level Select : ", optionFont, brushBlue, 250, 150 + nextLine * 2);
+            g.DrawString(engine.GetLevelState().chosenLevelName(), optionFont, brushYellow, 350, 150 + nextLine * 3);
+
+            g.DrawString("Back", optionFont, brushBlue, 250, 150 + nextLine * 4);
+
+
+            LevelOption currentLevelOption = engine.GetLevelState().GetMenuOption();
+
+            if (currentLevelOption == LevelOption.Slimes)
+            {
+                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
+            }
+
+            if (currentLevelOption == LevelOption.Level)
+            {
+                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
+            }
+
+            if (currentLevelOption == LevelOption.Back)
+            {
+                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 4);
+            }
+
+        }
+
         public void startMenu()
         {
             g.DrawString("Options", optionFont, brushBlue, 200, 150);
@@ -173,11 +206,6 @@ namespace Explorus.Model
             currentOption = option;
             Console.WriteLine(currentOption);
 
-        }
-
-        public void setAudioOption(AudioOption option)
-        {
-            currentAudioOption = option;
         }
 
 

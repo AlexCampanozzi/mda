@@ -15,7 +15,7 @@ namespace Explorus.Controller
     {
         Music,
         Sound,
-        Exit
+        Back
     }
 
 
@@ -122,7 +122,6 @@ namespace Explorus.Controller
 
         public void SetOption(AudioOption option)
         {
-            Console.WriteLine("current option is " + option.ToString());
             menuOption = option;
         }
 

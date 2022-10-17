@@ -35,6 +35,7 @@ namespace Explorus.Controller
         private Keys currentInput;
         private bool FPSOn = false;
         private AudioState audioState;
+        private LevelState levelState;
         private MenuWindow menuWindow;
 
         private PhysicsThread physics;
@@ -49,8 +50,9 @@ namespace Explorus.Controller
         private Option[] startMenu = new Option[] {Option.Start, Option.Audio, Option.Level, Option.Exit };
         private Option[] pauseMenu = new Option[] { Option.Start, Option.Audio, Option.Exit };
         private AudioOption[] audioMenu = new AudioOption[] { AudioOption.Music, AudioOption.Sound, AudioOption.Back };
+        private LevelOption[] levelMenu = new LevelOption[] { LevelOption.Slimes, LevelOption.Level, LevelOption.Back };
         private int menuIndex = 0;
-        private int audioIndex = 0;
+        private int subMenuIndex = 0;
         private string lastMenuState;
 
 
@@ -272,7 +274,8 @@ namespace Explorus.Controller
                             lastMenuState = "Start";
                             break;
                         case Option.Level:
-                            ChangeState(new LevelState(this));
+                            levelState = new LevelState(this);
+                            ChangeState(levelState);
                             break;
                         case Option.Exit:
                             ChangeState(new StopState(this));
@@ -285,26 +288,58 @@ namespace Explorus.Controller
             }
 
             if (this.state.Name() == "Level")
-            { 
-            
-            }
-
-            if (this.state.Name() == "Audio")
             {
-
                 switch (currentInput)
                 {
                     case Keys.Up:
-                        if (audioIndex != 0)
+                        if (subMenuIndex != 0)
                         {
-                            audioIndex--;
+                            subMenuIndex--;
+                        }
+                        break;
+
+                    case Keys.Down:
+                        if (subMenuIndex != audioMenu.Length - 1)
+                        {
+                            subMenuIndex++;
+                        }
+                        break;
+
+                    case Keys.Right:
+                        levelState.Increment(1);
+                        break;
+
+                    case Keys.Left:
+                        levelState.Increment(-1);
+                        break;
+
+                    case Keys.Space:
+                        if (subMenuIndex == levelMenu.Length - 1)
+                        {
+                            subMenuIndex = 0;
+                            ChangeState(new StartState(this));
+                        }
+                        break;
+                }
+                levelState.SetOption(levelMenu[subMenuIndex]);
+            }
+        
+
+            if (this.state.Name() == "Audio")
+            {
+                switch (currentInput)
+                {
+                    case Keys.Up:
+                        if (subMenuIndex != 0)
+                        {
+                            subMenuIndex--;
                         }                       
                         break;
 
                     case Keys.Down:
-                        if (audioIndex != audioMenu.Length - 1)
+                        if (subMenuIndex != audioMenu.Length - 1)
                         {
-                            audioIndex++;
+                            subMenuIndex++;
                         }
                         break;
 
@@ -321,9 +356,9 @@ namespace Explorus.Controller
                         break;
 
                     case Keys.Space:
-                        if(audioIndex == audioMenu.Length - 1)
+                        if(subMenuIndex == audioMenu.Length - 1)
                         {
-                            audioIndex = 0;
+                            subMenuIndex = 0;
                             if (lastMenuState == "Start")
                             {
                                 ChangeState(new StartState(this));
@@ -335,9 +370,7 @@ namespace Explorus.Controller
                         }
                         break;
                 }
-                audioState.SetOption(audioMenu[audioIndex]);
-                menuWindow.setAudioOption(audioMenu[audioIndex]);
-
+                audioState.SetOption(audioMenu[subMenuIndex]);
             }
 
                 oView.getMap().GetCompoundGameObject().processInput();
@@ -386,6 +419,11 @@ namespace Explorus.Controller
         public AudioState GetAudioState()
         {
             return this.audioState;
+        }
+
+        public LevelState GetLevelState()
+        {
+            return this.levelState;
         }
 
 

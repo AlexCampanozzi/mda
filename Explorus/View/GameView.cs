@@ -240,9 +240,12 @@ namespace Explorus
                 menuWindow.audioMenu(e);
             }
 
+            if (gameState == "Level")
+            {
+                menuWindow.levelMenu(e);
+            }
 
-
-                if (gameState == "Resume")
+            if (gameState == "Resume")
             {
                 resumeImage = resizeImage(resumeImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
                 e.Graphics.DrawImage(resumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
