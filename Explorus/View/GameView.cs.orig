@@ -12,43 +12,75 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Threading;
 using Explorus.Model;
+using Explorus.Controller;
+using System.Drawing.Imaging;
 
 namespace Explorus
 {
 
-    public class GameView
+    public sealed class GameView
     {
+        private static readonly GameView instance = new GameView();
+
         private Keys currentInput = Keys.None;
         private double fps;
         private GameForm oGameForm;
 
-        private bool isPaused = false;
-        private bool isOver = false;
-
-        private Image iPausedImage;
-        private Image iEndImage;
+        private Image pauseImage;
+        private Image resumeImage;
+        private Image gameOverImage;
 
         private Map map;
         private Header header;
 
-        private bool formOpen;
+        private bool formOpen = true;
+        private FormWindowState windowState;
+        private bool wasMinimized = false;
+        private bool hadLostFocus = false;
 
-        public GameView()
+        private MenuWindow menuWindow = MenuWindow.Instance;
+
+        static GameView()
+        {
+
+        }
+        private GameView()
+        {
+            load();
+        }
+
+        private void load()
         {
             oGameForm = new GameForm();
             oGameForm.MinimumSize = new Size(600, 600);
             oGameForm.Paint += GameRenderer;
-            formOpen = true;
-            oGameForm.FormClosed += new FormClosedEventHandler(FormClosed);
-            map = Map.GetInstance(); //caller le singleton de map
+
+            oGameForm.FormClosed += new FormClosedEventHandler(Form_Closed);
+            oGameForm.Resize += new EventHandler(Form_Resize);
+            oGameForm.LostFocus += new EventHandler(Form_LostFocus);
+            oGameForm.GotFocus += new EventHandler(Form_GainFocus);
+          
+
+            map = Map.Instance;
             header = Header.GetInstance();
+            windowState = oGameForm.WindowState;
 
-            iPausedImage = Image.FromFile("./Resources/pause.png");
-            // TODO: use the interface size instead
-            iPausedImage = resizeImage(iPausedImage, oGameForm.Size);
+            pauseImage = Image.FromFile("./Resources/pause_menu.png");
+            resumeImage = Image.FromFile("./Resources/resuming.png");
+            gameOverImage = Image.FromFile("./Resources/gameover.png");
 
-            iEndImage = resizeImage(Image.FromFile("./Resources/EndOfLevel.png"), oGameForm.Size);
             oGameForm.SubscribeToInput(this);
+
+            xSize = map.GetTypeMap().GetLength(0) * 96;
+            ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
+        }
+
+        public static GameView Instance
+        {
+            get
+            {
+                return instance;
+            }
         }
 
         public void inputSubscription(Keys newInput)
@@ -56,8 +88,9 @@ namespace Explorus
             currentInput = newInput;
             oGameForm.resetCurrentInput();
         }
-        private void FormClosed(object sender, FormClosedEventArgs e)
+        private void Form_Closed(object sender, FormClosedEventArgs e)
         {
+            Environment.Exit(1);
             formOpen = false;
         }
 
@@ -90,67 +123,160 @@ namespace Explorus
             }
         }
 
+        private void Form_Resize(object sender, EventArgs e)
+        {
+            windowState = oGameForm.WindowState;
+
+            if (this.windowState == FormWindowState.Minimized)
+            {
+                wasMinimized = true;
+                GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+            }
+
+            if (this.windowState == FormWindowState.Normal)
+            {
+                wasMinimized = false;
+                GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+            }
+
+            pauseImage = resizeImage(pauseImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+            resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+            gameOverImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+        }
+
+        private void Form_LostFocus(object sender, System.EventArgs e)
+        {
+            hadLostFocus = true;
+            GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+        }
+
+        private void Form_GainFocus(object sender, System.EventArgs e)
+        {
+            if (hadLostFocus)
+            {
+                hadLostFocus = false;
+                GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+
+            }
+        }
+
         public void Close()
         {
-            if (oGameForm.Visible)
-                oGameForm.BeginInvoke((MethodInvoker)delegate {
-                    oGameForm.Close();
-                });
+            Application.Exit();
         }
+
+        private int xSize;
+        private int ySize;
+        float xScaling;
+        float yScaling;
+
+        float minScale;
+        int xOffset;
+        int yOffset;
+
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-            Graphics graphic = e.Graphics;
-            map = Map.GetInstance();
             
-            if (isOver)
+            string gameState = GameEngine.GetInstance().GetState().Name();
+            oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
+            if (fps != 0)
             {
-                graphic.Clear(Color.Black);
-                e.Graphics.DrawImage(iEndImage, new Point(0, 0));
+                oGameForm.Text = oGameForm.Text + " ۰•● ❤ ●•۰  FPS: " + fps.ToString();
             }
-            else if (isPaused)
+
+            //pour rendre le jeu transparent
+            ColorMatrix matrix = new ColorMatrix();
+            matrix.Matrix33 = 0.5f;
+            ImageAttributes imgAtt = new ImageAttributes();
+            imgAtt.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+
+            e.Graphics.Clear(Color.Black);
+
+            
+
+            xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
+            yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
+
+            minScale = Math.Min(xScaling, yScaling);
+            xOffset = 0;
+            yOffset = 0;
+
+            if (xScaling > yScaling)
             {
-                graphic.Clear(Color.Black);
-                e.Graphics.DrawImage(iPausedImage, new Point(0, 0));
+                xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize)) / 2;
             }
             else
             {
-                graphic.Clear(Color.Black);
-                
-                //oGameForm.Text = "Labo GEI794 – FPS " + Convert.ToString(getFPS());
-                int xSize = map.GetTypeMap().GetLength(0) * 96;
-                int ySize = map.GetTypeMap().GetLength(1) * 96 + 96;
+                yOffset = (oGameForm.Size.Height - (int)(xScaling * (float)ySize)) / 2;
+            }
 
-                float xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
-                float yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
-
-                float minScale = Math.Min(xScaling, yScaling);
-                int xOffset = 0;
-                int yOffset = 0;
-
-                if (xScaling > yScaling)
-                {
-                    xOffset = (oGameForm.Size.Width - 16 - (int)(yScaling * (float)xSize)) / 2;
-                }
-                else
-                {
-                    yOffset = (oGameForm.Size.Height - (int)(xScaling * (float)ySize)) / 2;
-                }
-
-                List<GameObject> compoundGameObjectList = map.GetCompoundGameObject().getComponentGameObjetList();
+            List<GameObject> compoundGameObjectList = map.GetCompoundGameObject().getComponentGameObjetList();
+            lock (compoundGameObjectList)
+            {
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
                 {
                     Image img = compoundGameObjectList[i].GetImage();
                     int size_offset = 0;
-<<<<<<< HEAD
-                    if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { 
-                        size_offset = 24; }
-=======
-                    if(compoundGameObjectList[i].GetImage().Size.Height <= 48) { size_offset = 24; }
->>>>>>> origin/levels
-                    e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+
+                    try
+                    {
+                        if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
+                        {
+                            size_offset = 24;
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+
+                    if (gameState != "Play")
+                    {
+                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                    }
+
                 }
-                e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));             
             }
+            
+            e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
+                
+            if (gameState == "Pause" || gameState == "Start")
+            {
+<<<<<<< HEAD
+                e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+=======
+                //pauseImage = resizeImage(pauseImage, new Size(oGameForm.Size.Width/2, oGameForm.Size.Height/3));
+                //e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+                menuWindow.getMenuWindow(e);
+                
+            }
+
+            if (gameState == "Audio")
+            {
+                menuWindow.audioMenu(e);
+            }
+
+            if (gameState == "Level")
+            {
+                menuWindow.levelMenu(e);
+>>>>>>> menu_audio
+            }
+
+            if (gameState == "Resume")
+            {
+                e.Graphics.DrawImage(resumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+            }
+
+            if (gameState == "Stop")
+            {
+                e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
+            }
+            //GC.Collect();
         }
         public double getFPS()
         {
@@ -174,24 +300,6 @@ namespace Explorus
             return (Image)(new Bitmap(imgToResize, size));
         }
 
-        public bool getIsPaused()
-        {
-            return isPaused;
-        }
-        public void setIsPaused(bool state)
-        {
-            isPaused = state;
-        }
-
-        public bool getIsOver()
-        {
-            return isOver;
-        }
-
-        public void setIsOver(bool state)
-        {
-            isOver = state;
-        }
         public Map getMap()
         {
             return map;
@@ -200,6 +308,10 @@ namespace Explorus
         public Header getHeader()
         {
             return header;
+        }
+        public GameForm getGameForm()
+        {
+            return oGameForm;
         }
     }
 }

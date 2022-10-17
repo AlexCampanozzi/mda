@@ -20,21 +20,21 @@ namespace Explorus.Model
         private Image barEnd = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(480, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
         private Image barEmpty = new Bitmap("./Resources/TilesSheet.png").Clone(new Rectangle(432, 48, 48, 48), new Bitmap("./Resources/TilesSheet.png").PixelFormat);
 
+        private Image barImage = new Bitmap(288, 96);
+
         public ResourceBar(int initialVal, Image barImage, Image barIcon)
         {
             icon = barIcon;
             bar = barImage;
 
             currentVal = initialVal;
+            SetValue(initialVal);
         }
 
         public void SetValue(int value)
         {
             currentVal = value;
-        }
 
-        public Image GetBarImage()
-        {
             Image bitmap = new Bitmap(288, 96);
             using (Graphics g = Graphics.FromImage(bitmap))
             {
@@ -45,7 +45,14 @@ namespace Explorus.Model
                 g.DrawImage(bar, new Rectangle(new Point(64, 0), new Size((int)Math.Round(currentVal * 176.0 / 100.0), 48)));
             }
 
-            return bitmap;
+            barImage = bitmap;
+        }
+
+        public Image GetBarImage()
+        {
+            
+
+            return barImage;
         }
     }
 

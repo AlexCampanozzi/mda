@@ -36,15 +36,16 @@ namespace Explorus.Model.GameObjects.Rigidbodies
                 try
                 {
                     graphics.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAtt);
+
                 }
                 catch
                 {
 
                 }
-            }
-            graphics.Dispose();
+                graphics.Dispose();
 
-            return (bitmap.Clone(new Rectangle(0, 0, img.Width, img.Height), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
+                return (bitmap.Clone(new Rectangle(0, 0, img.Width, img.Height), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
+            }
         }
     }
 }

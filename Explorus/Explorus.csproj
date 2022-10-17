@@ -49,8 +49,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\State\MenuState.cs" />
+    <Compile Include="Controller\State\LevelState.cs" />
+    <Compile Include="Controller\State\AudioState.cs" />
     <Compile Include="Controller\State\PauseState.cs" />
+    <Compile Include="Controller\State\StartState.cs" />
     <Compile Include="Controller\State\PlayState.cs" />
     <Compile Include="Controller\State\ResumeState.cs" />
     <Compile Include="Controller\State\State.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="Model\ImageLoader.cs" />
     <Compile Include="Model\Map.cs" />
     <Compile Include="Model\GameObjects\Rigidbodies\Movement.cs" />
+    <Compile Include="Model\MenuWindow.cs" />
     <Compile Include="Model\ResourceBar.cs" />
     <Compile Include="Model\GameObjects\Rigidbodies\RigidBody.cs" />
     <Compile Include="Model\GameObjects\Collectables\Slime.cs" />
@@ -183,7 +186,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Audio\soundtrack.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Audio\_README.txt" />
     <Content Include="Resources\EndOfLevel.png">
@@ -195,14 +198,14 @@
     <Content Include="Resources\map.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\mapvide.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\map_collision.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\map_valid.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\menu.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\pause_menu.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
