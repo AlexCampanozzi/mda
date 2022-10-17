@@ -137,13 +137,13 @@ namespace Explorus.Model
 
         public override void OnCollisionEnter(Collider otherCollider)
         {
-            if(otherCollider.parent.GetType() == typeof(ToxicSlime))
+            /*if(otherCollider.parent.GetType() == typeof(ToxicSlime))
             {
                 ((ToxicSlime)otherCollider.parent).invertDir();
                 this.invertDir();
                 audio.addSound(Sound.soundHit);
-            }
-            else if (otherCollider.parent.GetType() == typeof(Door))
+            }*/
+            if (otherCollider.parent.GetType() == typeof(Door))
             {
                 physics.removeFromGame(otherCollider.parent);
             }

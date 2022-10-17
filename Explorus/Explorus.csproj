@@ -182,6 +182,9 @@
     <Content Include="Resources\Audio\soundtrack.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Audio\soundtrackMenu.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Audio\_README.txt" />
     <Content Include="Resources\EndOfLevel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

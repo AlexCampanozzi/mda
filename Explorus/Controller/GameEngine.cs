@@ -268,6 +268,7 @@ namespace Explorus.Controller
                     {
                         case Option.Start: 
                             ChangeState(new PlayState(this));
+                            audio.setGameMusic();
                             break;
                         case Option.Audio:
                             ChangeState(audioState);

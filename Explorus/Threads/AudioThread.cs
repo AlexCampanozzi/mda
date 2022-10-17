@@ -48,12 +48,16 @@ namespace Explorus.Threads
         private double soundVolume = 0.5;
         private double musicVolume = 0.5;
 
+        private bool changeMusic = false;
 
-        
+        private string song = "Resources/Audio/soundtrackMenu.wav";
+
+
 
         List<Sound> soundBuffer = new List<Sound>() { };
 
         private MediaPlayer soundtrack;
+        private MediaPlayer soundtrackMenu;
 
         static AudioThread()
         {
@@ -182,32 +186,53 @@ namespace Explorus.Threads
 
         private void music()
         {
+            soundtrack = new MediaPlayer();
+            soundtrack.Open(new System.Uri("Resources/Audio/soundtrackMenu.wav", UriKind.Relative));
+            //soundtrack.Volume = musicVolume;
 
+            soundtrack.ScrubbingEnabled = true;
+            soundtrack.Play();
+            int i = 0;
             while (true)
             {
+                i++;
+                soundtrack.Volume = musicVolume;
+                if (soundtrack.Position >= soundtrack.NaturalDuration)
+                    soundtrack.Position = TimeSpan.FromSeconds(0);
 
-                soundtrack = new MediaPlayer();
-                soundtrack.Open(new System.Uri("Resources/Audio/soundtrack.wav", UriKind.Relative));
-                //soundtrack.Volume = musicVolume;
-                soundtrack.Play();
-                int i = 0;
-                while (i < 300)
+                if (changeMusic)
                 {
-                    Thread.Sleep(100);
-                    i++;
-                    soundtrack.Volume = musicVolume;
+                    soundtrack.Stop();
+                    soundtrack.Close();
+                    soundtrack = new MediaPlayer();
+                    soundtrack.Open(new System.Uri(song, UriKind.Relative));
+                    soundtrack.Play();
+                    changeMusic = false;
                 }
             }
         }
 
         public void setMusicVolume(int volume)
         {
+            changeMusic = true;
             musicVolume = (double)volume/100;
         }
 
         public void setSoundVolume(int volume)
         {
             soundVolume = (double)volume/100;
+        }
+
+        public void setGameMusic()
+        {
+            song = "Resources/Audio/soundtrack.wav";
+            changeMusic = true;
+        }
+
+        public void setMenuMusic()
+        {
+            song = "Resources/Audio/soundtrackMenu.wav";
+            changeMusic = true;
         }
     }
 }
