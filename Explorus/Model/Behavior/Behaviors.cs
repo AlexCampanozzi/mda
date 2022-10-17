@@ -45,7 +45,7 @@ namespace Explorus.Model.Behavior
             }
             return newDir;
         }
-        private Direction randomException(Direction BadDir, ToxicSlime slime)
+        public Direction randomException(Direction BadDir, ToxicSlime slime)
         {
             Direction newDir = new Direction(0, 0);
             bool wall = true;
@@ -87,24 +87,19 @@ namespace Explorus.Model.Behavior
             }
             return newDir;
         }
-        public (Direction, int, int, Direction) pursuit(ToxicSlime slime, bool towards)
+        public (Direction, bool, Direction, int, int) findPlayer(ToxicSlime slime)
         {
-            objectTypes[,] gridmap = Map.Instance.GetTypeMap();
-            //Collider objCollider = obj.GetCollider()
-            Slimus slimus = (Slimus)Map.Instance.GetObjectList().Find(obj => obj.GetCollider().parent.GetType() == typeof(Slimus));
-
             Direction newDir = new Direction(0, 0);
             bool SlimusFound = false;
-            Point gridPosition = slime.GetGridPosition(); 
+            Direction SlimusDir = new Direction(0, 0);
+            int SlimusPosX = 0, SlimusPosY = 0;
+
+            Point gridPosition = slime.GetGridPosition();
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
-            // to return last player pos and direction
-            Direction SlimusDir = new Direction(0,0);
-            int SlimusPosX =0, SlimusPosY = 0;
-
+            Slimus slimus = (Slimus)Map.Instance.GetObjectList().Find(obj => obj.GetCollider().parent.GetType() == typeof(Slimus));
             Point PlayerGrid = slimus.GetGridPosition();
             objectTypes nextGrid;
-
             // find slimus in corridor
             // check UP
             for (int i = gridPosition.Y; i > 0; i--)
@@ -186,6 +181,16 @@ namespace Explorus.Model.Behavior
                     }
                 }
             }
+            return (newDir, SlimusFound, SlimusDir, SlimusPosX, SlimusPosY);
+        }
+        public (Direction, int, int, Direction) pursuit(ToxicSlime slime, bool towards)
+        {
+            Direction newDir, SlimusDir;
+            bool SlimusFound;
+            Point gridPosition = slime.GetGridPosition(); 
+            int SlimusPosX, SlimusPosY;
+
+            (newDir, SlimusFound, SlimusDir, SlimusPosX, SlimusPosY) = findPlayer(slime);
 
             // if not found add last seen logic for pursuit
             if (!SlimusFound && towards)

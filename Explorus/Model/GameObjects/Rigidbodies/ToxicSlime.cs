@@ -16,6 +16,7 @@ using Explorus.Model.GameObjects.Rigidbodies;
 using Explorus.Threads;
 using System.Windows.Media;
 using Explorus.Model.Behavior;
+using System.Diagnostics;
 
 namespace Explorus.Model
 {
@@ -45,6 +46,8 @@ namespace Explorus.Model
         private BehaviorContext context;
         protected int lastPlayerPosX, lastPlayerPosY;
         protected Direction lastPlayerDir;
+        public Stopwatch behaviorTimer = new Stopwatch();
+        protected bool pursuit;
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
@@ -54,7 +57,7 @@ namespace Explorus.Model
             states = loader.ToxicSlimeImages;
             animator = new directionAnimator(states, order);
             iloader = loader;
-            context = new BehaviorContext(this, new PursuitStrategy());
+            context = new BehaviorContext(this, new DualStrategy());
 
         }
         private void SetImage()
@@ -83,7 +86,14 @@ namespace Explorus.Model
         {
             return direction;
         }
-
+        public bool getPursuit()
+        {
+            return pursuit;
+        }
+        public void setPursuit(bool pursuitMode)
+        {
+            pursuit = pursuitMode;
+        }
         public override void update()
         {
             if(direction == null || (direction.X == 0 && direction.Y ==0))
