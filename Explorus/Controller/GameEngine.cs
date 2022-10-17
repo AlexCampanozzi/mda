@@ -15,8 +15,16 @@ using Explorus.Model;
 using Explorus.Threads;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
-namespace Explorus
+namespace Explorus.Controller
 {
+    public enum Option
+    {
+        Start,
+        Audio,
+        Level,
+        Exit
+    }
+
     public sealed class GameEngine
     {
         private static GameEngine instance = null;
@@ -26,7 +34,8 @@ namespace Explorus
         private State state;
         private Keys currentInput;
         private bool FPSOn = false;
-        private MenuState menu;
+        private AudioState audioState;
+        private MenuWindow menuWindow;
 
         private PhysicsThread physics;
         private AudioThread audio;
@@ -35,6 +44,16 @@ namespace Explorus
         private Thread physicsThread;
         private Thread renderThread;
         private Thread audioThread;
+
+        private Option currentOption;
+        private Option[] startMenu = new Option[] {Option.Start, Option.Audio, Option.Level, Option.Exit };
+        private Option[] pauseMenu = new Option[] { Option.Start, Option.Audio, Option.Exit };
+        private AudioOption[] audioMenu = new AudioOption[] { AudioOption.Music, AudioOption.Sound, AudioOption.Back };
+        private int menuIndex = 0;
+        private int audioIndex = 0;
+        private string lastMenuState;
+
+
 
 
         public GameEngine()
@@ -58,9 +77,14 @@ namespace Explorus
 
         public void Start()
         {
-            this.state = new PlayState(this);
-            menu = new MenuState(this);
+            //this.state = new PlayState(this);
+            this.state = new StartState(this);
+            audioState = new AudioState(this);
             oView = GameView.Instance;
+            menuWindow = MenuWindow.Instance;
+            currentOption = Option.Start;
+            menuWindow.setOption(currentOption);
+
 
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
@@ -149,7 +173,7 @@ namespace Explorus
             switch (currentInput)
             {
                 case Keys.P:
-                    Console.WriteLine("current option is " + menu.GetMenuOption().ToString());
+                    Console.WriteLine("current option is " + audioState.GetMenuOption().ToString());
                     ChangeState(new PauseState(this));
                     break;
 
@@ -168,39 +192,155 @@ namespace Explorus
                 default:
                     break;
             }
-
+            
             if (this.state.Name() == "Pause")
             {
                 switch (currentInput)
                 {
-                    case Keys.R:
-                        ChangeState(new ResumeState(this));
-                        break;
-                        
                     case Keys.Up:
-                        menu.SetOption(Option.Music);
+                        if(menuIndex != 0)
+                        {
+                            menuIndex--;
+                        }
                         break;
 
                     case Keys.Down:
-                        menu.SetOption(Option.Sound);
+                        if (menuIndex != pauseMenu.Length-1)
+                        {
+                            menuIndex++;
+                        }
                         break;
+                }
+                currentOption = pauseMenu[menuIndex];
+                menuWindow.setOption(currentOption);
 
-                    case Keys.Right:
-                        menu.ChangeVolume(1);
-                        break;
+                if(currentInput == Keys.Enter || currentInput == Keys.Space)
+                {
 
-                    case Keys.Left:
-                        menu.ChangeVolume(-1);
-                        break;
-
-                    case Keys.M:
-                        menu.ChangeVolume(0);
-                        break;
+                    switch (currentOption)
+                    {
+                        case Option.Start: 
+                            ChangeState(new ResumeState(this));
+                            break;
+                        case Option.Audio:
+                            ChangeState(audioState);
+                            lastMenuState = "Pause";
+                            break;
+                        case Option.Exit:
+                            menuIndex = 0;
+                            ChangeState(new StopState(this));
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
             }
 
-            oView.getMap().GetCompoundGameObject().processInput();
+            if (this.state.Name() == "Start")
+            {
+
+                switch (currentInput)
+                {
+                    case Keys.Up:
+                        if(menuIndex != 0)
+                        {
+                            menuIndex--;
+                        }
+                        break;
+
+                    case Keys.Down:
+                        if (menuIndex != startMenu.Length-1)
+                        {
+                            menuIndex++;
+                        }
+                        break;
+                }
+                currentOption = startMenu[menuIndex];
+                menuWindow.setOption(currentOption);
+
+                if(currentInput == Keys.Enter || currentInput == Keys.Space)
+                {
+
+                    switch (currentOption)
+                    {
+                        case Option.Start: 
+                            ChangeState(new PlayState(this));
+                            break;
+                        case Option.Audio:
+                            ChangeState(audioState);
+                            lastMenuState = "Start";
+                            break;
+                        case Option.Level:
+                            ChangeState(new LevelState(this));
+                            break;
+                        case Option.Exit:
+                            ChangeState(new StopState(this));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
+
+            if (this.state.Name() == "Level")
+            { 
+            
+            }
+
+            if (this.state.Name() == "Audio")
+            {
+
+                switch (currentInput)
+                {
+                    case Keys.Up:
+                        if (audioIndex != 0)
+                        {
+                            audioIndex--;
+                        }                       
+                        break;
+
+                    case Keys.Down:
+                        if (audioIndex != audioMenu.Length - 1)
+                        {
+                            audioIndex++;
+                        }
+                        break;
+
+                    case Keys.Right:
+                        audioState.ChangeVolume(1);
+                        break;
+
+                    case Keys.Left:
+                        audioState.ChangeVolume(-1);
+                        break;
+
+                    case Keys.M:
+                        audioState.ChangeVolume(0);
+                        break;
+
+                    case Keys.Space:
+                        if(audioIndex == audioMenu.Length - 1)
+                        {
+                            audioIndex = 0;
+                            if (lastMenuState == "Start")
+                            {
+                                ChangeState(new StartState(this));
+                            }
+                            if (lastMenuState == "Pause")
+                            {
+                                ChangeState(new PauseState(this));
+                            }
+                        }
+                        break;
+                }
+                audioState.SetOption(audioMenu[audioIndex]);
+                menuWindow.setAudioOption(audioMenu[audioIndex]);
+
+            }
+
+                oView.getMap().GetCompoundGameObject().processInput();
 
         }
         public void update() //public not a fan
@@ -241,6 +381,11 @@ namespace Explorus
         public State GetState()
         {
             return this.state;
+        }
+
+        public AudioState GetAudioState()
+        {
+            return this.audioState;
         }
 
 
