@@ -22,7 +22,7 @@ namespace Explorus.Model
         private int velocity;
         private int dirX;
         private int dirY;
-        private Direction direction;
+        protected new Direction direction;
 
         private simpleAnimator animator;
 

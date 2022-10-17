@@ -34,7 +34,8 @@ namespace Explorus.Model
         private Animator animator;
         private ImageLoader slimeloader;
 
-        private Direction direction = new Direction(0, -1);
+        protected new Direction direction = new Direction(0, -1);
+        public new Direction last_direction = new Direction(0, -1);
 
         private bool readyForInput = true;
 
@@ -54,8 +55,6 @@ namespace Explorus.Model
         public Slimus(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimusImage, ID)
         {
 
-
-
             states = loader.SlimusImages;
             image = loader.SlimusImage;
             goalPosition = pos;
@@ -69,6 +68,7 @@ namespace Explorus.Model
         public int SlimeDirX { get => slimeDirX; set => slimeDirX = value; } 
         public int SlimeDirY { get => slimeDirY; set => slimeDirY = value; }
 
+
         public override void processInput()
         {
             Keys input = GetCurrentInput();
@@ -76,6 +76,7 @@ namespace Explorus.Model
             {
                 if(input == Keys.None)
                 {
+                    last_direction = direction;
                     direction = new Direction(0, 0);
                 }
                 else
@@ -84,6 +85,7 @@ namespace Explorus.Model
                     {
                         case Keys.Left:
                             direction = new Direction(-1, 0);
+                            last_direction = direction;
                             audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = -1;
                             last_slimeDirY = 0;
@@ -93,6 +95,7 @@ namespace Explorus.Model
 
                         case Keys.Right:
                             direction = new Direction(1, 0);
+                            last_direction = direction;
                             audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = 1;
                             last_slimeDirY = 0;
@@ -102,6 +105,7 @@ namespace Explorus.Model
 
                         case Keys.Up:
                             direction = new Direction(0, -1);
+                            last_direction = direction;
                             audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = 0;
                             last_slimeDirY = -1;
@@ -111,6 +115,7 @@ namespace Explorus.Model
 
                         case Keys.Down:
                             direction = new Direction(0, 1);
+                            last_direction = direction;
                             audio.addSound(Sound.soundMoveS);
                             last_slimeDirX = 0;
                             last_slimeDirY = 1;
@@ -119,6 +124,7 @@ namespace Explorus.Model
                             break;
 
                         default:
+                            last_direction = new Direction(0, 1);
                             direction = new Direction(0, 0);
                             break;
                     }

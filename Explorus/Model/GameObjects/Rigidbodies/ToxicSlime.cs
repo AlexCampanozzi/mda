@@ -15,6 +15,7 @@ using Explorus.Model.GameObjects.Rigidbodies;
 //using System.Drawing;
 using Explorus.Threads;
 using System.Windows.Media;
+using Explorus.Model.Behavior;
 
 namespace Explorus.Model
 {
@@ -29,7 +30,7 @@ namespace Explorus.Model
 
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
-        private Direction direction = new Direction(0, 1);
+        protected new Direction direction;
 
         private int slimeVelocity = 1;
 
@@ -41,16 +42,21 @@ namespace Explorus.Model
 
         private AudioThread audio = AudioThread.Instance;
 
+        private BehaviorContext context;
+        protected int lastPlayerPosX, lastPlayerPosY;
+        protected Direction lastPlayerDir;
+        public Direction lastDirection;
 
         //Map map = Map.GetInstance();
         public ToxicSlime(Point pos, ImageLoader loader, int ID) : base(pos, loader.ToxicSlimeImage, ID)
         {
-
             int[] order = { 2, 3, 2, 1 };
             collider = new CircleCollider(this, 39);
             states = loader.ToxicSlimeImages;
             animator = new directionAnimator(states, order);
             iloader = loader;
+            context = new BehaviorContext(this, new PursuitStrategy());
+
         }
         private void SetImage()
         {
@@ -61,8 +67,30 @@ namespace Explorus.Model
             }
         }
 
+        public (int, int, Direction) getLastPlayerInfo()
+        {
+            return (lastPlayerPosX, lastPlayerPosY, lastPlayerDir);
+        }
+
+        private void setLastPlayerInfo(int posX, int posY, Direction dir)
+        {
+            lastPlayerDir = dir;
+            lastPlayerPosX = posX;
+            lastPlayerPosY = posY;
+        }
+
+        public Direction GetDirection()
+        {
+            return direction;
+        }
+
         public override void update()
         {
+            if(direction == null || (direction.X == 0 && direction.Y ==0))
+            {
+                (direction, _, _, _) = context.choosePath();
+                lastDirection = direction;
+            }
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];
@@ -74,34 +102,62 @@ namespace Explorus.Model
 
             if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
             {
+                // 3 cases
+                // special, lost, random
+                //pursuit
+                // follow & follow around corner (special)
+                // dual
+                // follow & follow around and run away
+                // ambush
+                // parralelle
                 if (direction.X != 0 || direction.Y != 0)
                 {
-                    if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
+                    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
                     {
-                        if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
-                        {
-                            gridPosition.X += direction.X;
-                            gridPosition.Y += direction.Y;
-                        }
-                        else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
-                        {
-                            gridPosition.X += direction.X;
-                            gridPosition.Y += direction.Y;
-                        }
-                        else
-                        {
-                            physics.clearBuffer(this);
-                            physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+                        gridPosition.X += direction.X;
+                        gridPosition.Y += direction.Y;
+                        (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
+                        lastDirection = direction;
+                    }
+                    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                    {
+                        gridPosition.X += direction.X;
+                        gridPosition.Y += direction.Y;
+                        (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
+                        lastDirection = direction;
+                    }
 
-                        }
-                    }
-                    else
-                    {
-                        physics.clearBuffer(this);
-                        newRndDir();
-                    }
+                    physics.clearBuffer(this);
+                    physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+
                     SetImage();
                 }
+                //if (direction.X != 0 || direction.Y != 0)
+                //{
+                //if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door)) //Collision
+                //{
+                //    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                //    {
+                //        gridPosition.X += direction.X;
+                //        gridPosition.Y += direction.Y;
+                //    }
+                //    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                //    {
+                //        gridPosition.X += direction.X;
+                //        gridPosition.Y += direction.Y;
+                //    }
+                //    else
+                //    {
+                //    }
+                //}
+                //else
+                //{
+                //    physics.clearBuffer(this);
+                //    //newRndDir();
+                //    direction = context.choosePath();
+                //}
+
+                //}
             }
         }
 
@@ -109,7 +165,7 @@ namespace Explorus.Model
         {
             Random rnd = new Random();
             int newDirID = rnd.Next(0, 3);
-            Direction newDir = new Direction(0, 0);
+            Direction newDir = new Direction(0, 1);
             switch (newDirID)
             {
                 case 0:

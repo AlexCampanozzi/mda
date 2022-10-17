@@ -14,6 +14,7 @@ namespace Explorus.Model
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
         private static readonly object padlock = new object();
+        protected Direction direction;
 
         private Map map = Map.Instance;
         public RigidBody(Point pos, Image img, int ID) : base(pos, img, ID)
@@ -37,6 +38,10 @@ namespace Explorus.Model
             return map;
         }
 
+        public Direction getDirection()
+        {
+            return direction;
+        }
         public virtual void OnCollisionEnter(Collider otherCollider)
         {
 
