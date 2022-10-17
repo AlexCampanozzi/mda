@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using Explorus.Properties;
 using Explorus.Controller;
+using Explorus.Model.Behavior;
 
 // This class is a singleton
 namespace Explorus.Model
