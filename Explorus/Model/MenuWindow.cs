@@ -30,6 +30,7 @@ namespace Explorus.Model
         private GameEngine engine = GameEngine.GetInstance();
         
         private Option currentOption;
+        private bool isChanged = true;
 
 
         static MenuWindow()
@@ -47,35 +48,48 @@ namespace Explorus.Model
             }
         }
 
-        public Graphics getMenuWindow(PaintEventArgs e)
+        public bool IsChanged { get => isChanged; set => isChanged = value; }
+
+        public System.Drawing.Image getMenuWindow(PaintEventArgs e)
         {
 
-            g = e.Graphics;
-            g.DrawString("Explorus", titleFont, brushBlue, 200, 50);
-
-            if (engine.GetState().GetType() == typeof(StartState))
+            System.Drawing.Image bitmap = new Bitmap(1000, 1000);
+            using (Graphics graph = Graphics.FromImage(bitmap))
             {
-                startMenu();
+                g = graph;
+                g.DrawString("Explorus", titleFont, brushBlue, 200, 50);
+
+                if (engine.GetState().GetType() == typeof(StartState))
+                {
+                    startMenu();
+                }
+
+                if (engine.GetState().GetType() == typeof(PauseState))
+                {
+                    pauseMenu();
+                }
+
+                if (engine.GetState().GetType() == typeof(AudioState))
+                {
+                    audioMenu();
+                }
+
+                if (engine.GetState().GetType() == typeof(LevelState))
+                {
+                    levelMenu();
+                }
+
+                placeCursor();
             }
 
-            if (engine.GetState().GetType() == typeof(PauseState))
-            {
-                pauseMenu();
-            }
-
-            placeCursor();
-
-
-
-            return g;
+            isChanged = false;
+            return bitmap;
         }
 
-        public void audioMenu(PaintEventArgs e)
+        public void audioMenu()
         {
-            g = e.Graphics;
-            g.DrawString("Explorus", titleFont, brushBlue, 200, 50);
-
             g.DrawString("Music Volume : ", optionFont, brushBlue, 250, 150 + nextLine);
+
             if (engine.GetAudioState().MusicIsMuted)
             {
                 g.DrawString("Mute", optionFont, brushYellow, 650, 150 + nextLine);
@@ -90,6 +104,7 @@ namespace Explorus.Model
             {
                 g.DrawString("Mute", optionFont, brushYellow, 650, 150 + nextLine * 2);
             }
+
             else
             {
                 g.DrawString(engine.GetAudioState().SoundVolume.ToString(), optionFont, brushYellow, 650, 150 + nextLine * 2);
@@ -99,28 +114,10 @@ namespace Explorus.Model
             g.DrawString("Back", optionFont, brushBlue, 250, 150 + nextLine * 3);
 
 
-            AudioOption currentAudioOption = engine.GetAudioState().GetMenuOption();
-
-            if (currentAudioOption == AudioOption.Music)
-            {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
-            }
-
-            if (currentAudioOption == AudioOption.Sound)
-            {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
-            }
-
-            if (currentAudioOption == AudioOption.Back)
-            {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 3);
-            }
-
         }
 
-        public void levelMenu(PaintEventArgs e)
+        public void levelMenu()
         {
-            g = e.Graphics;
             g.DrawString("Explorus", titleFont, brushBlue, 200, 50);
 
             g.DrawString("Slimes Quantity : ", optionFont, brushBlue, 250, 150 + nextLine);
@@ -130,24 +127,6 @@ namespace Explorus.Model
             g.DrawString(engine.GetLevelState().chosenLevelName(), optionFont, brushYellow, 350, 150 + nextLine * 3);
 
             g.DrawString("Back", optionFont, brushBlue, 250, 150 + nextLine * 4);
-
-
-            LevelOption currentLevelOption = engine.GetLevelState().GetMenuOption();
-
-            if (currentLevelOption == LevelOption.Slimes)
-            {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
-            }
-
-            if (currentLevelOption == LevelOption.Level)
-            {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
-            }
-
-            if (currentLevelOption == LevelOption.Back)
-            {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 4);
-            }
 
         }
 
@@ -170,11 +149,12 @@ namespace Explorus.Model
 
         public void placeCursor()
         {
-            if(currentOption == Option.Start)
+            if (currentOption == Option.Start)
             {
                 g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
             }
-            if (currentOption == Option.Audio)
+
+            else if (currentOption == Option.Audio && engine.GetState().GetType() != typeof(AudioState))
             {
                 g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
             }
@@ -192,11 +172,53 @@ namespace Explorus.Model
 
                 }
             }
-            if (engine.GetState().GetType() == typeof(PauseState))
+
+            else if (engine.GetState().GetType() == typeof(PauseState))
             {
                 if (currentOption == Option.Exit)
                 {
                     g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 3);
+                }
+            }
+
+            else if (engine.GetState().GetType() == typeof(AudioState))
+            {
+                AudioOption currentAudioOption = engine.GetAudioState().GetMenuOption();
+
+                if (currentAudioOption == AudioOption.Music)
+                {
+                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
+                }
+
+                else if (currentAudioOption == AudioOption.Sound)
+                {
+                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
+                }
+
+                else if (currentAudioOption == AudioOption.Back)
+                {
+                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 3);
+                }
+            }
+
+            else if (engine.GetState().GetType() == typeof(LevelState))
+            {
+
+                LevelOption currentLevelOption = engine.GetLevelState().GetMenuOption();
+
+                if (currentLevelOption == LevelOption.Slimes)
+                {
+                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
+                }
+
+                if (currentLevelOption == LevelOption.Level)
+                {
+                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
+                }
+
+                if (currentLevelOption == LevelOption.Back)
+                {
+                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 4);
                 }
             }
         }
@@ -204,9 +226,9 @@ namespace Explorus.Model
         public void setOption(Option option)
         {
             currentOption = option;
-            //Console.WriteLine(currentOption);
-
         }
+
+        
 
 
     }

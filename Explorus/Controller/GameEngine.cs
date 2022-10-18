@@ -172,6 +172,11 @@ namespace Explorus.Controller
         {
             currentInput = oView.getCurrentInput();
 
+            if (currentInput != Keys.None)
+            {
+                menuWindow.IsChanged = true;
+            }
+
             switch (currentInput)
             {
                 case Keys.P:
@@ -423,7 +428,7 @@ namespace Explorus.Controller
 
         public LevelState GetLevelState()
         {
-            return this.levelState;
+                 return this.levelState;
         }
 
 
