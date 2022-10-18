@@ -186,5 +186,10 @@ namespace Explorus.Model
             }
             load();
         }
+
+        public void setMap(CompoundGameObject compoundObject)
+        {
+            CompoundGameObject compoundGameObject = compoundObject;
+        }
     }
 }

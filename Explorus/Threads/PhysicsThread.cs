@@ -36,6 +36,7 @@ namespace Explorus.Threads
     }
      public sealed class PhysicsThread
      {
+        public RemoteControl invoker = new RemoteControl();
         private static PhysicsThread instance = null;
         private static readonly object padlock = new object();
         private List<(int,int)> validDirection = new List<(int, int)>()
@@ -44,6 +45,7 @@ namespace Explorus.Threads
         };
         List<PlayMovement> movementBuffer = new List<PlayMovement>() { };
         List<GameObject> removeBuffer = new List<GameObject>() { };
+
         private PhysicsThread()
         {
         }
@@ -78,36 +80,14 @@ namespace Explorus.Threads
         
         public void Run()
         {
+            
+            
+            PhysicCommand physicCommand = new PhysicCommand();
+            invoker.SetCommand(physicCommand);
+
             while (true)
             {
-                if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
-                {
-                    if (movementBuffer.Count > 0)
-                    {
-                        lock (movementBuffer)
-                        {
-                            try
-                            {
-                                MoveObject(movementBuffer.First());
-                                movementBuffer.RemoveAt(0);
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-
-                    if (removeBuffer.Count > 0)
-                    {
-                        lock (removeBuffer)
-                        {
-                            //GameObject obj = removeBuffer[0];
-                            removeBuffer.First().removeItselfFromGame();
-                            removeBuffer.RemoveAt(0);
-                        }
-                    }
-                }
+                invoker.ExecuteCommand();
 
             }
         }
@@ -187,6 +167,39 @@ namespace Explorus.Threads
         public List<PlayMovement> getBuffer()
         {
             return movementBuffer;
+        }
+
+        public void Execute()
+        {
+
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            {
+                if (movementBuffer.Count > 0)
+                {
+                    lock (movementBuffer)
+                    {
+                        try
+                        {
+                            MoveObject(movementBuffer.First());
+                            movementBuffer.RemoveAt(0);
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
+
+                if (removeBuffer.Count > 0)
+                {
+                    lock (removeBuffer)
+                    {
+                        //GameObject obj = removeBuffer[0];
+                        removeBuffer.First().removeItselfFromGame();
+                        removeBuffer.RemoveAt(0);
+                    }
+                }
+            }
         }
     }
 }

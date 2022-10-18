@@ -49,6 +49,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\ICommand.cs" />
+    <Compile Include="Controller\PhysicCommand.cs" />
+    <Compile Include="Controller\RemoteControl.cs" />
     <Compile Include="Controller\State\LevelState.cs" />
     <Compile Include="Controller\State\AudioState.cs" />
     <Compile Include="Controller\State\PauseState.cs" />

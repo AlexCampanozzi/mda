@@ -382,6 +382,13 @@ namespace Explorus.Controller
 
             if (gameMaster.isGameOver())
             {
+                // Replay 5 last seconds
+                physics = PhysicsThread.GetInstance();
+                physics.invoker.ExecuteAll();
+            }
+
+            if (gameMaster.isGameOver() && physics.invoker.repeatDone == true)
+            {
                 ChangeState(new StopState(this));
             }
             //if (gameMaster.isLevelOver()) oView.setIsOver(true);
@@ -394,7 +401,7 @@ namespace Explorus.Controller
 
                 gameMaster.update();
 
-                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK FUCK YOU
+                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK
                 oView.getHeader().setGem(gameMaster.getGemStatus());
                 oView.getHeader().setLife(gameMaster.getLifeStatus());
                 oView.getHeader().setBubble(gameMaster.getBubbleStatus());*/

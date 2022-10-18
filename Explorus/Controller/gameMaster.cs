@@ -172,6 +172,7 @@ namespace Explorus.Controller
             lifeStatus--;
             oView.getHeader().setLife(lifeStatus * 100 / 6);
             if (lifeStatus == 0) EndOfGame = true;
+            Console.WriteLine("AYAYA IM DED");
         }
         public int getLifeStatus()
         {
