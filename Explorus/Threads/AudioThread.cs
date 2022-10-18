@@ -223,9 +223,21 @@ namespace Explorus.Threads
             soundVolume = (double)volume/100;
         }
 
+        public void setJazzMusic()
+        {
+            song = "Resources/Audio/soundtrackJazz.wav";
+            changeMusic = true;
+        }
+
         public void setGameMusic()
         {
             song = "Resources/Audio/soundtrack.wav";
+            changeMusic = true;
+        }
+
+        public void setSlamMusic()
+        {
+            song = "Resources/Audio/soundtrackSlam.wav";
             changeMusic = true;
         }
 

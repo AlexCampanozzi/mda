@@ -271,13 +271,25 @@ namespace Explorus.Controller
                     switch (currentOption)
                     {
                         case Option.Start:
+                            oView.getMap().MapPath = GetLevelState().chosenLevelName();
                             oView.getMap().resetMap();
 
                             GameMaster gameMaster = GameMaster.Instance;
                             gameMaster.setSlimeAmount(GetLevelState().Slimes);
 
                             ChangeState(new PlayState(this));
-                            audio.setGameMusic();
+                            switch(GetLevelState().chosenLevelName())
+                            {
+                                case "map_jazz.png":
+                                    audio.setJazzMusic();
+                                    break;
+                                case "map_slam.png":
+                                    audio.setSlamMusic();
+                                    break;
+                                default:
+                                    audio.setGameMusic();
+                                    break;
+                            }
                             break;
                         case Option.Audio:
                             ChangeState(audioState);
