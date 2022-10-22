@@ -170,10 +170,10 @@ namespace Explorus.Model
                         strategy = new AmbushStrategy();
                         break;
                     case 1:
-                        strategy = new AmbushStrategy();
+                        strategy = new PursuitStrategy();
                         break;
                     default:
-                        strategy = new AmbushStrategy();
+                        strategy = new DualStrategy();
                         break;
 
                 }

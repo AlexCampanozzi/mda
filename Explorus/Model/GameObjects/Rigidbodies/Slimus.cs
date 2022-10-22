@@ -133,7 +133,7 @@ namespace Explorus.Model
                             break;
 
                         default:
-                            //last_direction = new Direction(0, 0);
+                            last_direction = new Direction(0, 0);
                             direction = new Direction(0, 0);
                             break;
                     }
@@ -164,7 +164,10 @@ namespace Explorus.Model
                 return image;
             }
         }
-
+        public Direction getDirection()
+        {
+            return direction;
+        }
         private void SetImage()
         {
             lock (image)
@@ -199,7 +202,7 @@ namespace Explorus.Model
         }
 
         public override void update()
-        {  
+        {
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];

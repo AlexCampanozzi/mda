@@ -127,7 +127,7 @@ namespace Explorus.Model.Behavior
         {
             Direction newDir = null;
             bool SlimusFound = false;
-            Direction SlimusDir = new Direction(0, 0);
+            Direction SlimusDir = null;
             int SlimusPosX = 0, SlimusPosY = 0;
 
             Point gridPosition = slime.GetGridPosition();
@@ -141,7 +141,7 @@ namespace Explorus.Model.Behavior
             if(gridPosition.X == PlayerGrid.X && gridPosition.Y == PlayerGrid.Y){
                 //newDir = random(slime, slime.getLastDirection());
                 newDir = new Direction(0, 0);
-                SlimusDir = slimus.getLastDirection();
+                SlimusDir = random(slime, slimus.getLastDirection());
                 SlimusFound = true;
                 SlimusPosX = gridPosition.X;
                 SlimusPosY = gridPosition.Y;
@@ -275,21 +275,23 @@ namespace Explorus.Model.Behavior
             Slimus slimus = (Slimus)Map.Instance.GetObjectList().Find(obj => obj.GetCollider().parent.GetType() == typeof(Slimus));
             Point PlayerGrid = slimus.GetGridPosition();
             Point gridPosition = slime.GetGridPosition();
+            Direction playerDir = slimus.getDirection();
 
             if (gridPosition.X == PlayerGrid.X || gridPosition.Y == PlayerGrid.Y)
             {
-                int SlimusPosX, SlimusPosY;
+                //int SlimusPosX, SlimusPosY;
                 bool SlimusFound;
-                Direction tempDir, playerDir;
-                (tempDir, SlimusFound, playerDir, SlimusPosX, SlimusPosY)  = findPlayer(slime);
+                Direction tempDir;
+                (tempDir, SlimusFound, _, _, _)  = findPlayer(slime);
+                
                 newDir = followPlayerDir(slime, playerDir);
+                
                 if (SlimusFound && newDir == null) // slimus visible and cant ambush
                 {
                     newDir = tempDir; // go towards slimus
-                    
                 }
                 //if player does not move and not in same corridor
-                else
+                if (newDir == null)
                 {
                     newDir = new Direction(0,0);
                 }
@@ -303,11 +305,14 @@ namespace Explorus.Model.Behavior
             Point gridPosition = slime.GetGridPosition();
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
             Direction newDir = null;
-            if (playerDir != null && (playerDir.X != 0 || playerDir.Y != 0))
+            if (playerDir != null)
             {
-                if (gridMap[gridPosition.X + playerDir.X, gridPosition.Y + playerDir.Y] != objectTypes.Wall && gridMap[gridPosition.X + playerDir.X, gridPosition.Y + playerDir.Y] != objectTypes.Door)
+                if (playerDir.X != 0 || playerDir.Y != 0)
                 {
-                    newDir = playerDir;
+                    if (gridMap[gridPosition.X + playerDir.X, gridPosition.Y + playerDir.Y] != objectTypes.Wall && gridMap[gridPosition.X + playerDir.X, gridPosition.Y + playerDir.Y] != objectTypes.Door)
+                    {
+                        newDir = playerDir;
+                    }
                 }
             }
             return newDir;
