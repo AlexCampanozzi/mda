@@ -225,7 +225,7 @@ namespace Explorus.Controller
                 currentOption = pauseMenu[menuIndex];
                 menuWindow.setOption(currentOption);
 
-                if(currentInput == Keys.Enter || currentInput == Keys.Space)
+                if(currentInput == Keys.Space)
                 {
 
                     switch (currentOption)
@@ -270,7 +270,7 @@ namespace Explorus.Controller
                 currentOption = startMenu[menuIndex];
                 menuWindow.setOption(currentOption);
 
-                if(currentInput == Keys.Enter || currentInput == Keys.Space)
+                if(currentInput == Keys.Space)
                 {
 
                     switch (currentOption)
