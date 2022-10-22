@@ -12,7 +12,7 @@ namespace Explorus.Model.Behavior
         (Direction, int, int, Direction) IBehavior.specialBehavior(ToxicSlime slime)
         {
             (_, bool SlimusFound, _, _, _) = behaviors.findPlayer(slime);
-            Direction newDir = new Direction(0,0), playerDir = new Direction(0,0);
+            Direction newDir = null, playerDir = new Direction(0,0);
             int playerPosX = 0, playerPosY = 0;
 
             if (SlimusFound)
@@ -46,7 +46,7 @@ namespace Explorus.Model.Behavior
                 else (newDir, playerPosX, playerPosY, playerDir) = behaviors.pursuit(slime, slime.getPursuit());
             }
             // continue until wall
-            if (newDir.X == 0 && newDir.Y == 0)
+            if (newDir == null)
             {
                 newDir = behaviors.random(slime, slime.getLastDirection());
             }

@@ -170,17 +170,17 @@ namespace Explorus.Model
                         strategy = new AmbushStrategy();
                         break;
                     case 1:
-                        strategy = new PursuitStrategy();
+                        strategy = new AmbushStrategy();
                         break;
                     default:
-                        strategy = new DualStrategy();
+                        strategy = new AmbushStrategy();
                         break;
 
                 }
                 int id = random.Next(0, potentialToxicSlimes.Count - 1);
                 Point point = potentialToxicSlimes[id];
                 potentialToxicSlimes.RemoveAt(id);
-                compoundGameObject.add(new ToxicSlime(point, loader, getID(), new AmbushStrategy()), point.X/96, point.Y/96);
+                compoundGameObject.add(new ToxicSlime(point, loader, getID(), strategy), point.X/96, point.Y/96);
             }
             return compoundGameObject.getComponentGameObjetList();
         }

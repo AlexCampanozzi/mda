@@ -15,7 +15,7 @@ namespace Explorus.Model.Behavior
         {
             (Direction newDir, int playerPosX, int playerPosY, Direction playerDir) = behaviors.pursuit(slime, true);
 
-            if (newDir.X == 0 && newDir.Y == 0)
+            if (newDir == null)
             {
                 newDir = behaviors.random(slime, slime.getLastDirection());
             }

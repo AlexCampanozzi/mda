@@ -13,14 +13,9 @@ namespace Explorus.Model.Behavior
         {
             Direction newDir, playerDir = new Direction(0, 0);
             int playerPosX = 0, playerPosY = 0;
-            bool found;
 
-            (found, newDir) = behaviors.ambush(slime);
-            if (found)
-            {
-                newDir = behaviors.random(slime, newDir);
-            }
-            else
+            newDir = behaviors.ambush(slime);
+            if (newDir == null)
             {
                 newDir = behaviors.random(slime, slime.getLastDirection());
             }

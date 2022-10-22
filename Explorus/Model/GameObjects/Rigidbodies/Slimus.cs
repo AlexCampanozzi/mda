@@ -36,7 +36,7 @@ namespace Explorus.Model
         private Animator alphaAnimator;
         private ImageLoader slimeloader;
 
-        protected new Direction direction = new Direction(0, -1);
+        protected new Direction direction = new Direction(0,0);
 
         private bool readyForInput = true;
 
@@ -133,7 +133,7 @@ namespace Explorus.Model
                             break;
 
                         default:
-                            //last_direction = new Direction(0, 1);
+                            //last_direction = new Direction(0, 0);
                             direction = new Direction(0, 0);
                             break;
                     }

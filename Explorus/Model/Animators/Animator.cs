@@ -33,15 +33,15 @@ namespace Explorus.Model.GameObjects.Rigidbodies
             imgAtt.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
             lock (img)
             {
-                try
-                {
+                //try
+                //{
                     graphics.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAtt);
 
-                }
-                catch
-                {
+                //}
+                //catch
+                //{
 
-                }
+                //}
                 graphics.Dispose();
 
                 return (bitmap.Clone(new Rectangle(0, 0, img.Width, img.Height), new Bitmap("./Resources/TilesSheet.png").PixelFormat));

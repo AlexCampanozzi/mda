@@ -112,18 +112,18 @@ namespace Explorus
 
         public void Render()
         {
-            try
-            {
+            //try
+            //{
                 if (oGameForm.Visible)
                     oGameForm.BeginInvoke((MethodInvoker)delegate
                     {
                         oGameForm.Refresh();
                     });
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
 
-            }
+            //}
         }
 
         private void Form_Resize(object sender, EventArgs e)
@@ -236,17 +236,17 @@ namespace Explorus
                     Image img = compoundGameObjectList[i].GetImage();
                     int size_offset = 0;
 
-                    try
-                    {
+                    //try
+                    //{
                         if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
                         {
                             size_offset = 24;
                         }
-                    }
-                    catch
-                    {
+                    //}
+                    //catch
+                    //{
 
-                    }
+                    //}
 
                     if (gameState != "Play")
                     {
