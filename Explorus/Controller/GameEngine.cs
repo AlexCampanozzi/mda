@@ -380,14 +380,14 @@ namespace Explorus.Controller
         {
             GameMaster gameMaster = GameMaster.Instance;
 
-            if (gameMaster.isGameOver())
+            if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone() == false)
             {
                 // Replay 5 last seconds
                 physics = PhysicsThread.GetInstance();
                 physics.invoker.ExecuteAll();
+                gameMaster.update();
             }
-
-            if (gameMaster.isGameOver() && physics.invoker.repeatDone == true)
+            else if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone())
             {
                 ChangeState(new StopState(this));
             }

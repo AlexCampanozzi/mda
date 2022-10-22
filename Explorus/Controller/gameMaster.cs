@@ -33,6 +33,7 @@ namespace Explorus.Controller
         private bool EndOfLevel;
         Stopwatch timer = new Stopwatch();
         private bool EndOfGame;
+        private bool rewindRunning;
 
         private int numLevel = 3;
         private int currentLevel = 1;

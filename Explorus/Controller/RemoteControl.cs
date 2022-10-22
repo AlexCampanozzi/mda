@@ -74,5 +74,10 @@ namespace Explorus.Controller
                 repeatDone = true;
             }
         }
+
+        public bool IsRepeatDone()
+        { 
+            return repeatDone; 
+        }
     }
 }
