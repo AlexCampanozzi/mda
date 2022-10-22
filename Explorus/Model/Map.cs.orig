@@ -11,27 +11,48 @@ using System.Drawing;
 using System;
 using System.Collections.Generic;
 using Explorus.Properties;
+<<<<<<< HEAD
+using Explorus.Controller;
+=======
+using Explorus.Model.Behavior;
+>>>>>>> origin/menu_audio
 
 // This class is a singleton
 namespace Explorus.Model
 {
     public sealed class Map 
     {
-        private static Map instance = null;
+        private static readonly Map instance = new Map();
         private static readonly object padlock = new object();
 
         private List<GameObject> objectList;
         private CompoundGameObject compoundGameObject;
         private objectTypes[,] typeMap = null;
 
+        private int lastID = -1;
+
+        static Map()
+        {
+
+        }
+        
         private Map()
+        {
+            load();   
+        }
+
+        private void load()
         {
             objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map_valid.png")));
         }
 
-        public static Map GetInstance()
+        public static Map Instance
         {
-            if(instance == null)
+            get
+            {
+                return instance;
+            }
+            /*if(instance == null)
             {
                 lock (padlock)
                 {
@@ -39,11 +60,17 @@ namespace Explorus.Model
                     {
                         instance = new Map();
                     }
+
+                    return instance;
                 }
-            }
-            return instance;
+            }*/
         }
 
+        public int getID()
+        {
+            return lastID += 1;
+        }
+        
         private objectTypes[,] mapParser(Bitmap mapImage)
         {
             GraphicsUnit pixelRef = GraphicsUnit.Pixel;
@@ -75,11 +102,11 @@ namespace Explorus.Model
                 case "ffff0000"://red
                     return objectTypes.Door;
                 case "ffffff00"://yellow
-                    return objectTypes.Gem;
+                    return objectTypes.Slime;
                 case "ff0000ff"://blue
                     return objectTypes.Player;
                 case "ff00ff00"://green
-                    return objectTypes.Slime;
+                    return objectTypes.ToxicSlime;
                 default:
                     return objectTypes.Empty;
             }
@@ -92,6 +119,8 @@ namespace Explorus.Model
 
             compoundGameObject = new CompoundGameObject();
 
+            List<Point> potentialToxicSlimes = new List<Point>();
+
             for (int x = 0; x< typeMap.GetLength(0); x++)
             {
                 for(int y = 0; y < typeMap.GetLength(1); y++)
@@ -101,26 +130,26 @@ namespace Explorus.Model
                         switch(typeMap[x, y])
                         {
                             case objectTypes.Player:
-                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Slimus(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Wall:
-                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Wall(new Point(x* 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Gem:
-<<<<<<< HEAD
-                                compoundGameObject.add(new Gem(new Point(x * 96, y * 96)), x, y);
+                                compoundGameObject.add(new Gem(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Slime:
-                                compoundGameObject.add(new Slime(new Point(x * 96, y * 96)), x, y);
-=======
-                                compoundGameObject.add(new Gem(new Point(x * 96 + 24, y * 96 + 24), loader), x, y);
-                                break;
-                            case objectTypes.Slime:
-                                compoundGameObject.add(new Slime(new Point(x * 96 + 24, y * 96 + 24), loader), x, y);
->>>>>>> image_pointers
+                                compoundGameObject.add(new Slime(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.Door:
-                                compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader), x, y);
+                                compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader, getID()), x, y);
+                                break;
+                            case objectTypes.ToxicSlime:
+<<<<<<< HEAD
+                                potentialToxicSlimes.Add(new Point(x * 96, y * 96));
+=======
+                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader, getID(), new AmbushStrategy()), x, y);
+>>>>>>> origin/menu_audio
                                 break;
                             default:
                                 continue;
@@ -128,7 +157,15 @@ namespace Explorus.Model
                     }
                 }
             }
-
+            GameEngine engine = GameEngine.GetInstance();
+            Random random = new Random();
+            for(int i = 0; i < engine.GetLevelState().Slimes; i++)
+            {
+                int id = random.Next(0, potentialToxicSlimes.Count - 1);
+                Point point = potentialToxicSlimes[id];
+                potentialToxicSlimes.RemoveAt(id);
+                compoundGameObject.add(new ToxicSlime(point, loader, getID()), point.X/96, point.Y/96);
+            }
             return compoundGameObject.getComponentGameObjetList();
         }
 
@@ -149,6 +186,23 @@ namespace Explorus.Model
         public CompoundGameObject GetCompoundGameObject()
         {
             return compoundGameObject;
+        }
+
+        public void resetMap()
+        {
+
+            Map map = Instance;
+
+            lock (compoundGameObject)
+            {
+                //instance = null;
+                int len = compoundGameObject.getComponentGameObjetList().Count;
+                for (int i = 0; i < len; i++)
+                {
+                    compoundGameObject.getComponentGameObjetList()[len - i - 1].removeItselfFromGame();
+                }
+            }
+            load();
         }
     }
 }

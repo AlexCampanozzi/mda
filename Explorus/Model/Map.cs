@@ -11,6 +11,7 @@ using System.Drawing;
 using System;
 using System.Collections.Generic;
 using Explorus.Properties;
+using Explorus.Controller;
 using Explorus.Model.Behavior;
 
 // This class is a singleton
@@ -27,6 +28,8 @@ namespace Explorus.Model
 
         private int lastID = -1;
 
+        private string mapPath = "map_valid.png";
+
         static Map()
         {
 
@@ -39,7 +42,7 @@ namespace Explorus.Model
 
         private void load()
         {
-            objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/map_valid.png")));
+            objectList = createObjectsFromMapFactory(mapParser(new Bitmap("./Resources/Maps/" + mapPath)));
         }
 
         public static Map Instance
@@ -61,6 +64,8 @@ namespace Explorus.Model
                 }
             }*/
         }
+
+        public string MapPath { get => this.mapPath; set => this.mapPath = value; }
 
         public int getID()
         {
@@ -115,6 +120,8 @@ namespace Explorus.Model
 
             compoundGameObject = new CompoundGameObject();
 
+            List<Point> potentialToxicSlimes = new List<Point>();
+
             for (int x = 0; x< typeMap.GetLength(0); x++)
             {
                 for(int y = 0; y < typeMap.GetLength(1); y++)
@@ -139,7 +146,7 @@ namespace Explorus.Model
                                 compoundGameObject.add(new Door(new Point(x * 96, y * 96), loader, getID()), x, y);
                                 break;
                             case objectTypes.ToxicSlime:
-                                compoundGameObject.add(new ToxicSlime(new Point(x * 96, y * 96), loader, getID(), new AmbushStrategy()), x, y);
+                                potentialToxicSlimes.Add(new Point(x * 96, y * 96));
                                 break;
                             default:
                                 continue;
@@ -147,7 +154,34 @@ namespace Explorus.Model
                     }
                 }
             }
+            GameEngine engine = GameEngine.GetInstance();
+            Random random = new Random();
 
+            int offset = random.Next(0, 2);
+
+            for(int i = 0; i < engine.GetLevelState().Slimes; i++)
+            {
+                int strategyid = (i + offset) % 3;
+
+                IBehavior strategy;
+                switch (strategyid)
+                {
+                    case 0:
+                        strategy = new AmbushStrategy();
+                        break;
+                    case 1:
+                        strategy = new PursuitStrategy();
+                        break;
+                    default:
+                        strategy = new DualStrategy();
+                        break;
+
+                }
+                int id = random.Next(0, potentialToxicSlimes.Count - 1);
+                Point point = potentialToxicSlimes[id];
+                potentialToxicSlimes.RemoveAt(id);
+                compoundGameObject.add(new ToxicSlime(point, loader, getID(), new AmbushStrategy()), point.X/96, point.Y/96);
+            }
             return compoundGameObject.getComponentGameObjetList();
         }
 

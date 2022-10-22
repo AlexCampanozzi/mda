@@ -82,14 +82,17 @@ namespace Explorus.Controller
             //this.state = new PlayState(this);
             this.state = new StartState(this);
             audioState = new AudioState(this);
-            oView = GameView.Instance;
+            
             menuWindow = MenuWindow.Instance;
             currentOption = Option.Start;
             menuWindow.setOption(currentOption);
 
+            levelState = new LevelState(this);
+            oView = GameView.Instance;
 
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
+
 
             physics = PhysicsThread.GetInstance();
             physicsThread = new Thread(physics.Run);
@@ -102,6 +105,7 @@ namespace Explorus.Controller
             audio = AudioThread.Instance;
             audioThread = new Thread(audio.Run);
             audioThread.Start();
+
 
             oView.Show();
         }
@@ -172,6 +176,11 @@ namespace Explorus.Controller
         {
             currentInput = oView.getCurrentInput();
 
+            if (currentInput != Keys.None)
+            {
+                menuWindow.IsChanged = true;
+            }
+
             switch (currentInput)
             {
                 case Keys.P:
@@ -216,7 +225,7 @@ namespace Explorus.Controller
                 currentOption = pauseMenu[menuIndex];
                 menuWindow.setOption(currentOption);
 
-                if(currentInput == Keys.Enter || currentInput == Keys.Space)
+                if(currentInput == Keys.Space)
                 {
 
                     switch (currentOption)
@@ -261,13 +270,31 @@ namespace Explorus.Controller
                 currentOption = startMenu[menuIndex];
                 menuWindow.setOption(currentOption);
 
-                if(currentInput == Keys.Enter || currentInput == Keys.Space)
+                if(currentInput == Keys.Space)
                 {
 
                     switch (currentOption)
                     {
-                        case Option.Start: 
+                        case Option.Start:
+                            oView.getMap().MapPath = GetLevelState().chosenLevelName();
+                            oView.getMap().resetMap();
+
+                            GameMaster gameMaster = GameMaster.Instance;
+                            gameMaster.setSlimeAmount(GetLevelState().Slimes);
+
                             ChangeState(new PlayState(this));
+                            switch(GetLevelState().chosenLevelName())
+                            {
+                                case "map_jazz.png":
+                                    audio.setJazzMusic();
+                                    break;
+                                case "map_slam.png":
+                                    audio.setSlamMusic();
+                                    break;
+                                default:
+                                    audio.setGameMusic();
+                                    break;
+                            }
                             break;
                         case Option.Audio:
                             ChangeState(audioState);
@@ -437,7 +464,7 @@ namespace Explorus.Controller
 
         public LevelState GetLevelState()
         {
-            return this.levelState;
+                 return this.levelState;
         }
 
 

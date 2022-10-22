@@ -30,6 +30,9 @@ namespace Explorus
         private Image pauseImage;
         private Image resumeImage;
         private Image gameOverImage;
+        private Image menuImage;
+
+        private PaintEventArgs paint;
 
         private Map map;
         private Header header;
@@ -60,7 +63,7 @@ namespace Explorus
             oGameForm.FormClosed += new FormClosedEventHandler(Form_Closed);
             oGameForm.Resize += new EventHandler(Form_Resize);
             oGameForm.LostFocus += new EventHandler(Form_LostFocus);
-            oGameForm.GotFocus += new EventHandler(Form_GainFocus);
+            //oGameForm.GotFocus += new EventHandler(Form_GainFocus);
           
 
             map = Map.Instance;
@@ -127,40 +130,54 @@ namespace Explorus
 
         private void Form_Resize(object sender, EventArgs e)
         {
-            windowState = oGameForm.WindowState;
-
-            if (this.windowState == FormWindowState.Minimized)
+            if (GameEngine.GetInstance().GetState().Name() != "Start")
             {
-                wasMinimized = true;
-                GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
-            }
+                windowState = oGameForm.WindowState;
 
-            if (this.windowState == FormWindowState.Normal)
-            {
-                wasMinimized = false;
-                GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+                if (this.windowState == FormWindowState.Minimized)
+                {
+                    wasMinimized = true;
+                    GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+                }
+                /*
+                if (this.windowState == FormWindowState.Normal)
+                {
+                    wasMinimized = false;
+                    GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+                }*/
+
             }
 
             pauseImage = resizeImage(pauseImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
             resumeImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
             gameOverImage = resizeImage(gameOverImage, new Size(oGameForm.Size.Width / 2, oGameForm.Size.Height / 3));
+            menuImage = resizeImage(menuImage, new Size(oGameForm.Size.Width, oGameForm.Size.Height));
+
         }
 
         private void Form_LostFocus(object sender, System.EventArgs e)
         {
-            hadLostFocus = true;
-            GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+            if (GameEngine.GetInstance().GetState().Name() != "Start")
+            {
+                hadLostFocus = true;
+                GameEngine.GetInstance().ChangeState(new PauseState(GameEngine.GetInstance()));
+            }
+
         }
 
+        /*
         private void Form_GainFocus(object sender, System.EventArgs e)
         {
-            if (hadLostFocus)
+            if (GameEngine.GetInstance().GetState().Name() != "Start")
             {
-                hadLostFocus = false;
-                GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
+                if (hadLostFocus)
+                {
+                    hadLostFocus = false;
+                    GameEngine.GetInstance().ChangeState(new ResumeState(GameEngine.GetInstance()));
 
+                }
             }
-        }
+        }*/
 
         public void Close()
         {
@@ -178,7 +195,7 @@ namespace Explorus
 
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-            
+            paint = e;
             string gameState = GameEngine.GetInstance().GetState().Name();
             oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
             if (gameState == "Replay")
@@ -212,7 +229,7 @@ namespace Explorus
             xScaling = ((float)oGameForm.Size.Width - 16) / (float)xSize;
             yScaling = ((float)oGameForm.Size.Height - 42) / (float)ySize;
 
-            minScale = Math.Min(xScaling, yScaling);
+            minScale = Math.Min(xScaling, yScaling); 
             xOffset = 0;
             yOffset = 0;
 
@@ -259,21 +276,15 @@ namespace Explorus
             
             e.Graphics.DrawImage(header.getHeaderImage(), new Rectangle(new Point(xOffset, yOffset + (int)(60.0 * yScaling)), new Size((int)(1152.0 * minScale), (int)(96.0 * minScale))));
                 
-            if (gameState == "Pause" || gameState == "Start")
+            if (gameState == "Pause" || gameState == "Start" || gameState == "Audio" || gameState == "Level")
             {
-                //e.Graphics.DrawImage(pauseImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
-                menuWindow.getMenuWindow(e);
-                
-            }
+                if (menuWindow.IsChanged)
+                {
+                    menuImage = menuWindow.getMenuWindow(e);
+                    menuImage = resizeImage(menuWindow.getMenuWindow(e), new Size(oGameForm.Size.Width, oGameForm.Size.Height));
+                }
+                e.Graphics.DrawImage(menuImage, new Point((int)minScale + 100, (int)(minScale + 70)));
 
-            if (gameState == "Audio")
-            {
-                menuWindow.audioMenu(e);
-            }
-
-            if (gameState == "Level")
-            {
-                menuWindow.levelMenu(e);
             }
 
             if (gameState == "Resume")

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace Explorus.Controller
     public class LevelState : PauseState
     {
         private LevelOption menuOption;
-        private string[] listLevel = new string[4] {"dungeon","sand","lava","underwater"};
+        private List<string> listLevel = new List<string>();// = new string[4] {"dungeon","sand","lava","underwater"};
         private int slimes = 6;
         private int levelIndex = 0;
         private string chosenLevel;
@@ -31,6 +32,10 @@ namespace Explorus.Controller
         public LevelState(GameEngine engine) : base(engine)
         {
             this.engine = engine;
+
+            string[] files = Directory.GetFiles("./Resources/Maps");
+            foreach (string file in files)
+                listLevel.Add(Path.GetFileName(file));
         }
 
         public void Increment(int i)
@@ -53,7 +58,7 @@ namespace Explorus.Controller
             }
             if (menuOption == LevelOption.Level)
             {
-                if (levelIndex >= 0 && levelIndex <= listLevel.Length-1)
+                if (levelIndex >= 0 && levelIndex <= listLevel.Count-1)
                 {
                     levelIndex = levelIndex + i;
                 }
@@ -61,9 +66,9 @@ namespace Explorus.Controller
                 {
                     levelIndex = 0;
                 }
-                if (levelIndex > listLevel.Length - 1)
+                if (levelIndex > listLevel.Count - 1)
                 {
-                    levelIndex = listLevel.Length - 1;
+                    levelIndex = listLevel.Count - 1;
                 }
 
             }
