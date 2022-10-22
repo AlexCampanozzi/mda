@@ -105,10 +105,10 @@ namespace Explorus.Controller
             renderThread.Name = "render";
             renderThread.Start();
 
-            //audio = AudioThread.Instance;
-            //audioThread = new Thread(audio.Run);
-            //audioThread.Name = "audio";
-            //audioThread.Start();
+            audio = AudioThread.Instance;
+            audioThread = new Thread(audio.Run);
+            audioThread.Name = "audio";
+            audioThread.Start();
 
             //Thread.Sleep(5000);
             oView.Show();
