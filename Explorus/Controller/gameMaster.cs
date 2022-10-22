@@ -27,7 +27,8 @@ namespace Explorus.Controller
         private bool keyStatus = false;
         private int gemCollected = 0;
 
-        private int lifeStatus = 6;
+        //private int lifeStatus = 6;
+        private int lifeStatus = 1;
         private int bubbleStatus = 6;
 
         private bool EndOfLevel;
@@ -173,7 +174,6 @@ namespace Explorus.Controller
             lifeStatus--;
             oView.getHeader().setLife(lifeStatus * 100 / 6);
             if (lifeStatus == 0) EndOfGame = true;
-            Console.WriteLine("AYAYA IM DED");
         }
         public int getLifeStatus()
         {

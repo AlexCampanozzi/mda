@@ -382,13 +382,17 @@ namespace Explorus.Controller
 
             if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone() == false)
             {
+                ChangeState(new ReplayState(this));
                 // Replay 5 last seconds
                 physics = PhysicsThread.GetInstance();
                 physics.invoker.ExecuteAll();
                 gameMaster.update();
+                oView.rewindTime = physics.invoker.remainingTime;
+
             }
             else if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone())
             {
+                Console.WriteLine("game Over");
                 ChangeState(new StopState(this));
             }
             //if (gameMaster.isLevelOver()) oView.setIsOver(true);

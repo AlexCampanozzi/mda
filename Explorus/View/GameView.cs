@@ -39,6 +39,7 @@ namespace Explorus
         private bool hadLostFocus = false;
 
         private MenuWindow menuWindow = MenuWindow.Instance;
+        public float rewindTime = 0;
 
         static GameView()
         {
@@ -179,6 +180,10 @@ namespace Explorus
             
             string gameState = GameEngine.GetInstance().GetState().Name();
             oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
+            if (gameState == "Replay")
+            {
+                oGameForm.Text += " " + rewindTime;
+            }
             if (fps != 0)
             {
                 oGameForm.Text = oGameForm.Text + " ۰•● ❤ ●•۰  FPS: " + fps.ToString();

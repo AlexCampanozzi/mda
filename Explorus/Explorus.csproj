@@ -55,6 +55,7 @@
     <Compile Include="Controller\State\LevelState.cs" />
     <Compile Include="Controller\State\AudioState.cs" />
     <Compile Include="Controller\State\PauseState.cs" />
+    <Compile Include="Controller\State\ReplayState.cs" />
     <Compile Include="Controller\State\StartState.cs" />
     <Compile Include="Controller\State\PlayState.cs" />
     <Compile Include="Controller\State\ResumeState.cs" />

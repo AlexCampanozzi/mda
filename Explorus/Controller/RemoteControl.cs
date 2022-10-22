@@ -16,6 +16,7 @@ namespace Explorus.Controller
         List<ICommand> savedCommands = new List<ICommand>();
         List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
         CompoundGameObject gameObjects;
+        public float remainingTime = 0;
 
         GameView oView;
         int index = 0;
@@ -38,10 +39,11 @@ namespace Explorus.Controller
             lastCommandPerformed = commandToBePerformed;
             gameObjects = oView.getMap().GetCompoundGameObject();
 
-            if (savedCommands.Count > 1000000) // circular list need to calculate the right size for 5 sec
+            if (savedCommands.Count > 300)
             {
                 savedCommands.RemoveAt(0);
                 savedMaps.RemoveAt(0);
+
             }
 
             savedCommands.Add(commandToBePerformed);
@@ -72,7 +74,10 @@ namespace Explorus.Controller
             {
                 index = 0;
                 repeatDone = true;
+                Console.WriteLine("repeatDone");
             }
+
+            remainingTime = (savedCommands.Count - index) / 60;
         }
 
         public bool IsRepeatDone()
