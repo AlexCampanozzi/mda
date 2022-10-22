@@ -287,18 +287,18 @@ namespace Explorus.Controller
                             gameMaster.setSlimeAmount(GetLevelState().Slimes);
 
                             ChangeState(new PlayState(this));
-                            //switch(GetLevelState().chosenLevelName())
-                            //{
-                            //    case "map_jazz.png":
-                            //        audio.setJazzMusic();
-                            //        break;
-                            //    case "map_slam.png":
-                            //        audio.setSlamMusic();
-                            //        break;
-                            //    default:
-                            //        audio.setGameMusic();
-                            //        break;
-                            //}
+                            switch (GetLevelState().chosenLevelName())
+                            {
+                                case "map_jazz.png":
+                                    audio.setJazzMusic();
+                                    break;
+                                case "map_slam.png":
+                                    audio.setSlamMusic();
+                                    break;
+                                default:
+                                    audio.setGameMusic();
+                                    break;
+                            }
                             break;
                         case Option.Audio:
                             ChangeState(audioState);
