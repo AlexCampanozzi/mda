@@ -79,7 +79,6 @@ namespace Explorus.Controller
 
         public void Start()
         {
-            //this.state = new PlayState(this);
             this.state = new StartState(this);
             audioState = new AudioState(this);
             
@@ -184,8 +183,10 @@ namespace Explorus.Controller
             switch (currentInput)
             {
                 case Keys.P:
-                    Console.WriteLine("current option is " + audioState.GetMenuOption().ToString());
-                    ChangeState(new PauseState(this));
+                    if (this.state.Name() != "Start")
+                    {
+                        ChangeState(new PauseState(this));
+                    }
                     break;
 
                 case Keys.Escape:
@@ -283,6 +284,7 @@ namespace Explorus.Controller
                             gameMaster.setSlimeAmount(GetLevelState().Slimes);
 
                             ChangeState(new PlayState(this));
+
                             switch(GetLevelState().chosenLevelName())
                             {
                                 case "map_jazz.png":
@@ -295,6 +297,7 @@ namespace Explorus.Controller
                                     audio.setGameMusic();
                                     break;
                             }
+
                             break;
                         case Option.Audio:
                             ChangeState(audioState);
