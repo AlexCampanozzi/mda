@@ -379,15 +379,18 @@ namespace Explorus.Controller
         public void update() //public not a fan
         {
             GameMaster gameMaster = GameMaster.Instance;
+            physics = PhysicsThread.GetInstance();
+
 
             if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone() == false)
             {
                 ChangeState(new ReplayState(this));
                 // Replay 5 last seconds
-                physics = PhysicsThread.GetInstance();
+
                 physics.invoker.ExecuteAll();
                 gameMaster.update();
                 oView.rewindTime = physics.invoker.remainingTime;
+                //Console.WriteLine("replay");
 
             }
             else if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone())

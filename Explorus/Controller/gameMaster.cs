@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Explorus.Model;
+using Explorus.Threads;
 
 namespace Explorus.Controller
 {
@@ -34,7 +35,6 @@ namespace Explorus.Controller
         private bool EndOfLevel;
         Stopwatch timer = new Stopwatch();
         private bool EndOfGame;
-        private bool rewindRunning;
 
         private int numLevel = 3;
         private int currentLevel = 1;
@@ -173,7 +173,12 @@ namespace Explorus.Controller
         {
             lifeStatus--;
             oView.getHeader().setLife(lifeStatus * 100 / 6);
-            if (lifeStatus == 0) EndOfGame = true;
+            if (lifeStatus == 0)
+            {
+                EndOfGame = true;
+                PhysicsThread physics = PhysicsThread.GetInstance();
+                physics.resetBuffers();
+            }
         }
         public int getLifeStatus()
         {

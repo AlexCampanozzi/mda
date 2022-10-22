@@ -81,14 +81,12 @@ namespace Explorus.Threads
         public void Run()
         {
             
-            
             PhysicCommand physicCommand = new PhysicCommand();
             invoker.SetCommand(physicCommand);
 
             while (true)
             {
                 invoker.ExecuteCommand();
-
             }
         }
 
@@ -153,6 +151,19 @@ namespace Explorus.Threads
             }
         }
 
+        public void resetBuffers()
+        {
+            lock (movementBuffer)
+            {
+                movementBuffer = new List<PlayMovement>() { };
+            }
+            lock (removeBuffer)
+            {
+                removeBuffer = new List<GameObject>() { };
+            }
+            Console.WriteLine("resetted buffers");
+        }
+
         public void removeFromGame(GameObject obj)
         {
             if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
@@ -169,10 +180,15 @@ namespace Explorus.Threads
             return movementBuffer;
         }
 
+        public void setBuffer(List<PlayMovement> buffer)
+        {
+            movementBuffer = buffer;
+        }
+
         public void Execute()
         {
 
-            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState) || GameEngine.GetInstance().GetState().GetType() == typeof(ReplayState))
             {
                 if (movementBuffer.Count > 0)
                 {
@@ -180,14 +196,31 @@ namespace Explorus.Threads
                     {
                         try
                         {
+                            if (GameEngine.GetInstance().GetState().GetType() != typeof(ReplayState))
+                            {
+                                invoker.saveMovement(movementBuffer[0]);
+                            }
+
                             MoveObject(movementBuffer.First());
                             movementBuffer.RemoveAt(0);
+                            //Console.WriteLine("oba doba");
+
+
                         }
                         catch
                         {
 
                         }
                     }
+                }
+                else
+                {
+                    /*PlayMovement nullMovemenent = new PlayMovement();
+                    nullMovemenent.obj = null;
+                    nullMovemenent.dir = null;
+                    nullMovemenent.speed = 0;
+
+                    invoker.saveMovement(nullMovemenent);*/
                 }
 
                 if (removeBuffer.Count > 0)

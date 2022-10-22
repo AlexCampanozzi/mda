@@ -14,6 +14,7 @@ using System.Threading;
 using Explorus.Model;
 using Explorus.Controller;
 using System.Drawing.Imaging;
+using System.Windows.Media.TextFormatting;
 
 namespace Explorus
 {
@@ -183,6 +184,14 @@ namespace Explorus
             if (gameState == "Replay")
             {
                 oGameForm.Text += " " + rewindTime;
+                //e.Graphics.DrawString(" " + rewindTime, new Font("Comic Sans MS", 38), new SolidBrush(Color.Yellow), 650, 150 + 60);
+                string text1 = "Draw text in a rectangle by passing a RectF to the DrawString method.";
+                using (Font font1 = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    RectangleF rectF1 = new Rectangle(30, 10, 500, 500);
+                    e.Graphics.DrawString(text1, font1, Brushes.Blue, rectF1);
+                    e.Graphics.DrawRectangle(Pens.White, Rectangle.Round(rectF1));
+                }
             }
             if (fps != 0)
             {
@@ -236,7 +245,7 @@ namespace Explorus
 
                     }
 
-                    if (gameState != "Play")
+                    if (gameState != "Play" && gameState != "Replay")
                     {
                         e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
                     }

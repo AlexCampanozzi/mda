@@ -1,4 +1,5 @@
 ﻿using Explorus.Model;
+using Explorus.Threads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,40 +15,41 @@ namespace Explorus.Controller
         public bool repeatDone = false;
         ICommand commandToBePerformed, lastCommandPerformed;
         List<ICommand> savedCommands = new List<ICommand>();
-        List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
+
         CompoundGameObject gameObjects;
         public float remainingTime = 0;
 
         GameView oView;
         int index = 0;
-        /*
-        RemoteControl()
-        {
-            oView = GameView.Instance;
-            gameObjects = oView.getMap().GetCompoundGameObject();
-        }*/
+
+        List<PlayMovement> savedMovementBuffer = new List<PlayMovement>() { };
+        List<GameObject> savedRemoveBuffer = new List<GameObject>() { };
+        List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
+
         public void SetCommand(ICommand command)
         {
             this.commandToBePerformed = command;
         }
         public void ExecuteCommand()
         {
-            oView = GameView.Instance;
+            commandToBePerformed.Execute();
+
+
+            /*oView = GameView.Instance;
             gameObjects = oView.getMap().GetCompoundGameObject();
 
-            commandToBePerformed.Execute();
+
             lastCommandPerformed = commandToBePerformed;
-            gameObjects = oView.getMap().GetCompoundGameObject();
+            gameObjects = oView.getMap().GetCompoundGameObject();*/
 
             if (savedCommands.Count > 300)
             {
                 savedCommands.RemoveAt(0);
-                savedMaps.RemoveAt(0);
-
+                //savedMaps.RemoveAt(0);
             }
 
             savedCommands.Add(commandToBePerformed);
-            savedMaps.Add(gameObjects);
+            //savedMaps.Add(gameObjects);
 
         }
 
@@ -59,18 +61,29 @@ namespace Explorus.Controller
         {
             for (int i = savedCommands.Count; i > 0; i--)
             {
-                savedCommands[i - 1].Undo();
+                savedCommands[i - 1].Undo(); // does nothing for now
             }
         }
 
         public void ExecuteAll()
         {
+            PhysicsThread physics = PhysicsThread.GetInstance();
             //oView.getMap().setMap(gameObjects);
-            oView.getMap().setMap(savedMaps[index]);
+            //oView.getMap().setMap(savedMaps[index]);
+            //PhysicsThread physics = PhysicsThread.GetInstance();
+            //physics.addMove(savedMovementBuffer[index]);
             //savedCommands[index].Execute();
-            index++;
+            if (index == 0)
+            {
+                physics.setBuffer(savedMovementBuffer);
+            }
+            if (index < savedCommands.Count - 1)
+            {
+                index++;
+            }
 
-            if (index == savedCommands.Count)
+
+            if (index == savedCommands.Count - 1)
             {
                 index = 0;
                 repeatDone = true;
@@ -84,5 +97,30 @@ namespace Explorus.Controller
         { 
             return repeatDone; 
         }
+
+        public void saveMovement(PlayMovement move)
+        {
+            /*if (savedMovementBuffer.Count > 300)
+            {
+                savedMovementBuffer.RemoveAt(0);
+            }*/
+            savedMovementBuffer.Add(move);
+        }
+
+        public void saveMap()
+        {
+            oView = GameView.Instance;
+            gameObjects = oView.getMap().GetCompoundGameObject();
+
+            if (savedCommands.Count > 300)
+            {
+                savedCommands.RemoveAt(0);
+                savedMaps.RemoveAt(0);
+            }
+
+            savedMaps.Add(gameObjects);
+        }
+
+
     }
 }
