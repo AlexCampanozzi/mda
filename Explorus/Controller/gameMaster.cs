@@ -114,6 +114,7 @@ namespace Explorus.Controller
             if (!EndOfLevel && keyStatus)
             {
                 EndOfLevel = true;
+                keyStatus = false;
                 if (currentLevel < numLevel) nextLevel();
                 else EndOfGame = true;
             }

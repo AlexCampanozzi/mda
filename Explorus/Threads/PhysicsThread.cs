@@ -108,6 +108,10 @@ namespace Explorus.Threads
                         }
                     }
                 }
+                else
+                {
+                    Thread.Sleep(100);
+                }
 
             }
         }

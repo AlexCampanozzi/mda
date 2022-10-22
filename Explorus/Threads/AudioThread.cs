@@ -111,6 +111,7 @@ namespace Explorus.Threads
             soundHitWallB.Open(new System.Uri("Resources/Audio/sound13.wav", UriKind.Relative));
 
             new Thread(music).Start();
+            Thread.Sleep(1000);
             while (true)
             {
                 if(soundBuffer.Count > 0)
@@ -178,7 +179,7 @@ namespace Explorus.Threads
                 else
                 {
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(500);
                 }
 
             }
