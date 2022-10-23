@@ -291,7 +291,6 @@ namespace Explorus
             if (gameState == "Replay")
             {
                 oGameForm.Text += " " + rewindTime;
-                //e.Graphics.DrawString(" " + rewindTime, new Font("Comic Sans MS", 38), new SolidBrush(Color.Yellow), 650, 150 + 60);
                 string text1 = "Replay: " + rewindTime;
                 using (Font font1 = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point))
                 {
@@ -300,7 +299,6 @@ namespace Explorus
                     e.Graphics.FillRectangle(Brushes.Black, rect);
                     e.Graphics.DrawRectangle(Pens.Black, rect);
                     e.Graphics.DrawString(text1, font1, Brushes.White, rect);
-                    //e.Graphics.FillRectangle(new Pen(Color.Black, 3), Rectangle.Round(rectF1));
                 }
             }
         }

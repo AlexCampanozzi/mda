@@ -184,7 +184,10 @@ namespace Explorus.Model
             }
             return compoundGameObject.getComponentGameObjetList();
         }
-
+        public void generateMapFromCompound(CompoundGameObject compoundObjects)
+        {
+            objectList = compoundObjects.getComponentGameObjetList();
+        }
         public void removeObjectFromMap(int x, int y)
         {
             typeMap[x, y] = objectTypes.Empty;

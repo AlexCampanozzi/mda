@@ -26,8 +26,11 @@ namespace Explorus.Model
         {
             Image img = imageLoader.WallImage;
 
-                //Bitmap bitmap = new Bitmap(img.Width, img.Height);
+            //Bitmap bitmap = new Bitmap(img.Width, img.Height);
+            lock (img)
+            {
                 var bitmap = new Bitmap(img.Width, img.Height);
+
                 Graphics graphics = Graphics.FromImage(bitmap);
                 ColorMatrix matrix = new ColorMatrix();
                 matrix.Matrix33 = 0.5f;
@@ -35,9 +38,10 @@ namespace Explorus.Model
                 imgAtt.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
                 graphics.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAtt);
                 graphics.Dispose();
-            lock (bitmap)
-            {
-                SetImage(bitmap.Clone(new Rectangle(0, 0, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
+                lock (bitmap)
+                {
+                    SetImage(bitmap.Clone(new Rectangle(0, 0, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
+                }
             }
 
         }

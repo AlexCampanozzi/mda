@@ -65,17 +65,23 @@ namespace Explorus.Controller
             }
         }
 
-        public void ExecuteAll()
+        public void ExecuteAll(List<CompoundGameObject> savedMaps)
         {
             PhysicsThread physics = PhysicsThread.GetInstance();
-            //oView.getMap().setMap(gameObjects);
+            oView = GameView.Instance;
+            oView.getMap().generateMapFromCompound(savedMaps[index]);
             //oView.getMap().setMap(savedMaps[index]);
             //PhysicsThread physics = PhysicsThread.GetInstance();
             //physics.addMove(savedMovementBuffer[index]);
             //savedCommands[index].Execute();
+
+            if (savedMaps[0] == savedMaps[savedMaps.Count - 1])
+            {
+                Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            }
             if (index == 0)
             {
-                physics.setBuffer(savedMovementBuffer);
+                //physics.setBuffer(savedMovementBuffer);
             }
             if (index < savedCommands.Count - 1)
             {
