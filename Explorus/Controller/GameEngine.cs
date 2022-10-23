@@ -173,7 +173,6 @@ namespace Explorus.Controller
 
         public void processInput(Keys currentInput) 
         {
-            Console.WriteLine(currentOption);
 
             if (currentInput != Keys.None)
             {
@@ -439,6 +438,11 @@ namespace Explorus.Controller
         public LevelState GetLevelState()
         {
                  return this.levelState;
+        }
+
+        public Keys getsetCurrentInput()
+        {
+            return currentInput = GameView.Instance.getCurrentInput();
         }
 
 
