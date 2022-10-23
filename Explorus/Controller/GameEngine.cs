@@ -481,11 +481,6 @@ namespace Explorus.Controller
                 savedMaps.RemoveAt(0);
             }
             savedMaps.Add(oView.getMap().GetCompoundGameObject());
-
-            if (savedMaps[0] == savedMaps[savedMaps.Count - 1])
-            {
-                Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-            }
         }
 
 
