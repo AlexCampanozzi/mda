@@ -134,6 +134,11 @@ namespace Explorus.Controller
                 long currentTime = getTime();
                 long elapsed = currentTime - previousTime;
                 previousTime = currentTime;
+                if (state.Name() != "Play" && state.Name() != "Replay")
+                {
+                    elapsed = 0;
+                    lag = 0;
+                }
                 double fps = 1.0 / (elapsed / 1000.0);
                 fps = Math.Floor(fps);
                 int readyForFPS = 0;
@@ -157,6 +162,8 @@ namespace Explorus.Controller
                     lag = state.Lag(lag, MS_PER_UPDATE);
 
                 }
+
+                
 
                 //oView.Render();
 
@@ -183,6 +190,9 @@ namespace Explorus.Controller
             {
                 menuWindow.IsChanged = true;
             }
+
+
+            oView.getMap().GetCompoundGameObject().processInput();
 
             switch (currentInput)
             {
@@ -403,7 +413,6 @@ namespace Explorus.Controller
                 audioState.SetOption(audioMenu[subMenuIndex]);
             }
 
-                oView.getMap().GetCompoundGameObject().processInput();
 
         }
         public void update() //public not a fan

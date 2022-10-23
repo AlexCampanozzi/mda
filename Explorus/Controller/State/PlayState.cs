@@ -25,12 +25,13 @@ namespace Explorus.Controller
         {
             if (lag >= MS_PER_UPDATE)
             {
-                while (lag >= MS_PER_UPDATE)
-                {
+                //while (lag >= MS_PER_UPDATE)
+                //{
                     engine.update();
                     lag -= MS_PER_UPDATE;
-                }
+                //}
             }
+            
             return lag;
         }
         public override string Name()
