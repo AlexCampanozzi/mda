@@ -34,22 +34,12 @@ namespace Explorus.Controller
         {
             commandToBePerformed.Execute();
 
-
-            /*oView = GameView.Instance;
-            gameObjects = oView.getMap().GetCompoundGameObject();
-
-
-            lastCommandPerformed = commandToBePerformed;
-            gameObjects = oView.getMap().GetCompoundGameObject();*/
-
             if (savedCommands.Count > 300)
             {
                 savedCommands.RemoveAt(0);
-                //savedMaps.RemoveAt(0);
             }
 
             savedCommands.Add(commandToBePerformed);
-            //savedMaps.Add(gameObjects);
 
         }
 
@@ -61,7 +51,7 @@ namespace Explorus.Controller
         {
             for (int i = savedCommands.Count; i > 0; i--)
             {
-                savedCommands[i - 1].Undo(); // does nothing for now
+                savedCommands[i - 1].Undo();
             }
         }
 
@@ -70,20 +60,8 @@ namespace Explorus.Controller
             PhysicsThread physics = PhysicsThread.GetInstance();
             oView = GameView.Instance;
             oView.getMap().generateMapFromCompound(savedMaps[index]);
-            //oView.getMap().setMap(savedMaps[index]);
-            //PhysicsThread physics = PhysicsThread.GetInstance();
-            //physics.addMove(savedMovementBuffer[index]);
-            //savedCommands[index].Execute();
 
-            if (savedMaps[0] == savedMaps[savedMaps.Count - 1])
-            {
-                Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
-            }
-            if (index == 0)
-            {
-                //physics.setBuffer(savedMovementBuffer);
-            }
-            if (index < savedCommands.Count - 1)
+            if (index < savedMaps.Count - 1)
             {
                 index++;
             }
@@ -106,10 +84,10 @@ namespace Explorus.Controller
 
         public void saveMovement(PlayMovement move)
         {
-            /*if (savedMovementBuffer.Count > 300)
+            if (savedMovementBuffer.Count > 300)
             {
                 savedMovementBuffer.RemoveAt(0);
-            }*/
+            }
             savedMovementBuffer.Add(move);
         }
 
