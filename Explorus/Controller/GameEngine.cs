@@ -183,7 +183,6 @@ namespace Explorus.Controller
 
         public void processInput(Keys currentInput) 
         {
-            Console.WriteLine(currentOption);
 
             if (currentInput != Keys.None)
             {
@@ -469,9 +468,10 @@ namespace Explorus.Controller
                  return this.levelState;
         }
 
+        public Keys getsetCurrentInput()
         private void saveMap()
         {
-
+            return currentInput = GameView.Instance.getCurrentInput();
             if (savedMaps.Count > 300)
             {
                 savedMaps.RemoveAt(0);
