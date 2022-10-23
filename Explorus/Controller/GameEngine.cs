@@ -58,8 +58,8 @@ namespace Explorus.Controller
 
         private List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
 
-
-
+        public Option CurrentOption { get => currentOption; }
+        public AudioState AudioState { get => audioState; }
 
         public GameEngine()
         {
@@ -82,7 +82,7 @@ namespace Explorus.Controller
 
         public void Start()
         {
-            //this.state = new PlayState(this);
+            Console.WriteLine("tha game is started");
             this.state = new StartState(this);
             audioState = new AudioState(this);
             
@@ -160,7 +160,6 @@ namespace Explorus.Controller
                 {
                     state.stateUpdate();
                     lag = state.Lag(lag, MS_PER_UPDATE);
-
                 }
 
                 
@@ -182,9 +181,9 @@ namespace Explorus.Controller
             return milliseconds;
         }
 
-        public void processInput() //public not a fan
+        public void processInput(Keys currentInput) 
         {
-            currentInput = oView.getCurrentInput();
+            Console.WriteLine(currentOption);
 
             if (currentInput != Keys.None)
             {
@@ -197,17 +196,12 @@ namespace Explorus.Controller
             switch (currentInput)
             {
                 case Keys.P:
-                    Console.WriteLine("current option is " + audioState.GetMenuOption().ToString());
-                    ChangeState(new PauseState(this));
+                    if (this.state.Name() != "Start")
+                    {
+                        ChangeState(new PauseState(this));
+                    }
                     break;
 
-                case Keys.Escape:
-                    ChangeState(new PauseState(this));
-                    break;
-
-                case Keys.Q:
-                    ChangeState(new StopState(this));
-                    break;
 
                 case Keys.F:
                     FPSOn = !FPSOn;
@@ -296,7 +290,8 @@ namespace Explorus.Controller
                             gameMaster.setSlimeAmount(GetLevelState().Slimes);
 
                             ChangeState(new PlayState(this));
-                            switch(GetLevelState().chosenLevelName())
+
+                            switch (GetLevelState().chosenLevelName())
                             {
                                 case "jazz.png":
                                     audio.setJazzMusic();
@@ -308,6 +303,7 @@ namespace Explorus.Controller
                                     audio.setGameMusic();
                                     break;
                             }
+
                             break;
                         case Option.Audio:
                             ChangeState(audioState);
@@ -435,27 +431,18 @@ namespace Explorus.Controller
             }
             else if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone())
             {
-                Console.WriteLine("game Over");
-                ChangeState(new StopState(this));
+                this.GetState().stateUpdate();
+                ChangeState(new StartState(this));
+                GameMaster.Instance.resetLevel();                
             }
-            //if (gameMaster.isLevelOver()) oView.setIsOver(true);
             else
             {
-                // process movement
-
                 oView.getMap().GetCompoundGameObject().update(currentInput);
-
-
                 gameMaster.update();
-
-                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK
-                oView.getHeader().setGem(gameMaster.getGemStatus());
-                oView.getHeader().setLife(gameMaster.getLifeStatus());
-                oView.getHeader().setBubble(gameMaster.getBubbleStatus());*/
-
                 saveMap();
 
             }
+            
         }
         public Keys GetCurrentInput()
         {

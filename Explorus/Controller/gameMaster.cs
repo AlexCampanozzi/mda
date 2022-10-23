@@ -39,6 +39,8 @@ namespace Explorus.Controller
         private int numLevel = 3;
         private int currentLevel = 1;
 
+        private bool hasSlimusDied = false;
+
         private GameView oView = GameView.Instance;
 
         private CompoundGameObject compoundGameObject = Map.Instance.GetCompoundGameObject();
@@ -60,18 +62,9 @@ namespace Explorus.Controller
             {
                 return instance;
             }
-            /*if (instance == null)
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new GameMaster();
-                    }
-                }
-            }
-            return instance;*/
         }
+
+        public bool HasSlimusDied { get => hasSlimusDied; }
 
         public void update()
         {
@@ -102,8 +95,6 @@ namespace Explorus.Controller
             gemCollected++;
             oView.getHeader().setGem(gemCollected * 100 / numberOfGem);
         }
-        
-        
         
         public int getGemStatus()
         {
@@ -147,6 +138,37 @@ namespace Explorus.Controller
             if (numberOfGem > 0) EndOfLevel = false;
         }
 
+        public void resetLevel()
+        {
+            hasSlimusDied = false;
+            lifeStatus = 6;
+            numberOfGem = 0;
+            gemCollected = 0;
+            keyStatus = false;
+            EndOfGame = false;
+
+            oView.getHeader().setLife(lifeStatus * 100 / 6);
+
+            // recreate map
+            Map oldmap = Map.Instance;
+            oldmap.resetMap();
+            Thread.Sleep(1000);
+
+            Map map = Map.Instance;
+            //compoundGameObject = map.GetCompoundGameObject();
+
+            foreach (GameObject currentObject in map.GetObjectList())
+            {
+                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
+                {
+                    numberOfGem++;
+                }
+            }
+
+            currentLevel = 0;
+            if (numberOfGem > 0) EndOfLevel = false;
+        }
+
         public int getCurrentLevel()
         {
             return currentLevel;
@@ -170,7 +192,9 @@ namespace Explorus.Controller
                 EndOfGame = true;
                 PhysicsThread physics = PhysicsThread.GetInstance();
                 physics.resetBuffers();
+                hasSlimusDied = true;
             }
+                
         }
         public int getLifeStatus()
         {

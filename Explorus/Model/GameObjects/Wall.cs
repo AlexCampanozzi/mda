@@ -11,7 +11,7 @@ using System.Drawing;
 namespace Explorus.Model
 {
     public class Wall:GameObject
-    { 
+    {
         public Wall(Point pos, ImageLoader loader, int ID) : base(pos, loader.WallImage, ID)
         {
             collider = new SquareCollider(this, 48, 48);

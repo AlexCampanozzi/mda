@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Explorus.Controller
 {
-    class StartState : State
+    class StartState : PauseState
     {
         public StartState(GameEngine engine) : base(engine)
         {
@@ -17,7 +17,7 @@ namespace Explorus.Controller
 
         public override void stateUpdate()
         {
-            engine.processInput();
+            engine.processInput(GameView.Instance.getCurrentInput());
         }
 
         public override double Lag(double lag, int MS_PER_UPDATE)
