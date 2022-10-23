@@ -122,7 +122,7 @@ namespace Explorus
                     {
                         oGameForm.Refresh();
                     });
-            }
+        }
             catch
             {
 

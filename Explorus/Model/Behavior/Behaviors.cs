@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Drawing.Text;
 
 namespace Explorus.Model.Behavior
 {
@@ -21,13 +22,18 @@ namespace Explorus.Model.Behavior
             // continue path forward until hit wall
             Point gridPosition = slime.GetGridPosition();
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
-            if (lastDir != null)
+            // check if 3 espaces vides autour ensuite
+            // continue if no collision
+            if (lastDir != null && !checkThreeSpaces(slime))
             {
-                objectTypes firstChoice = gridMap[gridPosition.X + lastDir.X, gridPosition.Y + lastDir.Y];
-                if (firstChoice != objectTypes.Wall && firstChoice != objectTypes.Door)
+                if (lastDir.X != 0 || lastDir.Y != 0)
                 {
-                    newDir = lastDir;
-                    wall = false;
+                    objectTypes firstChoice = gridMap[gridPosition.X + lastDir.X, gridPosition.Y + lastDir.Y];
+                    if (firstChoice != objectTypes.Wall && firstChoice != objectTypes.Door)
+                    {
+                        newDir = lastDir;
+                        wall = false;
+                    }
                 }
             }
             if(wall)
@@ -44,6 +50,34 @@ namespace Explorus.Model.Behavior
                 }
             }
             return newDir;
+        }
+        private bool checkThreeSpaces(ToxicSlime slime)
+        {
+            objectTypes[,] gridMap = Map.Instance.GetTypeMap();
+            Point gridPosition = slime.GetGridPosition();
+            bool threeChoices = false;
+            int empty_count = 0;
+            if (gridMap[gridPosition.X, gridPosition.Y + 1] != objectTypes.Wall && gridMap[gridPosition.X, gridPosition.Y + 1] != objectTypes.Door)
+            {
+                empty_count++;
+            }
+            if (gridMap[gridPosition.X, gridPosition.Y - 1] != objectTypes.Wall && gridMap[gridPosition.X, gridPosition.Y - 1] != objectTypes.Door)
+            {
+                empty_count++;
+            }
+            if (gridMap[gridPosition.X + 1, gridPosition.Y] != objectTypes.Wall && gridMap[gridPosition.X + 1, gridPosition.Y] != objectTypes.Door)
+            {
+                empty_count++;
+            }
+            if (gridMap[gridPosition.X - 1, gridPosition.Y] != objectTypes.Wall && gridMap[gridPosition.X - 1, gridPosition.Y] != objectTypes.Door)
+            {
+                empty_count++;
+            }
+
+            if (empty_count >= 3) threeChoices = true;
+
+
+            return threeChoices;
         }
         public Direction randomException(Direction BadDir, ToxicSlime slime)
         {
@@ -91,9 +125,9 @@ namespace Explorus.Model.Behavior
 
         public (Direction, bool, Direction, int, int) findPlayer(ToxicSlime slime)
         {
-            Direction newDir = new Direction(0, 0);
+            Direction newDir = null;
             bool SlimusFound = false;
-            Direction SlimusDir = new Direction(0, 0);
+            Direction SlimusDir = null;
             int SlimusPosX = 0, SlimusPosY = 0;
 
             Point gridPosition = slime.GetGridPosition();
@@ -105,8 +139,9 @@ namespace Explorus.Model.Behavior
             // find slimus in corridor
             // check UP
             if(gridPosition.X == PlayerGrid.X && gridPosition.Y == PlayerGrid.Y){
-                newDir = random(slime, slime.getLastDirection());
-                SlimusDir = slimus.getLastDirection();
+                //newDir = random(slime, slime.getLastDirection());
+                newDir = new Direction(0, 0);
+                SlimusDir = random(slime, slimus.getLastDirection());
                 SlimusFound = true;
                 SlimusPosX = gridPosition.X;
                 SlimusPosY = gridPosition.Y;
@@ -234,23 +269,54 @@ namespace Explorus.Model.Behavior
             }
             return (newDir, SlimusPosX, SlimusPosY, SlimusDir);
         }
-        public (bool, Direction) ambush(ToxicSlime slime)
+        public Direction ambush(ToxicSlime slime)
         {
-            bool SlimusFound = false;
-            Direction newDir = new Direction(0, 0);
-            Point gridPosition = slime.GetGridPosition();
+            Direction newDir = null;
             Slimus slimus = (Slimus)Map.Instance.GetObjectList().Find(obj => obj.GetCollider().parent.GetType() == typeof(Slimus));
             Point PlayerGrid = slimus.GetGridPosition();
+            Point gridPosition = slime.GetGridPosition();
+            Direction playerDir = slimus.getDirection();
 
             if (gridPosition.X == PlayerGrid.X || gridPosition.Y == PlayerGrid.Y)
             {
-                newDir = slimus.getLastDirection();
-                SlimusFound = true;
+                //int SlimusPosX, SlimusPosY;
+                bool SlimusFound;
+                Direction tempDir;
+                (tempDir, SlimusFound, _, _, _)  = findPlayer(slime);
+                
+                newDir = followPlayerDir(slime, playerDir);
+                
+                if (SlimusFound && newDir == null) // slimus visible and cant ambush
+                {
+                    newDir = tempDir; // go towards slimus
+                }
+                //if player does not move and not in same corridor
+                if (newDir == null)
+                {
+                    newDir = new Direction(0,0);
+                }
             }
 
 
-            return (SlimusFound, newDir);
+            return newDir;
         }
-        
+        private Direction followPlayerDir(ToxicSlime slime, Direction playerDir)
+        {
+            Point gridPosition = slime.GetGridPosition();
+            objectTypes[,] gridMap = Map.Instance.GetTypeMap();
+            Direction newDir = null;
+            if (playerDir != null)
+            {
+                if (playerDir.X != 0 || playerDir.Y != 0)
+                {
+                    if (gridMap[gridPosition.X + playerDir.X, gridPosition.Y + playerDir.Y] != objectTypes.Wall && gridMap[gridPosition.X + playerDir.X, gridPosition.Y + playerDir.Y] != objectTypes.Door)
+                    {
+                        newDir = playerDir;
+                    }
+                }
+            }
+            return newDir;
+        }
     }
+    
 }

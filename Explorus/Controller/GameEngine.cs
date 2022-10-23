@@ -94,22 +94,26 @@ namespace Explorus.Controller
             oView = GameView.Instance;
 
             Thread thread = new Thread(new ThreadStart(GameLoop));
+            thread.Name = "gameloop";
             thread.Start();
 
 
             physics = PhysicsThread.GetInstance();
             physicsThread = new Thread(physics.Run);
+            physicsThread.Name = "physics";
             physicsThread.Start();
 
             render = RenderThread.GetInstance();
             renderThread = new Thread(render.Run);
+            renderThread.Name = "render";
             renderThread.Start();
 
             audio = AudioThread.Instance;
             audioThread = new Thread(audio.Run);
+            audioThread.Name = "audio";
             audioThread.Start();
 
-
+            //Thread.Sleep(5000);
             oView.Show();
         }
 

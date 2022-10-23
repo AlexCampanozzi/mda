@@ -96,48 +96,59 @@ namespace Explorus.Model
         }
         public override void update()
         {
-            if (direction == null || (direction.X == 0 && direction.Y == 0))
-            {
-                (direction, _, _, _) = context.choosePath();
-                last_direction = direction;
-            }
-            objectTypes[,] gridMap = Map.Instance.GetTypeMap();
-
-            objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];
-
-            Point newPosition = GetPosition();
-
-            GameMaster gameMaster = GameMaster.Instance;
-            Map oMap = Map.Instance;
-
-            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
-            { 
-                if (direction.X != 0 || direction.Y != 0)
+            
+                if (direction == null || (direction.X == 0 && direction.Y == 0))
                 {
-                    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                    (direction, _, _, _) = context.choosePath();
+                    if (direction.X != 0 || direction.Y != 0)
                     {
-                        gridPosition.X += direction.X;
-                        gridPosition.Y += direction.Y;
-                        (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
                         last_direction = direction;
-                        
                     }
-                    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
-                    {
-                        gridPosition.X += direction.X;
-                        gridPosition.Y += direction.Y;
-                        (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                        (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
-                        last_direction = direction;
-                        
-                    }
-
-                    physics.clearBuffer(this);
-                    physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
-
-                    SetImage();
                 }
-            }
+                objectTypes[,] gridMap = Map.Instance.GetTypeMap();
+
+                objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];
+
+                Point newPosition = GetPosition();
+
+                GameMaster gameMaster = GameMaster.Instance;
+                Map oMap = Map.Instance;
+
+                if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+                {
+                    if (direction.X != 0 || direction.Y != 0)
+                    {
+                        if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
+                        {
+                            gridPosition.X += direction.X;
+                            gridPosition.Y += direction.Y;
+                            (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
+                            if (direction.X != 0 || direction.Y != 0)
+                            {
+                                last_direction = direction;
+                            }
+
+                        }
+                        else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                        {
+                            gridPosition.X += direction.X;
+                            gridPosition.Y += direction.Y;
+                            (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
+                            (direction, lastPlayerPosX, lastPlayerPosY, lastPlayerDir) = context.choosePath();
+                            if (direction.X != 0 || direction.Y != 0)
+                            {
+                                last_direction = direction;
+                            }
+
+                        }
+
+                        physics.clearBuffer(this);
+                        physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+                        
+                        SetImage();
+                    }
+                }
+            
         }
 
 
