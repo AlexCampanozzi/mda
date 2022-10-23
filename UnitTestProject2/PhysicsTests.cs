@@ -24,6 +24,7 @@ using System.Net.NetworkInformation;
 using System.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using System.Threading.Tasks;
+using Explorus.Model.Behavior;
 
 namespace ExplorusTests
 
@@ -155,7 +156,7 @@ namespace ExplorusTests
             int y = 15;
 
             RigidBody entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-            RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID());
+            RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID(), new AmbushStrategy());
             RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), new Slimus(new Point(x * 96, y * 96), loader, oMap.getID()));
 
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });
@@ -176,7 +177,7 @@ namespace ExplorusTests
             int y = 15;
 
             Slimus entity = new Slimus(new Point(x * 96, y * 96), loader, oMap.getID());
-            RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID());
+            RigidBody entity2 = new ToxicSlime(new Point(x * 96, (y - 1) * 96), loader, oMap.getID(), new AmbushStrategy());
             RigidBody entity3 = new Bubble(new Point(x * 96, (y) * 96), loader, oMap.getID(), entity);
 
             physics.addMove(new PlayMovement() { obj = entity, dir = new Direction(1, 0), speed = 2 });

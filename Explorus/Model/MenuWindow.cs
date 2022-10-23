@@ -22,6 +22,7 @@ namespace Explorus.Model
         private Font titleFont = new Font("Comic Sans MS", 56);
         private Font optionFont = new Font("Comic Sans MS", 38);
         private SolidBrush brushBlue = new SolidBrush(Color.FromArgb(255, (byte)69, (byte)180, (byte)239));
+        private SolidBrush brushWhite = new SolidBrush(Color.White);
         private SolidBrush brushYellow = new SolidBrush(Color.Yellow);
         private int nextLine = 60;
 
@@ -88,7 +89,7 @@ namespace Explorus.Model
 
         public void audioMenu()
         {
-            g.DrawString("Music Volume : ", optionFont, brushBlue, 250, 150 + nextLine);
+            g.DrawString("Music Volume : ", optionFont, brushWhite, 250, 150 + nextLine);
 
             if (engine.GetAudioState().MusicIsMuted)
             {
@@ -99,7 +100,7 @@ namespace Explorus.Model
                 g.DrawString(engine.GetAudioState().MusicVolume.ToString(), optionFont, brushYellow, 650, 150 + nextLine);
             }
 
-            g.DrawString("Sound Volume :", optionFont, brushBlue, 250, 150 + nextLine * 2);
+            g.DrawString("Sound Volume :", optionFont, brushWhite, 250, 150 + nextLine * 2);
             if (engine.GetAudioState().SoundIsMuted)
             {
                 g.DrawString("Mute", optionFont, brushYellow, 650, 150 + nextLine * 2);
@@ -111,7 +112,7 @@ namespace Explorus.Model
 
             }
 
-            g.DrawString("Back", optionFont, brushBlue, 250, 150 + nextLine * 3);
+            g.DrawString("Back", optionFont, brushWhite, 250, 150 + nextLine * 3);
 
 
         }
@@ -120,55 +121,55 @@ namespace Explorus.Model
         {
             g.DrawString("Explorus", titleFont, brushBlue, 200, 50);
 
-            g.DrawString("Slimes Quantity : ", optionFont, brushBlue, 250, 150 + nextLine);
+            g.DrawString("Slimes Quantity : ", optionFont, brushWhite, 250, 150 + nextLine);
             g.DrawString(engine.GetLevelState().Slimes.ToString(), optionFont, brushYellow, 680, 150 + nextLine);
 
-            g.DrawString("Level Select : ", optionFont, brushBlue, 250, 150 + nextLine * 2);
-            g.DrawString(engine.GetLevelState().chosenLevelName(), optionFont, brushYellow, 350, 150 + nextLine * 3);
+            g.DrawString("Level Select : ", optionFont, brushWhite, 250, 150 + nextLine * 2);
+            g.DrawString(engine.GetLevelState().chosenLevelName().Split('.')[0], optionFont, brushYellow, 350, 150 + nextLine * 3);
 
-            g.DrawString("Back", optionFont, brushBlue, 250, 150 + nextLine * 4);
+            g.DrawString("Back", optionFont, brushWhite, 250, 150 + nextLine * 4);
 
         }
 
         public void startMenu()
         {
-            g.DrawString("Options", optionFont, brushBlue, 200, 150);
-            g.DrawString("Start Game", optionFont, brushBlue, 250, 150 + nextLine);
-            g.DrawString("Audio", optionFont, brushBlue, 250, 150 + nextLine * 2);
-            g.DrawString("Level Select", optionFont, brushBlue, 250, 150 + nextLine * 3);
-            g.DrawString("Exit Game", optionFont, brushBlue, 250, 150 + nextLine * 4);
+            g.DrawString("Options", optionFont, brushWhite, 200, 150);
+            g.DrawString("Start Game", optionFont, brushWhite, 250, 150 + nextLine);
+            g.DrawString("Audio", optionFont, brushWhite, 250, 150 + nextLine * 2);
+            g.DrawString("Level Select", optionFont, brushWhite, 250, 150 + nextLine * 3);
+            g.DrawString("Exit Game", optionFont, brushWhite, 250, 150 + nextLine * 4);
         }
 
         public void pauseMenu()
         {
-            g.DrawString("Options", optionFont, brushBlue, 200, 150);
-            g.DrawString("Resume Game", optionFont, brushBlue, 250, 150 + nextLine);
-            g.DrawString("Audio", optionFont, brushBlue, 250, 150 + nextLine * 2);
-            g.DrawString("Exit Game", optionFont, brushBlue, 250, 150 + nextLine * 3);
+            g.DrawString("Options", optionFont, brushWhite, 200, 150);
+            g.DrawString("Resume Game", optionFont, brushWhite, 250, 150 + nextLine);
+            g.DrawString("Audio", optionFont, brushWhite, 250, 150 + nextLine * 2);
+            g.DrawString("Exit Game", optionFont, brushWhite, 250, 150 + nextLine * 3);
         }
 
         public void placeCursor()
         {
             if (currentOption == Option.Start)
             {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
+                g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine);
             }
 
             else if (currentOption == Option.Audio && engine.GetState().GetType() != typeof(AudioState))
             {
-                g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
+                g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 2);
             }
 
             if (engine.GetState().GetType() == typeof(StartState))
             {
                 if (currentOption == Option.Level)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 3);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 3);
                 }
 
                 if (currentOption == Option.Exit)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 4);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 4);
 
                 }
             }
@@ -177,7 +178,7 @@ namespace Explorus.Model
             {
                 if (currentOption == Option.Exit)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 3);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 3);
                 }
             }
 
@@ -187,17 +188,17 @@ namespace Explorus.Model
 
                 if (currentAudioOption == AudioOption.Music)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine);
                 }
 
                 else if (currentAudioOption == AudioOption.Sound)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 2);
                 }
 
                 else if (currentAudioOption == AudioOption.Back)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 3);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 3);
                 }
             }
 
@@ -208,17 +209,17 @@ namespace Explorus.Model
 
                 if (currentLevelOption == LevelOption.Slimes)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine);
                 }
 
                 if (currentLevelOption == LevelOption.Level)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 2);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 2);
                 }
 
                 if (currentLevelOption == LevelOption.Back)
                 {
-                    g.DrawString("▸", optionFont, brushBlue, 200, 150 + nextLine * 4);
+                    g.DrawString("▸", optionFont, brushWhite, 200, 150 + nextLine * 4);
                 }
             }
         }

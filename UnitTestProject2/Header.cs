@@ -13,7 +13,6 @@ using Explorus;
 using System.Drawing;
 using System.Windows.Forms;
 using Explorus.Model;
-using System.Drawing;
 /*
 namespace ExplorusTests
 

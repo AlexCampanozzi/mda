@@ -8,3 +8,14 @@ K:\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.csproj.GenerateResource.cache
 K:\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.csproj.CoreCompileInputs.cache
 K:\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.exe
 K:\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.pdb
+E:\Projets\mda\Labo_GEI797\GEI797Labo\bin\Debug\GEI797Labo.exe.config
+E:\Projets\mda\Labo_GEI797\GEI797Labo\bin\Debug\GEI797Labo.exe
+E:\Projets\mda\Labo_GEI797\GEI797Labo\bin\Debug\GEI797Labo.pdb
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.csproj.AssemblyReference.cache
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.csproj.SuggestedBindingRedirects.cache
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.GameForm.resources
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.Properties.Resources.resources
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.csproj.GenerateResource.cache
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.csproj.CoreCompileInputs.cache
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.exe
+E:\Projets\mda\Labo_GEI797\GEI797Labo\obj\Debug\GEI797Labo.pdb

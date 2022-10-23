@@ -14,69 +14,69 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Explorus.Model;
+using Explorus.Threads;
 
 namespace Explorus.Controller
 {
     public sealed class GameMaster
     {
-        private static GameMaster instance = null;
+        private static readonly GameMaster instance = new GameMaster();
         private static readonly object padlock = new object();
 
-        private Map oMap = Map.GetInstance();
         private int numberOfGem = 0;
 
         private bool keyStatus = false;
         private int gemCollected = 0;
 
-        private int lifeStatus = 6;
+        //private int lifeStatus = 6;
+        private int lifeStatus = 1;
         private int bubbleStatus = 6;
 
         private bool EndOfLevel;
-<<<<<<< HEAD
         Stopwatch timer = new Stopwatch();
-=======
         private bool EndOfGame;
 
         private int numLevel = 3;
         private int currentLevel = 1;
->>>>>>> origin/levels
 
-        private CompoundGameObject compoundGameObject = Map.GetInstance().GetCompoundGameObject();
+        private bool hasSlimusDied = false;
+
+        private GameView oView = GameView.Instance;
+
+        private CompoundGameObject compoundGameObject = Map.Instance.GetCompoundGameObject();
 
         private GameMaster()
         {
-
-            foreach (GameObject currentObject in compoundGameObject.getComponentGameObjetList())
-            {
-                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
-                {
-                    numberOfGem++;
-                }
-            }
-
+            
+            GameEngine engine = GameEngine.GetInstance();
         }
-
-        public static GameMaster GetInstance()
+        static GameMaster()
         {
-            if (instance == null)
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new GameMaster();
-                    }
-                }
-            }
-            return instance;
+
         }
+        
+
+        public static GameMaster Instance
+        {
+            get
+            {
+                return instance;
+            }
+        }
+
+        public bool HasSlimusDied { get => hasSlimusDied; }
 
         public void update()
         {
             if (gemCollected == numberOfGem)
             {
-                keyStatus = true;
+                if (keyStatus != true)
+                {
+                    keyStatus = true;
+                    oView.getHeader().setKey(keyStatus);
+                }
             }
+            getBubbleStatus();
         }
 
         public bool GetKeyStatus()
@@ -87,13 +87,15 @@ namespace Explorus.Controller
         public void useKey()
         {
             keyStatus = false;
+            oView.getHeader().setKey(keyStatus);
         }
 
         public void GemCollected()
         {
             gemCollected++;
+            oView.getHeader().setGem(gemCollected * 100 / numberOfGem);
         }
-
+        
         public int getGemStatus()
         {
             if (numberOfGem > 0) return gemCollected * 100 / numberOfGem;
@@ -117,11 +119,11 @@ namespace Explorus.Controller
             keyStatus = false;
 
             // recreate map
-            Map oldmap = Map.GetInstance();
+            Map oldmap = Map.Instance;
             oldmap.resetMap();
             Thread.Sleep(1000);
 
-            Map map = Map.GetInstance();
+            Map map = Map.Instance;
             //compoundGameObject = map.GetCompoundGameObject();
 
             foreach (GameObject currentObject in map.GetObjectList())
@@ -133,7 +135,38 @@ namespace Explorus.Controller
             }
 
             currentLevel++;
-            if (numberOfGem>0) EndOfLevel = false;
+            if (numberOfGem > 0) EndOfLevel = false;
+        }
+
+        public void resetLevel()
+        {
+            hasSlimusDied = false;
+            lifeStatus = 6;
+            numberOfGem = 0;
+            gemCollected = 0;
+            keyStatus = false;
+            EndOfGame = false;
+
+            oView.getHeader().setLife(lifeStatus * 100 / 6);
+
+            // recreate map
+            Map oldmap = Map.Instance;
+            oldmap.resetMap();
+            Thread.Sleep(1000);
+
+            Map map = Map.Instance;
+            //compoundGameObject = map.GetCompoundGameObject();
+
+            foreach (GameObject currentObject in map.GetObjectList())
+            {
+                if (currentObject.GetType() == typeof(Gem) || currentObject.GetType() == typeof(ToxicSlime))
+                {
+                    numberOfGem++;
+                }
+            }
+
+            currentLevel = 0;
+            if (numberOfGem > 0) EndOfLevel = false;
         }
 
         public int getCurrentLevel()
@@ -145,20 +178,42 @@ namespace Explorus.Controller
             return EndOfLevel;
         }
 
-<<<<<<< HEAD
+        public bool isGameOver()
+        {
+            return EndOfGame;
+        }
+
         public void lostLife()
         {
             lifeStatus--;
-            if (lifeStatus == 0) EndOfLevel = true;
+            oView.getHeader().setLife(lifeStatus * 100 / 6);
+            if (lifeStatus == 0)
+            {
+                EndOfGame = true;
+<<<<<<< HEAD
+                PhysicsThread physics = PhysicsThread.GetInstance();
+                physics.resetBuffers();
+            }
+=======
+                hasSlimusDied = true;
+            }
+                
+>>>>>>> origin/debugging_hell
         }
         public int getLifeStatus()
         {
             return lifeStatus * 100 / 6;
         }
 
+        public void setSlimeAmount(int slimes)
+        {
+            numberOfGem = slimes;
+        }
+
         public void useBubble()
         {
-            if(bubbleStatus == 6) bubbleStatus -= 6;
+            if (bubbleStatus == 6) bubbleStatus -= 6;
+            oView.getHeader().setBubble(bubbleStatus);
         }
 
         public int getBubbleStatus()
@@ -168,20 +223,17 @@ namespace Explorus.Controller
                 if (!timer.IsRunning) timer.Start();
                 else
                 {
-                    if(timer.ElapsedMilliseconds >= 500)
+                    if (timer.ElapsedMilliseconds >= 500)
                     {
                         timer.Stop();
                         bubbleStatus++;
                         timer.Reset();
+
+                        oView.getHeader().setBubble(bubbleStatus * 100 / 6);
                     }
                 }
             }
             return bubbleStatus * 100 / 6;
-=======
-        public bool isGameOver()
-        {
-            return EndOfGame;
->>>>>>> origin/levels
         }
     }
 }
