@@ -285,10 +285,10 @@ namespace Explorus.Controller
                             ChangeState(new PlayState(this));
                             switch(GetLevelState().chosenLevelName())
                             {
-                                case "map_jazz.png":
+                                case "jazz.png":
                                     audio.setJazzMusic();
                                     break;
-                                case "map_slam.png":
+                                case "slam.png":
                                     audio.setSlamMusic();
                                     break;
                                 default:

@@ -125,7 +125,7 @@ namespace Explorus.Model
             g.DrawString(engine.GetLevelState().Slimes.ToString(), optionFont, brushYellow, 680, 150 + nextLine);
 
             g.DrawString("Level Select : ", optionFont, brushWhite, 250, 150 + nextLine * 2);
-            g.DrawString(engine.GetLevelState().chosenLevelName(), optionFont, brushYellow, 350, 150 + nextLine * 3);
+            g.DrawString(engine.GetLevelState().chosenLevelName().Split('.')[0], optionFont, brushYellow, 350, 150 + nextLine * 3);
 
             g.DrawString("Back", optionFont, brushWhite, 250, 150 + nextLine * 4);
 

@@ -207,10 +207,10 @@
     <Content Include="Resources\map.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Maps\map_jazz.png">
+    <Content Include="Resources\Maps\Jazz.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Maps\map_slam.png">
+    <Content Include="Resources\Maps\Slam.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\mapvide.png">
@@ -219,7 +219,7 @@
     <Content Include="Resources\map_collision.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Maps\map_valid.png">
+    <Content Include="Resources\Maps\Carte Valid.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\pause_menu.png">
