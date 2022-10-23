@@ -17,7 +17,7 @@ namespace Explorus.Controller
 
         public override void stateUpdate()
         {
-            engine.processInput();
+            engine.processInput(GameView.Instance.getCurrentInput());
         }
 
         public override double Lag(double lag, int MS_PER_UPDATE)

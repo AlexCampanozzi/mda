@@ -55,8 +55,8 @@ namespace Explorus.Controller
         private int subMenuIndex = 0;
         private string lastMenuState;
 
-
-
+        public Option CurrentOption { get => currentOption; }
+        public AudioState AudioState { get => audioState; }
 
         public GameEngine()
         {
@@ -79,6 +79,7 @@ namespace Explorus.Controller
 
         public void Start()
         {
+            Console.WriteLine("tha game is started");
             this.state = new StartState(this);
             audioState = new AudioState(this);
             
@@ -170,9 +171,9 @@ namespace Explorus.Controller
             return milliseconds;
         }
 
-        public void processInput() 
+        public void processInput(Keys currentInput) 
         {
-            currentInput = oView.getCurrentInput();
+            Console.WriteLine(currentOption);
 
             if (currentInput != Keys.None)
             {
