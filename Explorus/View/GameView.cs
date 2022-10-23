@@ -15,6 +15,7 @@ using Explorus.Model;
 using Explorus.Controller;
 using System.Drawing.Imaging;
 using System.Windows.Media.TextFormatting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace Explorus
 {
@@ -198,18 +199,7 @@ namespace Explorus
             paint = e;
             string gameState = GameEngine.GetInstance().GetState().Name();
             oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
-            if (gameState == "Replay")
-            {
-                oGameForm.Text += " " + rewindTime;
-                //e.Graphics.DrawString(" " + rewindTime, new Font("Comic Sans MS", 38), new SolidBrush(Color.Yellow), 650, 150 + 60);
-                string text1 = "Draw text in a rectangle by passing a RectF to the DrawString method.";
-                using (Font font1 = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point))
-                {
-                    RectangleF rectF1 = new Rectangle(30, 10, 500, 500);
-                    e.Graphics.DrawString(text1, font1, Brushes.Blue, rectF1);
-                    e.Graphics.DrawRectangle(Pens.White, Rectangle.Round(rectF1));
-                }
-            }
+
             if (fps != 0)
             {
                 oGameForm.Text = oGameForm.Text + " ۰•● ❤ ●•۰  FPS: " + fps.ToString();
@@ -297,6 +287,22 @@ namespace Explorus
                 e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
             //GC.Collect();
+
+            if (gameState == "Replay")
+            {
+                oGameForm.Text += " " + rewindTime;
+                //e.Graphics.DrawString(" " + rewindTime, new Font("Comic Sans MS", 38), new SolidBrush(Color.Yellow), 650, 150 + 60);
+                string text1 = "Replay: " + rewindTime;
+                using (Font font1 = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    Rectangle rect = new Rectangle(oGameForm.Size.Width / 8, oGameForm.Size.Height / 10, oGameForm.Size.Width / 4, oGameForm.Size.Height / 20);
+
+                    e.Graphics.FillRectangle(Brushes.Black, rect);
+                    e.Graphics.DrawRectangle(Pens.Black, rect);
+                    e.Graphics.DrawString(text1, font1, Brushes.White, rect);
+                    //e.Graphics.FillRectangle(new Pen(Color.Black, 3), Rectangle.Round(rectF1));
+                }
+            }
         }
         public double getFPS()
         {
