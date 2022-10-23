@@ -28,7 +28,7 @@ namespace Explorus.Model
 
         private int lastID = -1;
 
-        private string mapPath = "map_valid.png";
+        private string mapPath = "map_jazz.png";
 
         static Map()
         {

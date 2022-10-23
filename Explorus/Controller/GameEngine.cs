@@ -151,7 +151,6 @@ namespace Explorus.Controller
                 {
                     state.stateUpdate();
                     lag = state.Lag(lag, MS_PER_UPDATE);
-
                 }
 
                 //oView.Render();
@@ -171,7 +170,7 @@ namespace Explorus.Controller
             return milliseconds;
         }
 
-        public void processInput() //public not a fan
+        public void processInput() 
         {
             currentInput = oView.getCurrentInput();
 
@@ -189,13 +188,6 @@ namespace Explorus.Controller
                     }
                     break;
 
-                case Keys.Escape:
-                    ChangeState(new PauseState(this));
-                    break;
-
-                case Keys.Q:
-                    ChangeState(new StopState(this));
-                    break;
 
                 case Keys.F:
                     FPSOn = !FPSOn;
@@ -285,7 +277,7 @@ namespace Explorus.Controller
 
                             ChangeState(new PlayState(this));
 
-                            switch(GetLevelState().chosenLevelName())
+                            switch (GetLevelState().chosenLevelName())
                             {
                                 case "map_jazz.png":
                                     audio.setJazzMusic();
@@ -412,24 +404,16 @@ namespace Explorus.Controller
 
             if (gameMaster.isGameOver())
             {
-                ChangeState(new StopState(this));
+                this.GetState().stateUpdate();
+                ChangeState(new StartState(this));
+                GameMaster.Instance.resetLevel();                
             }
-            //if (gameMaster.isLevelOver()) oView.setIsOver(true);
             else
             {
-                // process movement
-
                 oView.getMap().GetCompoundGameObject().update(currentInput);
-
-
                 gameMaster.update();
-
-                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK FUCK YOU
-                oView.getHeader().setGem(gameMaster.getGemStatus());
-                oView.getHeader().setLife(gameMaster.getLifeStatus());
-                oView.getHeader().setBubble(gameMaster.getBubbleStatus());*/
-
             }
+            
         }
         public Keys GetCurrentInput()
         {

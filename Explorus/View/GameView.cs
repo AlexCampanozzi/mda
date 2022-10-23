@@ -278,11 +278,10 @@ namespace Explorus
                 e.Graphics.DrawImage(resumeImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
 
-            if (gameState == "Stop")
+            if (gameState == "Stop" || GameMaster.Instance.HasSlimusDied)
             {
                 e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
-            //GC.Collect();
         }
         public double getFPS()
         {

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Explorus.Controller
 {
-    class StartState : State
+    class StartState : PauseState
     {
         public StartState(GameEngine engine) : base(engine)
         {

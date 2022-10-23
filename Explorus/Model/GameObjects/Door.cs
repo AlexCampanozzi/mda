@@ -17,14 +17,17 @@ namespace Explorus.Model
         public Door(Point pos, ImageLoader loader, int ID) : base(pos, loader, ID)
         {
             imageLoader = loader;
-
             SetOpacity();
         }
 
         
         private void SetOpacity()
         {
-            Image img = imageLoader.WallImage;
+            Image img;
+            try
+            {
+                img = (Image)imageLoader.WallImage.Clone();
+            
             Bitmap bitmap = new Bitmap(img.Width, img.Height);
             Graphics graphics = Graphics.FromImage(bitmap);
             ColorMatrix matrix = new ColorMatrix();
@@ -33,8 +36,10 @@ namespace Explorus.Model
             imgAtt.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
             graphics.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0, img.Width, img.Height, GraphicsUnit.Pixel, imgAtt);
             graphics.Dispose();
-
+            
             SetImage(bitmap.Clone(new Rectangle(0, 0, 96, 96), new Bitmap("./Resources/TilesSheet.png").PixelFormat));
+            }
+            catch { }
         }
     }
 
