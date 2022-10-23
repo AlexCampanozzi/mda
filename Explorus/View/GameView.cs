@@ -14,6 +14,8 @@ using System.Threading;
 using Explorus.Model;
 using Explorus.Controller;
 using System.Drawing.Imaging;
+using System.Windows.Media.TextFormatting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
 
 namespace Explorus
 {
@@ -42,6 +44,7 @@ namespace Explorus
         private bool hadLostFocus = false;
 
         private MenuWindow menuWindow = MenuWindow.Instance;
+        public float rewindTime = 0;
 
         static GameView()
         {
@@ -196,6 +199,7 @@ namespace Explorus
             paint = e;
             string gameState = GameEngine.GetInstance().GetState().Name();
             oGameForm.Text = "Niveau " + GameMaster.Instance.getCurrentLevel() + " ۰•● ❤ ●•۰ " + gameState;
+
             if (fps != 0)
             {
                 oGameForm.Text = oGameForm.Text + " ۰•● ❤ ●•۰  FPS: " + fps.ToString();
@@ -248,7 +252,7 @@ namespace Explorus
 
                     }
 
-                    if (gameState != "Play")
+                    if (gameState != "Play" && gameState != "Replay")
                     {
                         e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
                     }
@@ -283,6 +287,20 @@ namespace Explorus
                 e.Graphics.DrawImage(gameOverImage, new Point(oGameForm.Size.Width / 4, oGameForm.Size.Height / 4));
             }
             //GC.Collect();
+
+            if (gameState == "Replay")
+            {
+                oGameForm.Text += " " + rewindTime;
+                string text1 = "Replay: " + rewindTime;
+                using (Font font1 = new Font("Arial", 12, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    Rectangle rect = new Rectangle(oGameForm.Size.Width / 8, oGameForm.Size.Height / 10, oGameForm.Size.Width / 4, oGameForm.Size.Height / 20);
+
+                    e.Graphics.FillRectangle(Brushes.Black, rect);
+                    e.Graphics.DrawRectangle(Pens.Black, rect);
+                    e.Graphics.DrawString(text1, font1, Brushes.White, rect);
+                }
+            }
         }
         public double getFPS()
         {

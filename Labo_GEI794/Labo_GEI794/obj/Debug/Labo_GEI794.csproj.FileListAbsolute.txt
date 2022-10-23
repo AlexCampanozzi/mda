@@ -8,3 +8,10 @@ C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.cspr
 C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.exe
 C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.pdb
 C:\Users\Etienne\source\repos\Labo_GEI794\Labo_GEI794\bin\Debug\Resources\TilesSheet.png
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csproj.AssemblyReference.cache
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csproj.SuggestedBindingRedirects.cache
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.Properties.Resources.resources
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csproj.GenerateResource.cache
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.csproj.CoreCompileInputs.cache
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.exe
+E:\Projets\mda\Labo_GEI794\Labo_GEI794\obj\Debug\Labo_GEI794.pdb

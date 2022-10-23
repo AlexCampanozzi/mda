@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
@@ -54,6 +55,8 @@ namespace Explorus.Controller
         private int menuIndex = 0;
         private int subMenuIndex = 0;
         private string lastMenuState;
+
+        private List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
 
 
 
@@ -131,6 +134,11 @@ namespace Explorus.Controller
                 long currentTime = getTime();
                 long elapsed = currentTime - previousTime;
                 previousTime = currentTime;
+                if (state.Name() != "Play" && state.Name() != "Replay")
+                {
+                    elapsed = 0;
+                    lag = 0;
+                }
                 double fps = 1.0 / (elapsed / 1000.0);
                 fps = Math.Floor(fps);
                 int readyForFPS = 0;
@@ -154,6 +162,8 @@ namespace Explorus.Controller
                     lag = state.Lag(lag, MS_PER_UPDATE);
 
                 }
+
+                
 
                 //oView.Render();
 
@@ -180,6 +190,9 @@ namespace Explorus.Controller
             {
                 menuWindow.IsChanged = true;
             }
+
+
+            oView.getMap().GetCompoundGameObject().processInput();
 
             switch (currentInput)
             {
@@ -400,15 +413,29 @@ namespace Explorus.Controller
                 audioState.SetOption(audioMenu[subMenuIndex]);
             }
 
-                oView.getMap().GetCompoundGameObject().processInput();
 
         }
         public void update() //public not a fan
         {
             GameMaster gameMaster = GameMaster.Instance;
+            physics = PhysicsThread.GetInstance();
 
-            if (gameMaster.isGameOver())
+
+            if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone() == false)
             {
+                ChangeState(new ReplayState(this));
+                oView.getMap().GetCompoundGameObject().update(currentInput);
+                // Replay 5 last seconds
+
+                physics.invoker.ExecuteAll(savedMaps);
+                gameMaster.update();
+                oView.rewindTime = physics.invoker.remainingTime;
+                //Console.WriteLine("replay");
+
+            }
+            else if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone())
+            {
+                Console.WriteLine("game Over");
                 ChangeState(new StopState(this));
             }
             //if (gameMaster.isLevelOver()) oView.setIsOver(true);
@@ -421,10 +448,12 @@ namespace Explorus.Controller
 
                 gameMaster.update();
 
-                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK FUCK YOU
+                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK
                 oView.getHeader().setGem(gameMaster.getGemStatus());
                 oView.getHeader().setLife(gameMaster.getLifeStatus());
                 oView.getHeader().setBubble(gameMaster.getBubbleStatus());*/
+
+                saveMap();
 
             }
         }
@@ -451,6 +480,21 @@ namespace Explorus.Controller
         public LevelState GetLevelState()
         {
                  return this.levelState;
+        }
+
+        private void saveMap()
+        {
+
+            if (savedMaps.Count > 300)
+            {
+                savedMaps.RemoveAt(0);
+            }
+            savedMaps.Add(oView.getMap().GetCompoundGameObject());
+
+            if (savedMaps[0] == savedMaps[savedMaps.Count - 1])
+            {
+                Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            }
         }
 
 
