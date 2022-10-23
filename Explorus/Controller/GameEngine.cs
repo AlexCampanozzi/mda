@@ -469,9 +469,12 @@ namespace Explorus.Controller
         }
 
         public Keys getsetCurrentInput()
+        {
+
+            return currentInput = GameView.Instance.getCurrentInput();
+        }
         private void saveMap()
         {
-            return currentInput = GameView.Instance.getCurrentInput();
             if (savedMaps.Count > 300)
             {
                 savedMaps.RemoveAt(0);

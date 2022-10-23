@@ -56,15 +56,10 @@ namespace Explorus.Controller
         private int subMenuIndex = 0;
         private string lastMenuState;
 
-<<<<<<< HEAD
         private List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
 
-
-
-=======
         public Option CurrentOption { get => currentOption; }
         public AudioState AudioState { get => audioState; }
->>>>>>> origin/debugging_hell
 
         public GameEngine()
         {
@@ -188,7 +183,6 @@ namespace Explorus.Controller
 
         public void processInput(Keys currentInput) 
         {
-            Console.WriteLine(currentOption);
 
             if (currentInput != Keys.None)
             {
@@ -424,7 +418,6 @@ namespace Explorus.Controller
 
             if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone() == false)
             {
-<<<<<<< HEAD
                 ChangeState(new ReplayState(this));
                 oView.getMap().GetCompoundGameObject().update(currentInput);
                 // Replay 5 last seconds
@@ -437,29 +430,16 @@ namespace Explorus.Controller
             }
             else if (gameMaster.isGameOver() && physics.invoker.IsRepeatDone())
             {
-                Console.WriteLine("game Over");
-                ChangeState(new StopState(this));
-=======
                 this.GetState().stateUpdate();
                 ChangeState(new StartState(this));
                 GameMaster.Instance.resetLevel();                
->>>>>>> origin/debugging_hell
             }
             else
             {
                 oView.getMap().GetCompoundGameObject().update(currentInput);
                 gameMaster.update();
-<<<<<<< HEAD
-
-                /*oView.getHeader().setKey(gameMaster.GetKeyStatus()); // C'ÉTAIT ENTRES AUTRES À CAUSE DE ÇA LE MEMORY LEAK
-                oView.getHeader().setGem(gameMaster.getGemStatus());
-                oView.getHeader().setLife(gameMaster.getLifeStatus());
-                oView.getHeader().setBubble(gameMaster.getBubbleStatus());*/
-
                 saveMap();
 
-=======
->>>>>>> origin/debugging_hell
             }
             
         }
@@ -488,6 +468,7 @@ namespace Explorus.Controller
                  return this.levelState;
         }
 
+<<<<<<< HEAD
         private void saveMap()
         {
 
@@ -501,6 +482,11 @@ namespace Explorus.Controller
             {
                 Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             }
+=======
+        public Keys getsetCurrentInput()
+        {
+            return currentInput = GameView.Instance.getCurrentInput();
+>>>>>>> origin/debugging_hell
         }
 
 
