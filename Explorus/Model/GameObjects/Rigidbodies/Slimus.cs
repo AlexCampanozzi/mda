@@ -22,7 +22,7 @@ namespace Explorus.Model
 {
     public class Slimus : RigidBody
     {
-        private int slimeVelocity = 4;
+        private int slimeVelocity = 1;
         private int slimeDirX = 0;
         private int slimeDirY = 0;
         private int last_slimeDirX = 0;
