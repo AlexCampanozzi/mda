@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class CircleCollider : Collider
     {
         int radius;

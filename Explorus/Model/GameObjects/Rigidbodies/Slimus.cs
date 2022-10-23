@@ -20,6 +20,8 @@ using System.Windows.Media;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class Slimus : RigidBody
     {
         private int slimeVelocity = 4;
@@ -39,17 +41,18 @@ namespace Explorus.Model
         protected new Direction direction = new Direction(0, -1);
 
         private bool readyForInput = true;
-
+        [NonSerialized]
         Stopwatch timer = new Stopwatch();
+        [NonSerialized]
         Stopwatch alphaTimer = new Stopwatch();
         private bool invincible = false;
         private bool transparent = false;
-
+        [NonSerialized]
         private PhysicsThread physics = PhysicsThread.GetInstance();
-        
 
+        [NonSerialized]
         private CompoundGameObject compoundGameObject;
-
+        [NonSerialized]
         private AudioThread audio = AudioThread.Instance;
 
 

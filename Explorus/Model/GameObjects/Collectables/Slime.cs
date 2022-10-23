@@ -6,10 +6,12 @@
  * Alex Chorel-Campanozzi choa3403
  */
 
+using System;
 using System.Drawing;
 
 namespace Explorus.Model
 {
+    [Serializable]
     public class Slime : Collectable
     {
         public Slime(Point pos, ImageLoader loader, int ID) : base(pos, loader.SlimeImage, ID)

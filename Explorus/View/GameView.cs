@@ -238,28 +238,39 @@ namespace Explorus
                 for (int i = 0; i < compoundGameObjectList.Count; i++)
                 {
                     Image img = compoundGameObjectList[i].GetImage();
-                    int size_offset = 0;
-
-                    try
+                    lock (img)
                     {
-                        if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
+                        int size_offset = 0;
+
+                        try
                         {
-                            size_offset = 24;
+                            if (compoundGameObjectList[i].GetImage().Size.Height <= 48)
+                            {
+                                size_offset = 24;
+                            }
+                        }
+                        catch
+                        {
+
+                        }
+
+                        if (gameState != "Play" && gameState != "Replay")
+                        {
+                            e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
+                            }
+                            catch
+                            {
+
+                            }
                         }
                     }
-                    catch
-                    {
-
-                    }
-
-                    if (gameState != "Play" && gameState != "Replay")
-                    {
-                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))), 0, 0, img.Size.Width, img.Size.Height, GraphicsUnit.Pixel, imgAtt);
-                    }
-                    else
-                    {
-                        e.Graphics.DrawImage(img, new Rectangle(new Point((int)((compoundGameObjectList[i].GetPosition().X + size_offset) * minScale) + xOffset, (int)((compoundGameObjectList[i].GetPosition().Y + size_offset) * minScale) + yOffset + (int)(96.0 * minScale)), new Size((int)(img.Size.Width * minScale), (int)(img.Size.Height * minScale))));
-                    }
+                    
 
                 }
             }

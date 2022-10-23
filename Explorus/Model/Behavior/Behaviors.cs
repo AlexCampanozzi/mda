@@ -8,6 +8,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Explorus.Model.Behavior
 {
+    [Serializable]
     internal class Behaviors
     {
 

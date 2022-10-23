@@ -6,11 +6,14 @@
  * Alex Chorel-Campanozzi choa3403
  */
 
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class Door : Wall
     {
         ImageLoader imageLoader;

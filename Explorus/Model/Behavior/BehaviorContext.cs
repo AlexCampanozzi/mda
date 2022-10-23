@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model.Behavior
 {
+    [Serializable]
     public class BehaviorContext
     {
         private IBehavior _behavior;

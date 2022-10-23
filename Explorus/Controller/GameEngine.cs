@@ -15,6 +15,9 @@ using Explorus.Controller;
 using Explorus.Model;
 using Explorus.Threads;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace Explorus.Controller
 {
@@ -484,14 +487,41 @@ namespace Explorus.Controller
 
         private void saveMap()
         {
-
-            if (savedMaps.Count > 300)
+            try
             {
-                savedMaps.RemoveAt(0);
-            }
-            savedMaps.Add(oView.getMap().GetCompoundGameObject());
-        }
+                DateTime dt = DateTime.Now;
 
+                //getting Milliseconds only from the currenttime
+                int ms = dt.Millisecond;
+
+                //printing the Milliseconds value of the current time
+                Console.WriteLine("Milliseconds of current time: " + ms.ToString());
+
+                CompoundGameObject clone = new CompoundGameObject();
+                lock (oView)
+                {
+                    using (var mst = new MemoryStream())
+                    {
+                        var formatter = new BinaryFormatter();
+                        formatter.Serialize(mst, oView.getMap().GetCompoundGameObject());
+                        mst.Position = 0;
+
+                        clone = (CompoundGameObject)formatter.Deserialize(mst);
+                    }
+                }
+
+                savedMaps.Add(clone);
+
+                if (savedMaps.Count > 300)
+                {
+                    savedMaps.RemoveAt(0);
+                }
+            }
+            catch
+            {
+
+            }
+        }
 
     }
 }

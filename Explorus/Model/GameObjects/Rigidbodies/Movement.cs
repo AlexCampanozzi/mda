@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     internal class Movement
     {
         private int speed;

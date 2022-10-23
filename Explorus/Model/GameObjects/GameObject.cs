@@ -24,9 +24,12 @@ namespace Explorus.Model
         Slime,
         Bubble,
     }
+
+    [Serializable]
     public class GameObject
     {
         protected Collider collider;
+        [NonSerialized]
         protected Image image;
         protected Point position;   
         protected Point gridPosition;

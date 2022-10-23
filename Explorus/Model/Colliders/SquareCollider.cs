@@ -8,6 +8,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class SquareCollider : Collider
     {
         int sizeX;

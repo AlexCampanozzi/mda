@@ -20,6 +20,8 @@ using System.Diagnostics;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class ToxicSlime : RigidBody
     {
         private Animator animator;
@@ -28,7 +30,7 @@ namespace Explorus.Model
         private int last_slimeDirY = 0;
 
         private Dictionary<int, Image> states;
-
+        [NonSerialized]
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
         protected new Direction direction;
@@ -40,12 +42,13 @@ namespace Explorus.Model
         private ImageLoader iloader;
 
         CompoundGameObject compoundGameObject;
-
+        [NonSerialized]
         private AudioThread audio = AudioThread.Instance;
 
         private BehaviorContext context;
         protected int lastPlayerPosX, lastPlayerPosY;
         protected Direction lastPlayerDir;
+        [NonSerialized]
         public Stopwatch behaviorTimer = new Stopwatch();
         protected bool pursuit;
 

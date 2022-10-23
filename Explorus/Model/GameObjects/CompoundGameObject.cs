@@ -13,10 +13,14 @@ using System.Windows.Forms;
 
 namespace Explorus.Model
 {
-    public class CompoundGameObject
+    [Serializable]
+    public class CompoundGameObject : ICloneable
     {
         private List<GameObject> componentList = new List<GameObject>();
-
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
         public void add(GameObject currentObject,int x, int y)
         {
             componentList.Add(currentObject);

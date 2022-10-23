@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model.GameObjects.Rigidbodies
 {
+    [Serializable]
     internal class Animator
     {
         private Image image;

@@ -13,6 +13,8 @@ using System.Windows.Media;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class Bubble : RigidBody
     {
         private Dictionary<int, Image> images;
@@ -25,11 +27,11 @@ namespace Explorus.Model
         protected new Direction direction;
 
         private simpleAnimator animator;
-
+        [NonSerialized]
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
         private int popped = 0;
-
+        [NonSerialized]
         private AudioThread audio = AudioThread.Instance;
 
         public Bubble(Point pos, ImageLoader loader, int ID, Slimus _slimus) : base(pos, loader.BubbleImages[0], ID)

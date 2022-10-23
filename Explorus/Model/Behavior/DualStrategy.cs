@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model.Behavior
 {
+    [Serializable]
     public class DualStrategy : IBehavior
     {
         Behaviors behaviors = new Behaviors();

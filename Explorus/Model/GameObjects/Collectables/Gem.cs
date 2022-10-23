@@ -11,6 +11,7 @@ using System.Drawing;
 
 namespace Explorus.Model
 {
+    [Serializable]
     public class Gem : Collectable
     {
         public Gem(Point pos, ImageLoader loader, int ID) : base(pos, loader.GemImage, ID)

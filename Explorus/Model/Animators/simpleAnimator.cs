@@ -7,6 +7,7 @@ using System.Drawing;
 
 namespace Explorus.Model.GameObjects.Rigidbodies
 {
+    [Serializable]
     internal class simpleAnimator: Animator
     {
         private Dictionary<int, Image> stateImg;

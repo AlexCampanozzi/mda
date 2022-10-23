@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model.Behavior
 {
+    [Serializable]
     public class PursuitStrategy : IBehavior
     {
         Behaviors behaviors = new Behaviors();

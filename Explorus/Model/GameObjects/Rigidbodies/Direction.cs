@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class Direction
     {
         private int dirX, dirY;

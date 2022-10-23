@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model.GameObjects.Rigidbodies
 {
+    [Serializable]
     internal class directionAnimator : Animator
     {
         private Dictionary<int, Image> stateImg;

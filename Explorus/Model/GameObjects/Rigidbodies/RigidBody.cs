@@ -9,14 +9,17 @@ using System.Threading.Tasks;
 
 namespace Explorus.Model
 {
+
+    [Serializable]
     public class RigidBody : GameObject
     {
+        [NonSerialized]
         private PhysicsThread physics = PhysicsThread.GetInstance();
 
         private static readonly object padlock = new object();
         protected Direction direction;
         protected Direction last_direction;
-
+        [NonSerialized]
         private Map map = Map.Instance;
         public RigidBody(Point pos, Image img, int ID) : base(pos, img, ID)
         {
