@@ -104,6 +104,8 @@ namespace Explorus.Model
                     return objectTypes.Door;
                 case "ffffff00"://yellow
                     return objectTypes.Slime;
+                case "ffffbe0a"://orange
+                    return objectTypes.Gem;
                 case "ff0000ff"://blue
                     return objectTypes.Player;
                 case "ff00ff00"://green
