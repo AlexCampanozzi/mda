@@ -226,6 +226,9 @@
     <Content Include="Resources\Maps\NotEnoughToxic.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Maps\test.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Maps\Slam.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

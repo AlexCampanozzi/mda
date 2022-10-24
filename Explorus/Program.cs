@@ -21,7 +21,7 @@ namespace Explorus
             
             IGameEngine ge = new IGameEngine();
 
-            ge.Start();
+            ge.Start(false);
 
 
             //User can use this function to stop the game from external ressources

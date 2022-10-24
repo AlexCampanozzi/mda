@@ -77,7 +77,7 @@ namespace Explorus.Controller
 
             if (savedMaps[0] == savedMaps[savedMaps.Count - 1])
             {
-                Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                //Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             }
             if (index == 0)
             {

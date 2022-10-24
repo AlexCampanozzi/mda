@@ -12,9 +12,9 @@ namespace Explorus.Controller
 
         //Facade for the user to start and stop the game
 
-        public void Start()
+        public void Start(bool windowless)
         {
-            ge.Start();
+            ge.Start(windowless);
         }
 
         public void Stop()

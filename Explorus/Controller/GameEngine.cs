@@ -32,11 +32,11 @@ namespace Explorus.Controller
         private static readonly object padlock = new object();
 
         private GameView oView;
-        private State state;
+        public State state;
         private Keys currentInput;
         private bool FPSOn = false;
         private AudioState audioState;
-        private LevelState levelState;
+        public LevelState levelState;
         private MenuWindow menuWindow;
 
         private PhysicsThread physics;
@@ -55,6 +55,7 @@ namespace Explorus.Controller
         private int menuIndex = 0;
         private int subMenuIndex = 0;
         private string lastMenuState;
+        private bool windowless;
 
         private List<CompoundGameObject> savedMaps = new List<CompoundGameObject>();
 
@@ -80,9 +81,10 @@ namespace Explorus.Controller
             return instance;
         }
 
-        public void Start()
+        public void Start(bool _windowless)
         {
-            Console.WriteLine("tha game is started");
+            Console.WriteLine("the game is started");
+            windowless = _windowless;
             this.state = new StartState(this);
             audioState = new AudioState(this);
             
@@ -113,12 +115,19 @@ namespace Explorus.Controller
             audioThread.Name = "audio";
             audioThread.Start();
 
-            //Thread.Sleep(5000);
-            oView.Show();
+            if (!windowless)
+            {
+                oView.Show();
+            }
         }
 
         public void Stop()
         {
+            if (windowless)
+            {
+                instance = null;
+                Thread.Sleep(1);
+            }
             oView.Close();
         }
 
@@ -166,10 +175,9 @@ namespace Explorus.Controller
                     lag = state.Lag(lag, MS_PER_UPDATE);
                 }
 
-                
+
 
                 //oView.Render();
-
                 Thread.Sleep(1);
             }
         }
@@ -487,7 +495,7 @@ namespace Explorus.Controller
 
             if (savedMaps[0] == savedMaps[savedMaps.Count - 1])
             {
-                Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+                //Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             }
         }
 

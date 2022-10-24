@@ -210,6 +210,7 @@ namespace Explorus.Threads
                     soundtrack.Play();
                     changeMusic = false;
                 }
+                //Thread.Sleep(1);
             }
         }
 

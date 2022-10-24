@@ -3,6 +3,8 @@ using System.Windows.Forms;
 using Explorus;
 using Explorus.Controller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
+using Explorus.Threads;
 
 namespace ExplorusTests3
 {
@@ -16,18 +18,15 @@ namespace ExplorusTests3
         public void StartGame()
         {
             ge = new IGameEngine();
-
-            ge.Start();
-
+            ge.Start(true);
         }
 
         [TestCleanup()]
         public void StopGame()
         {
             ge.Stop();
-        }
 
-        //faire rouler les tests un à la fois
+        }
             
         [TestMethod]
         public void StartGameOption()
@@ -57,7 +56,9 @@ namespace ExplorusTests3
         public void LevelOption()
         {
             GameEngine engine = GameEngine.GetInstance();
+            Assert.AreEqual(Option.Start, engine.CurrentOption);
             engine.processInput(Keys.Down);
+            Assert.AreEqual(Option.Audio, engine.CurrentOption);
             engine.processInput(Keys.Down);
             Assert.AreEqual(Option.Level, engine.CurrentOption);
         }
@@ -67,8 +68,11 @@ namespace ExplorusTests3
         {
             GameEngine engine = GameEngine.GetInstance();
             engine.processInput(Keys.Down);
+            Thread.Sleep(16);
             engine.processInput(Keys.Down);
+            Thread.Sleep(16);
             engine.processInput(Keys.Down);
+            Thread.Sleep(16);
             Assert.AreEqual(Option.Exit, engine.CurrentOption);
         }
 
@@ -103,7 +107,10 @@ namespace ExplorusTests3
         public void ChooseAudioOption()
         {
             GameEngine engine = GameEngine.GetInstance();
+            Assert.AreEqual("Start", engine.GetState().Name());
+            Assert.AreEqual(Option.Start, engine.CurrentOption);
             engine.processInput(Keys.Down);
+            Assert.AreEqual(Option.Audio, engine.CurrentOption);
             engine.processInput(Keys.Space);
             Assert.AreEqual("Audio", engine.GetState().Name());
         }

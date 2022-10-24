@@ -40,7 +40,7 @@ namespace ExplorusTests
         [TestInitialize]
         public void testInitialize()
         {
-            engine.Start();
+            engine.Start(true);
         }
         [TestCleanup]
         public void testClean()

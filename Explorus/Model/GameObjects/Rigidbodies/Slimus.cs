@@ -168,6 +168,10 @@ namespace Explorus.Model
         {
             return direction;
         }
+        public Point getPosition()
+        {
+            return position;
+        }
         private void SetImage()
         {
             lock (image)
@@ -206,85 +210,53 @@ namespace Explorus.Model
             objectTypes[,] gridMap = Map.Instance.GetTypeMap();
 
             objectTypes nextGrid = gridMap[gridPosition.X + direction.X, gridPosition.Y + direction.Y];
-            
-            //Point newPosition = GetPosition();
 
             GameMaster gameMaster = GameMaster.Instance;
             //Map oMap = Map.Instance;
             //List<GameObject> compoundGameObjectList = Map.Instance.GetCompoundGameObject().getComponentGameObjetList();
-            if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            //if (GameEngine.GetInstance().GetState().GetType() == typeof(PlayState))
+            //{
+            if (direction.X != 0 || direction.Y != 0)
             {
-                if (direction.X != 0 || direction.Y != 0)
+                if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
                 {
-                    if (nextGrid != objectTypes.Wall && (nextGrid != objectTypes.Door || gameMaster.GetKeyStatus())) //Collision
+                    if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
                     {
-                        if (direction.X + direction.Y > 0 && position.X >= (gridPosition.X + direction.X) * 96 && position.Y >= (gridPosition.Y + direction.Y) * 96)
-                        {
-                            gridPosition.X += direction.X;
-                            gridPosition.Y += direction.Y;
+                        gridPosition.X += direction.X;
+                        gridPosition.Y += direction.Y;
 
-                            direction = new Direction(0, 0);
-                            readyForInput = true;
-                        }
-                        else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
-                        {
-                            gridPosition.X += direction.X;
-                            gridPosition.Y += direction.Y;
+                        direction = new Direction(0, 0);
+                        readyForInput = true;
+                    }
+                    else if (direction.X + direction.Y < 0 && position.X <= (gridPosition.X + direction.X) * 96 && position.Y <= (gridPosition.Y + direction.Y) * 96)
+                    {
+                        gridPosition.X += direction.X;
+                        gridPosition.Y += direction.Y;
 
-                            direction = new Direction(0, 0);
-                            readyForInput = true;
-                        }
-                        else
-                        {
-                            physics.clearBuffer(this);
-                            physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
-                            //readyForInput = false;
-                        }
+                        direction = new Direction(0, 0);
+                        readyForInput = true;
                     }
                     else
                     {
                         physics.clearBuffer(this);
-                        direction = new Direction(0, 0);
-                        readyForInput = true;
+                        physics.addMove(new PlayMovement() { obj = this, dir = direction, speed = slimeVelocity });
+                        //readyForInput = false;
                     }
-
                 }
+                else
+                {
+                    physics.clearBuffer(this);
+                    direction = new Direction(0, 0);
+                    readyForInput = true;
+                }
+
+            //}
             }
             else readyForInput = true;
 
             SetImage();
             checklife();
-            /*if (nextGrid == objectTypes.Door && gameMaster.GetKeyStatus())
-            {
-                for (int i = 0; i < compoundGameObjectList.Count; i++)
-                {
-                    if (compoundGameObjectList[i].GetType() == typeof(Door))
-                    {
-                        compoundGameObjectList[i].removeItselfFromGame();
-                        oMap.removeObjectFromMap(gridPosition.X + slimeDirX, gridPosition.Y + slimeDirY);
-                        gameMaster.useKey();
-                        break;
-                    }
-                }
-            }*/
 
-            /*if (nextGrid != objectTypes.Wall && nextGrid != objectTypes.Door) //Collision
-            {
-                if (goalPosition == position)
-                {
-                    last_slimeDirX = slimeDirX;
-                    last_slimeDirY = slimeDirY;
-                    goalPosition.X += SlimeDirX * 96;
-                    goalPosition.Y += SlimeDirY * 96;
-                }
-
-                (position, gridPosition) = slimus_movement.update(position, gridPosition, last_slimeDirX, last_slimeDirY);
-                //SetPosition(position);
-                //gridPosition = gridPos;
-                SetImage();
-            }*/
-
-        
         }
         public override void OnCollisionEnter(Collider otherCollider)
         {

@@ -27,7 +27,7 @@ namespace Explorus.Controller
         private List<string> listLevel = new List<string>();// = new string[4] {"dungeon","sand","lava","underwater"};
         private int slimes = 6;
         private int levelIndex = 0;
-        private string chosenLevel;
+        public string chosenLevel = null;
 
         public int Slimes { get => slimes; set => slimes = value; }
 
@@ -145,6 +145,10 @@ namespace Explorus.Controller
 
         public string chosenLevelName()
         {
+            if(chosenLevel != null)
+            {
+                return chosenLevel;
+            }
             return listLevel[levelIndex];
         }
 
